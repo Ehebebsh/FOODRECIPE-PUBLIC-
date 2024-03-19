@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:foodrecipe/screens/setting_screen.dart';
 
 import '../widgets/categorybutton.dart';
 
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> {
         break;
       case 4:
       // '설정' 아이템을 눌렀을 때의 동작
-      // Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SettingPage()));
         break;
       default:
         break;
