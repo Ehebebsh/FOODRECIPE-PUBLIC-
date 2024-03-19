@@ -31,7 +31,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: '안녕하세요 저는 이정훈입니다.이게 무슨일인가요?? '
+          '저의 말이 들리시나요 낙낙낙 원투쓰리풔풔푸퍼풕'
+          ''),
     );
   }
 }
