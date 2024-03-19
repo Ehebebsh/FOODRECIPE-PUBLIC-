@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/screens/home_screen.dart';
+import 'package:foodrecipe/screens/setting_screen.dart';
 
 void main() {
   runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key); // 'key' 파라미터의 타입을 지정하고 'super(key: key)'로 수정
-
+  const MyApp({Key? key}) : super(key: key); //
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,4 +21,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 
