@@ -1,0 +1,17 @@
+[
+  {
+    "name": "스테이크",
+    "image": "https://via.placeholder.com/150",
+    "tags": ["고기요리", "양식"]
+  },
+  {
+    "name": "파스타",
+    "image": "https://via.placeholder.com/150",
+    "tags": ["면요리", "양식"]
+  },
+  {
+    "name": "피자",
+    "image": "https://via.placeholder.com/150",
+    "tags": ["피자", "양식"]
+  }
+]

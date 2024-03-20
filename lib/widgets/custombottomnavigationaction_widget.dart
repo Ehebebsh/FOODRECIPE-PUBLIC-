@@ -13,6 +13,9 @@ class BottomNavigator extends StatelessWidget {
   }) : super(key: key);
 
   void _navigateToIndex(BuildContext context, int index) {
+    if (selectedIndex == index) {
+      return; // 이미 선택된 페이지일 경우 아무런 동작도 하지 않음
+    }
     switch(index) {
       case 0:
         Navigator.pushAndRemoveUntil(
