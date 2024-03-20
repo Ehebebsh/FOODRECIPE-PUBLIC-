@@ -1,0 +1,17 @@
+[
+  {
+    "name": "짜장면",
+    "image": "https://via.placeholder.com/150",
+    "tags": ["면요리", "중식"]
+  },
+  {
+    "name": "탕수육",
+    "image": "https://via.placeholder.com/150",
+    "tags": ["고기요리", "중식"]
+  },
+  {
+    "name": "양장피",
+    "image": "https://via.placeholder.com/150",
+    "tags": ["고기요리", "중식"]
+  }
+]

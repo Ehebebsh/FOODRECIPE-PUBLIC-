@@ -1,0 +1,13 @@
+[
+  {
+    "name": "된장찌개",
+    "image": "https://via.placeholder.com/150",
+    "tags": ["한식", "찌개"]
+  },
+  {
+    "name": "불고기",
+    "image": "https://via.placeholder.com/150",
+    "tags": ["한식", "고기"]
+
+  }
+]

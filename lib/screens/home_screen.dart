@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/categorybutton_widget.dart';
-import '../widgets/custombottomnavigationaction_widget.dart'; // BottomNavigator를 import합니다.
+import '../widgets/custombottomnavigationaction_widget.dart';
+import 'foodrecipemenu_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -49,6 +50,10 @@ class _HomePageState extends State<HomePage> {
                   buttonText: '한식',
                   onPressed: () {
                     // 한식 페이지로 이동하는 코드 추가
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FoodPage(title: '한식', jsonFileName: 'koreafood_data')), // 한식 페이지로 이동
+                    );
                   },
                 ),
                 CategoryButton(
@@ -56,6 +61,10 @@ class _HomePageState extends State<HomePage> {
                   buttonText: '중식',
                   onPressed: () {
                     // 중식 페이지로 이동하는 코드 추가
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FoodPage(title: '중식', jsonFileName: 'chinesefood_data')), // 중식 페이지로 이동
+                    );
                   },
                 ),
                 CategoryButton(
@@ -63,6 +72,10 @@ class _HomePageState extends State<HomePage> {
                   buttonText: '양식',
                   onPressed: () {
                     // 양식 페이지로 이동하는 코드 추가
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FoodPage(title: '양식' ,jsonFileName: 'westernfood_data',)), // 양식 페이지로 이동
+                    );
                   },
                 ),
               ],
