@@ -5,7 +5,7 @@ class CategoryButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback onPressed;
 
-  const CategoryButton({
+  const CategoryButton({super.key,
     required this.imageUrl,
     required this.buttonText,
     required this.onPressed,
@@ -28,7 +28,7 @@ class CategoryButton extends StatelessWidget {
         child: Center(
           child: Text(
             buttonText,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),

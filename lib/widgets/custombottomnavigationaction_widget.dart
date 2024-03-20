@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/screens/setting_screen.dart';
+import 'package:foodrecipe/widgets/custompageroute_widget.dart';
 import '../screens/home_screen.dart';
+import 'package:foodrecipe/cons/colortable.dart';
 
 class BottomNavigator extends StatelessWidget {
   final int selectedIndex;
@@ -16,32 +18,29 @@ class BottomNavigator extends StatelessWidget {
     if (selectedIndex == index) {
       return; // 이미 선택된 페이지일 경우 아무런 동작도 하지 않음
     }
-    switch(index) {
+    switch (index) {
       case 0:
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-              (route) => false,
+          CustomPageRoute(builder: (context) => const HomePage()),
+          (route) => false,
         );
         break;
       case 1:
-      // '음식' 아이템을 눌렀을 때의 동작
-      // Navigator.push(context, MaterialPageRoute(builder: (context) => FoodPage()));
+        // '음식' 아이템을 눌렀을 때의 동작
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => FoodPage()));
         break;
+
       case 2:
-      // '검색' 아이템을 눌렀을 때의 동작
-      // Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+        // '즐겨찾기' 아이템을 눌렀을 때의 동작
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => BookmarkPage()));
         break;
       case 3:
-      // '즐겨찾기' 아이템을 눌렀을 때의 동작
-      // Navigator.push(context, MaterialPageRoute(builder: (context) => BookmarkPage()));
-        break;
-      case 4:
-      // '설정' 아이템을 눌렀을 때의 동작
+        // '설정' 아이템을 눌렀을 때의 동작
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const SettingPage()),
-              (route) => false,
+          CustomPageRoute(builder: (context) => const SettingPage()),
+          (route) => false,
         );
         break;
       default:
@@ -62,10 +61,6 @@ class BottomNavigator extends StatelessWidget {
           label: '음식',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          label: '검색',
-        ),
-        BottomNavigationBarItem(
           icon: Icon(Icons.bookmark),
           label: '즐겨찾기',
         ),
@@ -74,8 +69,9 @@ class BottomNavigator extends StatelessWidget {
           label: '설정',
         ),
       ],
+      type: BottomNavigationBarType.fixed,
       currentIndex: selectedIndex,
-      selectedItemColor: Colors.blue,
+      selectedItemColor: selctedcolor,
       unselectedItemColor: Colors.grey,
       onTap: (index) => _navigateToIndex(context, index), // 수정된 부분입니다.
     );

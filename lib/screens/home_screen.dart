@@ -7,20 +7,29 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: const Text('요리앱'),
+        backgroundColor: Colors.white,
+        leading: const Padding(
+          padding: EdgeInsets.all(1), // 아이콘과 CircleAvatar 사이의 간격 조절
+          child: CircleAvatar(
+            radius: 150, // 프로필 사진의 반지름 설정
+            backgroundImage: AssetImage('assets/logo.JPG'),
+            backgroundColor: Colors.transparent,// 이미지 파일의 경로
+          ),
+        ),
       ),
       body: SingleChildScrollView(
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start, // 요리 종류 텍스트 왼쪽 정렬
           children: <Widget>[
@@ -38,6 +47,7 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(
                   fontSize: 15.0,
                   fontWeight: FontWeight.bold,
+                  color: Colors.black
                 ),
               ),
             ),
@@ -52,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                     // 한식 페이지로 이동하는 코드 추가
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => FoodPage(title: '한식', jsonFileName: 'koreafood_data')), // 한식 페이지로 이동
+                      MaterialPageRoute(builder: (context) => const FoodPage(title: '한식', jsonFileName: 'koreafood_data')), // 한식 페이지로 이동
                     );
                   },
                 ),
@@ -63,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                     // 중식 페이지로 이동하는 코드 추가
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => FoodPage(title: '중식', jsonFileName: 'chinesefood_data')), // 중식 페이지로 이동
+                      MaterialPageRoute(builder: (context) => const FoodPage(title: '중식', jsonFileName: 'chinesefood_data')), // 중식 페이지로 이동
                     );
                   },
                 ),
@@ -74,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                     // 양식 페이지로 이동하는 코드 추가
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => FoodPage(title: '양식' ,jsonFileName: 'westernfood_data',)), // 양식 페이지로 이동
+                      MaterialPageRoute(builder: (context) => const FoodPage(title: '양식' ,jsonFileName: 'westernfood_data',)), // 양식 페이지로 이동
                     );
                   },
                 ),
