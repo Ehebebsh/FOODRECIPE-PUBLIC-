@@ -1,12 +1,9 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
-import 'package:foodrecipe/screens/setting_screen.dart';
-
-import '../widgets/categorybutton.dart';
+import '../widgets/categorybutton_widget.dart';
+import '../widgets/custombottomnavigationaction_widget.dart'; // BottomNavigator를 import합니다.
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -14,38 +11,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    // 각 아이템에 해당하는 페이지로 이동
-    switch(index) {
-      case 0:
-      // '홈' 아이템을 눌렀을 때의 동작
-      // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-        break;
-      case 1:
-      // '음식' 아이템을 눌렀을 때의 동작
-      // Navigator.push(context, MaterialPageRoute(builder: (context) => FoodPage()));
-        break;
-      case 2:
-      // '검색' 아이템을 눌렀을 때의 동작
-      // Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
-        break;
-      case 3:
-      // '즐겨찾기' 아이템을 눌렀을 때의 동작
-      // Navigator.push(context, MaterialPageRoute(builder: (context) => BookmarkPage()));
-        break;
-      case 4:
-      // '설정' 아이템을 눌렀을 때의 동작
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SettingPage()));
-        break;
-      default:
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,33 +144,13 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '홈',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.restaurant_menu), // 음식 아이콘 추가
-            label: '음식',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: '검색',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
-            label: '즐겨찾기',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: '설정',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
+      bottomNavigationBar: BottomNavigator(
+        selectedIndex: _selectedIndex,
+        onItemTapped: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
       ),
     );
   }
