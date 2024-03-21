@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:foodrecipe/provider/bookmark_provider.dart';
+import 'package:provider/provider.dart';
 
 class FoodPage extends StatefulWidget {
   final String title;
@@ -12,8 +14,14 @@ class FoodPage extends StatefulWidget {
 }
 
 class _FoodPageState extends State<FoodPage> {
+
+
   @override
   Widget build(BuildContext context) {
+    var favoritesProvider = Provider.of<BookMarkProvider>(context);
+    var favorites = favoritesProvider.favorites;
+
+
     return FutureBuilder(
       future: DefaultAssetBundle.of(context).loadString('assets/${widget.jsonFileName}.json'),
       builder: (context, AsyncSnapshot<String> snapshot) {
@@ -39,6 +47,8 @@ class _FoodPageState extends State<FoodPage> {
                 var foodIndex = index ~/ 2; // 실제 음식 아이템의 인덱스 계산
                 var food = foodList[foodIndex];
                 List<String> tags = (food['tags'] as List<dynamic>).cast<String>(); // 'tags' 필드를 명시적으로 List<String>으로 캐스팅
+                bool isFavorite = favorites.contains(food['name']); // 즐겨찾기 목록에 해당 음식이 있는지 확인
+
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -46,9 +56,8 @@ class _FoodPageState extends State<FoodPage> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          debugPrint('dd');
-                          // 이미지를 클릭했을 때 처리할 작업 추가
-                          // 예를 들어 다른 페이지로 이동하는 코드를 여기에 추가할 수 있습니다.
+                          debugPrint('Food tapped: ${food['name']}');
+                          // 음식 상세 페이지로 이동하는 코드를 추가할 수 있습니다.
                         },
                         child: Image.network(
                           food['image'],
@@ -58,12 +67,29 @@ class _FoodPageState extends State<FoodPage> {
                         ),
                       ),
                       const SizedBox(height: 8.0),
-                      Text(
-                        food['name'],
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              food['name'],
+                              style: const TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              favoritesProvider.toggleFavorite(food['name']);
+
+                            },
+                            child:Icon(
+                              isFavorite ? Icons.star : Icons.star_border_outlined,
+                              color: isFavorite ? Colors.yellow : Colors.yellow, // outlined 아이콘의 색상을 노란색으로 설정
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 4.0),
                       Text(
