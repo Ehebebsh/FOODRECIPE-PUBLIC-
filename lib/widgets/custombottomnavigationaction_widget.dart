@@ -3,6 +3,7 @@ import 'package:foodrecipe/screens/setting_screen.dart';
 import 'package:foodrecipe/widgets/custompageroute_widget.dart';
 import '../screens/home_screen.dart';
 import 'package:foodrecipe/cons/colortable.dart';
+import 'package:foodrecipe/screens/bookmark_screen.dart';
 
 class BottomNavigator extends StatelessWidget {
   final int selectedIndex;
@@ -32,8 +33,11 @@ class BottomNavigator extends StatelessWidget {
         break;
 
       case 2:
-        // '즐겨찾기' 아이템을 눌렀을 때의 동작
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => BookmarkPage()));
+        Navigator.pushAndRemoveUntil(
+            context,
+            CustomPageRoute(builder: (context) => BookMarkPage()),
+              (route) => false
+        );
         break;
       case 3:
         // '설정' 아이템을 눌렀을 때의 동작
@@ -71,7 +75,7 @@ class BottomNavigator extends StatelessWidget {
       ],
       type: BottomNavigationBarType.fixed,
       currentIndex: selectedIndex,
-      selectedItemColor: selctedcolor,
+      selectedItemColor: selectedcolor,
       unselectedItemColor: Colors.grey,
       onTap: (index) => _navigateToIndex(context, index), // 수정된 부분입니다.
     );
