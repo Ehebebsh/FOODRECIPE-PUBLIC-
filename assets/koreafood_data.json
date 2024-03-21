@@ -2,12 +2,129 @@
   {
     "name": "된장찌개",
     "image": "https://via.placeholder.com/150",
-    "tags": ["한식", "찌개"]
+    "tags": [
+      "찌개",
+      "양식"
+    ]
   },
   {
     "name": "불고기",
     "image": "https://via.placeholder.com/150",
-    "tags": ["한식", "고기"]
-
+    "tags": [
+      "한식",
+      "고기"
+    ]
+  },
+  {
+    "name": "fda1",
+    "image": "https://via.placeholder.com/150",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "2asdf",
+    "image": "https://via.placeholder.com/150",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "dfa3",
+    "image": "https://via.placeholder.com/150",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "4fd",
+    "image": "https://via.placeholder.com/150",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "sdf5",
+    "image": "https://via.placeholder.com/150",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "fads6",
+    "image": "https://via.placeholder.com/150",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "vasd7",
+    "image": "https://via.placeholder.com/150",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "bas8",
+    "image": "https://via.placeholder.com/150",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "fw9",
+    "image": "https://via.placeholder.com/150",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "fw10",
+    "image": "https://via.placeholder.com/150",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "1fwf1",
+    "image": "https://via.placeholder.com/150",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "1fwfaw2",
+    "image": "https://via.placeholder.com/150",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "1vaevvv3",
+    "image": "https://via.placeholder.com/150",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "1gaga4",
+    "image": "https://via.placeholder.com/150",
+    "tags": [
+      "2",
+      "3"
+    ]
   }
 ]
