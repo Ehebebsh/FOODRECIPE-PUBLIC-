@@ -65,7 +65,7 @@ class BottomNavigator extends StatelessWidget {
           label: '음식',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.bookmark),
+          icon: Icon(Icons.star),
           label: '즐겨찾기',
         ),
         BottomNavigationBarItem(
