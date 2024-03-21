@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/categorybutton_widget.dart';
 import '../widgets/custombottomnavigationaction_widget.dart';
+import '../widgets/customsearchdelegate_widget.dart';
 import 'foodrecipemenu_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,6 +14,9 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,34 +24,69 @@ class HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: const Padding(
-          padding: EdgeInsets.all(1), // 아이콘과 CircleAvatar 사이의 간격 조절
+          padding: EdgeInsets.all(3),
           child: CircleAvatar(
-            radius: 150, // 프로필 사진의 반지름 설정
+            // CircleAvatar의 radius를 AppBar 높이에 맞게 조정하세요.
             backgroundImage: AssetImage('assets/logo.JPG'),
-            backgroundColor: Colors.transparent,// 이미지 파일의 경로
+            backgroundColor: Colors.transparent,
+          ),
+        ),
+        // AppBar에서 actions 대신 title 속성을 사용하여 타원형 텍스트 필드를 추가합니다.
+        title: InkWell(
+          onTap: () {
+            // 텍스트 필드를 탭했을 때 검색 페이지로 이동합니다.
+            showSearch(
+              context: context,
+              delegate: CustomSearchDelegate(context),
+            );
+          },
+          child: Container(
+            height: 40, // 텍스트 필드의 높이입니다.
+            decoration: BoxDecoration(
+              color: Colors.grey[200], // 텍스트 필드의 배경색입니다.
+              borderRadius: BorderRadius.circular(20), // 타원형 모양을 만들기 위한 테두리 반경입니다.
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Text(
+                    '오늘의 레시피를 검색해보세요!', // 텍스트 필드의 플레이스홀더 텍스트입니다.
+                    style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 15),
+                  child: Icon(
+                    Icons.search, // 오른쪽에 위치할 검색 아이콘입니다.
+                    color: Colors.grey[600],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
       body: SingleChildScrollView(
-
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // 요리 종류 텍스트 왼쪽 정렬
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Image.network(
-              'https://via.placeholder.com/700', // 원하는 이미지 URL 교체
-              width: MediaQuery.of(context).size.width, // 화면의 가로 너비로 설정
+              'https://via.placeholder.com/700',
+              width: MediaQuery.of(context).size.width,
               height: 200,
               fit: BoxFit.cover,
             ),
             const SizedBox(height: 20),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0), // 좌우 여백 추가
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 '요리 종류',
                 style: TextStyle(
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black
                 ),
               ),
             ),
@@ -59,10 +98,9 @@ class HomePageState extends State<HomePage> {
                   imageUrl: 'https://via.placeholder.com/150',
                   buttonText: '한식',
                   onPressed: () {
-                    // 한식 페이지로 이동하는 코드 추가
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const FoodPage(title: '한식', jsonFileName: 'koreafood_data')), // 한식 페이지로 이동
+                      MaterialPageRoute(builder: (context) => const FoodPage(title: '한식', jsonFileName: 'koreafood_data')),
                     );
                   },
                 ),
@@ -70,10 +108,9 @@ class HomePageState extends State<HomePage> {
                   imageUrl: 'https://via.placeholder.com/150',
                   buttonText: '중식',
                   onPressed: () {
-                    // 중식 페이지로 이동하는 코드 추가
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const FoodPage(title: '중식', jsonFileName: 'chinesefood_data')), // 중식 페이지로 이동
+                      MaterialPageRoute(builder: (context) => const FoodPage(title: '중식', jsonFileName: 'chinesefood_data')),
                     );
                   },
                 ),
@@ -81,10 +118,9 @@ class HomePageState extends State<HomePage> {
                   imageUrl: 'https://via.placeholder.com/150',
                   buttonText: '양식',
                   onPressed: () {
-                    // 양식 페이지로 이동하는 코드 추가
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const FoodPage(title: '양식' ,jsonFileName: 'westernfood_data',)), // 양식 페이지로 이동
+                      MaterialPageRoute(builder: (context) => const FoodPage(title: '양식' ,jsonFileName: 'westernfood_data',)),
                     );
                   },
                 ),
@@ -92,7 +128,7 @@ class HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 20),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0), // 좌우 여백 추가
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 '손쉽게 할 수 있는 요리',
                 style: TextStyle(
@@ -103,7 +139,7 @@ class HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              height: 120, // 그리드뷰 높이 설정
+              height: 120,
               child: GridView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: 5,
@@ -114,7 +150,7 @@ class HomePageState extends State<HomePage> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12), // 원하는 둥글기 정도 조절
+                      borderRadius: BorderRadius.circular(12),
                       child: SizedBox(
                         width: 120,
                         child: Image.network(
@@ -129,7 +165,7 @@ class HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 20),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0), // 좌우 여백 추가
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 '당신의 요리 솜씨를 뽐내보세요!',
                 style: TextStyle(
@@ -140,7 +176,7 @@ class HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              height: 120, // 그리드뷰 높이 설정
+              height: 120,
               child: GridView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: 5,
@@ -151,7 +187,7 @@ class HomePageState extends State<HomePage> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12), // 원하는 둥글기 정도 조절
+                      borderRadius: BorderRadius.circular(12),
                       child: SizedBox(
                         width: 120,
                         child: Image.network(
