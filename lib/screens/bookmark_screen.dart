@@ -5,7 +5,7 @@ import 'package:foodrecipe/widgets/custombottomnavigationaction_widget.dart';
 import 'package:provider/provider.dart';
 
 class BookMarkPage extends StatefulWidget {
-  const BookMarkPage({super.key});
+  const BookMarkPage({Key? key}) : super(key: key);
 
   @override
   BookMarkPagePageState createState() => BookMarkPagePageState();
@@ -16,6 +16,9 @@ class BookMarkPagePageState extends State<BookMarkPage> {
 
   @override
   Widget build(BuildContext context) {
+    var favoritesProvider = Provider.of<BookMarkProvider>(context);
+    var favorites = favoritesProvider.favorites;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('즐겨찾기 목록'),
@@ -45,11 +48,11 @@ class BookMarkPagePageState extends State<BookMarkPage> {
               ...westernfoodList
             ];
 
-            List<String> favorites =
-                Provider.of<BookMarkProvider>(context).favorites;
-
+            // 중복된 음식 이름 제거
+            Set<String> uniqueNames = {};
             List<dynamic> favoriteFoods = combinedFoodList
                 .where((food) => favorites.contains(food['name']))
+                .where((food) => uniqueNames.add(food['name']))
                 .toList();
 
             return ListView.builder(
@@ -60,6 +63,25 @@ class BookMarkPagePageState extends State<BookMarkPage> {
                   title: Text(foodData['name']),
                   subtitle: Text(foodData['tags'].join(', ')),
                   leading: Image.network(foodData['image']),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.star, color: Colors.yellow),
+                    onPressed: () {
+                      favoritesProvider.toggleFavorite(foodData['name']);
+                      // 즐겨찾기 취소 안내 메시지 표시
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('${foodData['name']} 즐겨찾기가 취소되었습니다.'),
+                          duration: const Duration(seconds: 2),
+                          action: SnackBarAction(
+                            label: '취소',
+                            onPressed: () {
+                              favoritesProvider.toggleFavorite(foodData['name']);
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 );
               },
             );
