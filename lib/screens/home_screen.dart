@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../widgets/categorybutton_widget.dart';
-import '../widgets/custombottomnavigationaction_widget.dart';
-import '../widgets/customsearchdelegate_widget.dart';
+import '../widgets/category_button_widget.dart';
+import '../widgets/custom_bottom_navigation_action_widget.dart';
+import '../widgets/custom_search_delegate_widget.dart';
 import 'foodrecipemenu_screen.dart';
 
 class HomePage extends StatefulWidget {
