@@ -61,20 +61,27 @@ class BookMarkPagePageState extends State<BookMarkPage> {
               itemCount: favoriteFoods.length,
               itemBuilder: (context, index) {
                 var foodData = favoriteFoods[index];
-                return ListTile(
-                  title: Text(foodData['name']),
-                  subtitle: Text(foodData['tags'].join(', ')),
-                  leading: Image.network(foodData['image']),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.star, color: Colors.yellow),
-                    onPressed: () {
-                      favoritesProvider.toggleFavorite(foodData['name']);
-                      // 즐겨찾기 취소 안내 토스트 메시지 표시
-                      CherryToast.info(
-                        animationType: AnimationType.fromTop,
-                        title: Text('${foodData['name']} 즐겨찾기가 취소되었습니다.'),
-                      ).show(context);
-                    },
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200], // 여기서 배경색을 설정합니다.
+                    borderRadius: BorderRadius.circular(10.0), // 모서리를 둥글게 처리합니다.
+                  ),
+                  child: ListTile(
+                    title: Text(foodData['name']),
+                    subtitle: Text(foodData['tags'].join(', ')),
+                    leading: Image.network(foodData['image']),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.star, color: Colors.yellow),
+                      onPressed: () {
+                        favoritesProvider.toggleFavorite(foodData['name']);
+                        // 즐겨찾기 취소 안내 토스트 메시지 표시
+                        CherryToast.info(
+                          animationType: AnimationType.fromTop,
+                          title: Text('${foodData['name']} 즐겨찾기가 취소되었습니다.'),
+                        ).show(context);
+                      },
+                    ),
                   ),
                 );
               },
