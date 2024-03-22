@@ -4,22 +4,42 @@ import 'dart:convert' show json;
 class CustomSearchDelegate extends SearchDelegate<String> {
   final BuildContext context;
 
-  CustomSearchDelegate(this.context);
+  CustomSearchDelegate(this.context)
+      : super(
+          searchFieldLabel: '요리를 검색해보세요!',
+          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.search,
+          searchFieldDecorationTheme: InputDecorationTheme(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide.none,
+            ),
+            filled: true,
+            fillColor: Colors.grey[200],
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+            hintStyle: TextStyle(color: Colors.grey[600], fontSize: 20),
+          ),
+        );
 
   final List<Map<String, dynamic>> _foodData = [];
+  bool _isDataLoaded = false; // 데이터 로딩 상태를 관리하는 변수
 
   Future<void> _loadData() async {
-    final List<String> jsonFiles = [
-      'assets/koreafood_data.json',
-      'assets/westernfood_data.json',
-      'assets/chinesefood_data.json',
-    ];
+    if (!_isDataLoaded) {
+      // 데이터가 아직 로드되지 않았다면 로드 진행
+      final List<String> jsonFiles = [
+        'assets/koreafood_data.json',
+        'assets/westernfood_data.json',
+        'assets/chinesefood_data.json',
+      ];
 
-    for (final jsonFile in jsonFiles) {
-      String data = await DefaultAssetBundle.of(context).loadString(jsonFile);
-      List<dynamic> parsedData = json.decode(data);
-      _foodData.addAll(
-          parsedData.cast<Map<String, dynamic>>()); // Cast to the expected type
+      for (final jsonFile in jsonFiles) {
+        String data = await DefaultAssetBundle.of(context).loadString(jsonFile);
+        List<dynamic> parsedData = json.decode(data);
+        _foodData.addAll(parsedData.cast<Map<String, dynamic>>());
+      }
+      _isDataLoaded = true; // 데이터 로딩 완료
     }
   }
 
@@ -47,43 +67,82 @@ class CustomSearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return _buildSuggestionsOrResults();
+    return FutureBuilder(
+      future: _loadData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return _buildSuggestionsOrResults();
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return _buildSuggestionsOrResults();
+    return FutureBuilder(
+      future: _loadData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return _buildSuggestionsOrResults();
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
   }
 
   Widget _buildSuggestionsOrResults() {
-    if (_foodData.isEmpty) {
-      _loadData();
-    }
-
-    Set<String> uniqueNames = {}; // 중복을 방지하기 위한 Set
+    Set<String> uniqueNames = {};
 
     final List<Map<String, dynamic>> suggestionList = query.isEmpty
         ? []
         : _foodData.where((food) {
-      if (food['name'].toLowerCase().contains(query.toLowerCase())) {
-        return uniqueNames.add(
-            food['name']); // 중복된 이름이 없으면 true를 반환하여 해당 음식을 suggestionList에 포함시킴
-      } else {
-        return false;
-      }
-    }).toList();
+            if (food['name'].toLowerCase().contains(query.toLowerCase())) {
+              return uniqueNames.add(food['name']);
+            } else {
+              return false;
+            }
+          }).toList();
 
-    return ListView(
-      children: suggestionList.map((food) {
-        return ListTile(
-          title: Text(food['name']),
-          subtitle: Text(food['tags'].join(', ')),
-          leading: Image.network(food['image']),
-          onTap: () {
-            // Handle suggestion tap
-          },
+    return ListView.builder(
+      itemCount: suggestionList.length,
+      itemBuilder: (context, index) {
+        final food = suggestionList[index];
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+          // 각 항목의 여백
+          decoration: BoxDecoration(
+            color: Colors.grey[200], // 여기서 배경색을 설정합니다.
+            borderRadius: BorderRadius.circular(10.0), // 모서리를 둥글게 처리합니다.
+          ),
+          child: ListTile(
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(4.0), // 이미지 모서리를 둥글게 처리합니다.
+              child: Image.network(
+                food['image'],
+                fit: BoxFit.cover,
+                width: 50,
+                height: 50,
+              ),
+            ),
+            title: Text(
+              food['name'],
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            subtitle: Text(food['tags'].join(', ')),
+            onTap: () {
+              // 항목을 탭했을 때의 동작을 처리합니다.
+            },
+            // ListTile의 내부 여백을 조정합니다.
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+          ),
         );
-      }).toList(),
+      },
     );
   }
 }
