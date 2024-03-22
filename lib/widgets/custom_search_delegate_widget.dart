@@ -111,7 +111,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
       itemBuilder: (context, index) {
         final food = suggestionList[index];
         return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+          margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
           // 각 항목의 여백
           decoration: BoxDecoration(
             color: Colors.grey[200], // 여기서 배경색을 설정합니다.
