@@ -47,11 +47,15 @@ class CustomSearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Container();
+    return _buildSuggestionsOrResults();
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    return _buildSuggestionsOrResults();
+  }
+
+  Widget _buildSuggestionsOrResults() {
     if (_foodData.isEmpty) {
       _loadData();
     }
