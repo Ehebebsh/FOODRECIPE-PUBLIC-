@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/provider/bookmark_provider.dart';
 import 'package:foodrecipe/widgets/custom_bottom_navigation_action_widget.dart';
+
 import 'package:provider/provider.dart';
 
 class BookMarkPage extends StatefulWidget {
-  const BookMarkPage({super.key});
+  const BookMarkPage({Key? key}) : super(key: key);
 
   @override
   BookMarkPagePageState createState() => BookMarkPagePageState();
@@ -16,6 +17,9 @@ class BookMarkPagePageState extends State<BookMarkPage> {
 
   @override
   Widget build(BuildContext context) {
+    var favoritesProvider = Provider.of<BookMarkProvider>(context);
+    var favorites = favoritesProvider.favorites;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('즐겨찾기 목록'),
@@ -45,51 +49,43 @@ class BookMarkPagePageState extends State<BookMarkPage> {
               ...westernfoodList
             ];
 
-            List<String> favorites =
-                Provider.of<BookMarkProvider>(context).favorites;
-
+            // 중복된 음식 이름 제거
+            Set<String> uniqueNames = {};
             List<dynamic> favoriteFoods = combinedFoodList
                 .where((food) => favorites.contains(food['name']))
+                .where((food) => uniqueNames.add(food['name']))
                 .toList();
 
             return ListView.builder(
               itemCount: favoriteFoods.length,
               itemBuilder: (context, index) {
                 var foodData = favoriteFoods[index];
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200], // 여기서 배경색을 설정합니다.
-                    borderRadius: BorderRadius.circular(10.0), // 모서리를 둥글게 처리합니다.
-                  ),
-                  child: ListTile(
-                    leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(4.0), // 이미지 모서리를 둥글게 처리합니다.
-                      child: Image.network(
-                        foodData['image'],
-                        fit: BoxFit.cover,
-                        width: 50,
-                        height: 50,
-                      ),
-                    ),
-                    title: Text(
-                      foodData['name'],
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(foodData['tags'].join(', ')),
-                    onTap: () {
-                      // 항목을 탭했을 때의 동작을 처리합니다.
+                return ListTile(
+                  title: Text(foodData['name']),
+                  subtitle: Text(foodData['tags'].join(', ')),
+                  leading: Image.network(foodData['image']),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.star, color: Colors.yellow),
+                    onPressed: () {
+                      favoritesProvider.toggleFavorite(foodData['name']);
+                      // 즐겨찾기 취소 안내 메시지 표시
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('${foodData['name']} 즐겨찾기가 취소되었습니다.'),
+                          duration: const Duration(seconds: 2),
+                          action: SnackBarAction(
+                            label: '취소',
+                            onPressed: () {
+                              favoritesProvider.toggleFavorite(foodData['name']);
+                            },
+                          ),
+                        ),
+                      );
                     },
-                    // ListTile의 내부 여백을 조정합니다.
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                   ),
                 );
               },
             );
-
-
           }
         },
       ),
