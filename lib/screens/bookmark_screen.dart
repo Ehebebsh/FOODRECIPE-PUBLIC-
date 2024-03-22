@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/provider/bookmark_provider.dart';
-import 'package:foodrecipe/widgets/custom_bottom_navigation_action_widget.dart';
-
 import 'package:provider/provider.dart';
+import 'package:cherry_toast/cherry_toast.dart';
+import 'package:foodrecipe/widgets/custom_bottom_navigation_action_widget.dart';
 
 class BookMarkPage extends StatefulWidget {
   const BookMarkPage({Key? key}) : super(key: key);
@@ -68,19 +69,11 @@ class BookMarkPagePageState extends State<BookMarkPage> {
                     icon: const Icon(Icons.star, color: Colors.yellow),
                     onPressed: () {
                       favoritesProvider.toggleFavorite(foodData['name']);
-                      // 즐겨찾기 취소 안내 메시지 표시
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('${foodData['name']} 즐겨찾기가 취소되었습니다.'),
-                          duration: const Duration(seconds: 2),
-                          action: SnackBarAction(
-                            label: '취소',
-                            onPressed: () {
-                              favoritesProvider.toggleFavorite(foodData['name']);
-                            },
-                          ),
-                        ),
-                      );
+                      // 즐겨찾기 취소 안내 토스트 메시지 표시
+                      CherryToast.info(
+                        animationType: AnimationType.fromTop,
+                        title: Text('${foodData['name']} 즐겨찾기가 취소되었습니다.'),
+                      ).show(context);
                     },
                   ),
                 );

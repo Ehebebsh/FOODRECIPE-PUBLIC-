@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:cherry_toast/cherry_toast.dart';
+import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/provider/bookmark_provider.dart';
 import 'package:provider/provider.dart';
@@ -15,39 +17,36 @@ class FoodPage extends StatefulWidget {
 
 class _FoodPageState extends State<FoodPage> {
 
-
   @override
   Widget build(BuildContext context) {
     var favoritesProvider = Provider.of<BookMarkProvider>(context);
     var favorites = favoritesProvider.favorites;
 
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: FutureBuilder(
+        future: DefaultAssetBundle.of(context).loadString('assets/${widget.jsonFileName}.json'),
+        builder: (context, AsyncSnapshot<String> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            List<dynamic> foodList = json.decode(snapshot.data.toString());
 
-    return FutureBuilder(
-      future: DefaultAssetBundle.of(context).loadString('assets/${widget.jsonFileName}.json'),
-      builder: (context, AsyncSnapshot<String> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else {
-          List<dynamic> foodList = json.decode(snapshot.data.toString());
-
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(widget.title),
-            ),
-            body: ListView.builder(
-              itemCount: foodList.length * 2 - 1, // 아이템과 선을 고려하여 개수 조정
+            return ListView.builder(
+              itemCount: foodList.length * 2 - 1,
               itemBuilder: (context, index) {
                 if (index.isOdd) {
-                  // 인덱스가 홀수인 경우 선을 반환
                   return const Divider();
                 }
 
-                var foodIndex = index ~/ 2; // 실제 음식 아이템의 인덱스 계산
+                var foodIndex = index ~/ 2;
                 var food = foodList[foodIndex];
-                List<String> tags = (food['tags'] as List<dynamic>).cast<String>(); // 'tags' 필드를 명시적으로 List<String>으로 캐스팅
-                bool isFavorite = favorites.contains(food['name']); // 즐겨찾기 목록에 해당 음식이 있는지 확인
+                List<String> tags = (food['tags'] as List<dynamic>).cast<String>();
+                bool isFavorite = favorites.contains(food['name']);
 
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -81,12 +80,16 @@ class _FoodPageState extends State<FoodPage> {
                           ),
                           GestureDetector(
                             onTap: () {
+                              bool isAdding = favorites.contains(food['name']);
                               favoritesProvider.toggleFavorite(food['name']);
-
+                              CherryToast.info(
+                                title: Text(isAdding ? '${food['name']} 즐겨찾기가 삭제됐습니다.' : '${food['name']} 즐겨찾기가 추가됐습니다.'),
+                                animationType: AnimationType.fromTop,
+                              ).show(context);
                             },
-                            child:Icon(
+                            child: Icon(
                               isFavorite ? Icons.star : Icons.star_border_outlined,
-                              color: isFavorite ? Colors.yellow : Colors.yellow, // outlined 아이콘의 색상을 노란색으로 설정
+                              color: isFavorite ? Colors.yellow : Colors.yellow,
                             ),
                           ),
                         ],
@@ -103,10 +106,10 @@ class _FoodPageState extends State<FoodPage> {
                   ),
                 );
               },
-            ),
-          );
-        }
-      },
+            );
+          }
+        },
+      ),
     );
   }
 }
