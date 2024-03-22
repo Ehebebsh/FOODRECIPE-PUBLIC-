@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodrecipe/provider/bookmark_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:foodrecipe/screens/home_screen.dart';
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     return ChangeNotifierProvider(
       create: (_) => BookMarkProvider(),
       child: MaterialApp(
