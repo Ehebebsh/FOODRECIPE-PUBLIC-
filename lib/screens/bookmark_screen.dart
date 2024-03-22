@@ -56,13 +56,40 @@ class BookMarkPagePageState extends State<BookMarkPage> {
               itemCount: favoriteFoods.length,
               itemBuilder: (context, index) {
                 var foodData = favoriteFoods[index];
-                return ListTile(
-                  title: Text(foodData['name']),
-                  subtitle: Text(foodData['tags'].join(', ')),
-                  leading: Image.network(foodData['image']),
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200], // 여기서 배경색을 설정합니다.
+                    borderRadius: BorderRadius.circular(10.0), // 모서리를 둥글게 처리합니다.
+                  ),
+                  child: ListTile(
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(4.0), // 이미지 모서리를 둥글게 처리합니다.
+                      child: Image.network(
+                        foodData['image'],
+                        fit: BoxFit.cover,
+                        width: 50,
+                        height: 50,
+                      ),
+                    ),
+                    title: Text(
+                      foodData['name'],
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(foodData['tags'].join(', ')),
+                    onTap: () {
+                      // 항목을 탭했을 때의 동작을 처리합니다.
+                    },
+                    // ListTile의 내부 여백을 조정합니다.
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                  ),
                 );
               },
             );
+
+
           }
         },
       ),
