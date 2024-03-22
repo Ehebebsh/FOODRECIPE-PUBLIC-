@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../widgets/categorybutton_widget.dart';
-import '../widgets/custombottomnavigationaction_widget.dart';
-import '../widgets/customsearchdelegate_widget.dart';
+import '../widgets/category_button_widget.dart';
+import '../widgets/custom_bottom_navigation_action_widget.dart';
+import '../widgets/custom_search_delegate_widget.dart';
 import 'foodrecipemenu_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,9 +13,6 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +41,8 @@ class HomePageState extends State<HomePage> {
             height: 40, // 텍스트 필드의 높이입니다.
             decoration: BoxDecoration(
               color: Colors.grey[200], // 텍스트 필드의 배경색입니다.
-              borderRadius: BorderRadius.circular(20), // 타원형 모양을 만들기 위한 테두리 반경입니다.
+              borderRadius:
+                  BorderRadius.circular(20), // 타원형 모양을 만들기 위한 테두리 반경입니다.
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -86,8 +84,7 @@ class HomePageState extends State<HomePage> {
                 style: TextStyle(
                     fontSize: 15.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black
-                ),
+                    color: Colors.black),
               ),
             ),
             const SizedBox(height: 10),
@@ -100,7 +97,9 @@ class HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const FoodPage(title: '한식', jsonFileName: 'koreafood_data')),
+                      MaterialPageRoute(
+                          builder: (context) => const FoodPage(
+                              title: '한식', jsonFileName: 'koreafood_data')),
                     );
                   },
                 ),
@@ -110,7 +109,9 @@ class HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const FoodPage(title: '중식', jsonFileName: 'chinesefood_data')),
+                      MaterialPageRoute(
+                          builder: (context) => const FoodPage(
+                              title: '중식', jsonFileName: 'chinesefood_data')),
                     );
                   },
                 ),
@@ -120,7 +121,11 @@ class HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const FoodPage(title: '양식' ,jsonFileName: 'westernfood_data',)),
+                      MaterialPageRoute(
+                          builder: (context) => const FoodPage(
+                                title: '양식',
+                                jsonFileName: 'westernfood_data',
+                              )),
                     );
                   },
                 ),
