@@ -3,6 +3,7 @@ import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/provider/bookmark_provider.dart';
+import 'package:foodrecipe/screens/food_detail_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/custom_bottom_navigation_action_widget.dart';
@@ -58,8 +59,18 @@ class _FoodPageState extends State<AllFoodPage> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          debugPrint('Food tapped: ${food['name']}');
-                          // 음식 상세 페이지로 이동하는 코드를 추가할 수 있습니다.
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FoodDetailPage(
+                                foodName: food['name'],
+                                imageUrl: food['image'],
+                                ingredients: List<String>.from(food['재료'] ?? []),
+                                description: List<String>.from(food['음식설명'] ?? []),
+                                recipe: List<String>.from(food['레시피'] ?? []),
+                              ),
+                            ),
+                          );
                         },
                         child: Image.network(
                           food['image'],
