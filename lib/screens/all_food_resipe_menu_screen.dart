@@ -20,6 +20,14 @@ class AllFoodPage extends StatefulWidget {
 
 class _FoodPageState extends State<AllFoodPage> {
   int _selectedIndex = 1;
+  Future<List<dynamic>>? _foodListFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _foodListFuture = _loadJsonData(); // 데이터 로드를 initState에서 한 번만 수행
+  }
+
 
   Future<List<dynamic>> _loadJsonData() async {
     List<dynamic> combinedFoodList = [];
@@ -32,6 +40,8 @@ class _FoodPageState extends State<AllFoodPage> {
     return combinedFoodList;
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     var favoritesProvider = Provider.of<BookMarkProvider>(context);
@@ -42,7 +52,7 @@ class _FoodPageState extends State<AllFoodPage> {
         title: Text(widget.title),
       ),
       body: FutureBuilder(
-        future: _loadJsonData(), // 수정된 부분: 여러 개의 JSON 파일을 로드하기 위한 future
+        future: _foodListFuture, // 수정된 부분: 여러 개의 JSON 파일을 로드하기 위한 future
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
