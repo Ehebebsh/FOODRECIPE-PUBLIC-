@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:foodrecipe/provider/bookmark_provider.dart';
 import 'package:foodrecipe/screens/food_detail_screen.dart';
 import 'package:provider/provider.dart';
-
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 
 

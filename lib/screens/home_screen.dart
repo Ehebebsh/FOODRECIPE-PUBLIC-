@@ -113,7 +113,7 @@ class HomePageState extends State<HomePage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const FoodPage(
-                              title: '중식',  jsonFileNames: ['westernfood_data'],)),
+                              title: '중식',  jsonFileNames: ['chinesefood_data'],)),
                     );
                   },
                 ),
