@@ -58,6 +58,7 @@ class BookMarkPagePageState extends State<BookMarkPage> {
                 .toList();
 
             return ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
               itemCount: favoriteFoods.length,
               itemBuilder: (context, index) {
                 var foodData = favoriteFoods[index];

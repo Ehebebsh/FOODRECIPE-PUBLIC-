@@ -21,6 +21,17 @@ class AllFoodPage extends StatefulWidget {
 class _FoodPageState extends State<AllFoodPage> {
   int _selectedIndex = 1;
 
+  Future<List<dynamic>> _loadJsonData() async {
+    List<dynamic> combinedFoodList = [];
+
+    for (String fileName in widget.jsonFileNames) {
+      String jsonData = await DefaultAssetBundle.of(context).loadString('assets/$fileName.json');
+      combinedFoodList.addAll(json.decode(jsonData));
+    }
+
+    return combinedFoodList;
+  }
+
   @override
   Widget build(BuildContext context) {
     var favoritesProvider = Provider.of<BookMarkProvider>(context);
@@ -41,6 +52,7 @@ class _FoodPageState extends State<AllFoodPage> {
             List<dynamic> foodList = snapshot.data!;
 
             return ListView.builder(
+
               itemCount: foodList.length * 2 - 1,
               itemBuilder: (context, index) {
                 if (index.isOdd) {
@@ -140,17 +152,5 @@ class _FoodPageState extends State<AllFoodPage> {
         },
       ),
     );
-  }
-
-  // 새로운 메서드 추가: 여러 개의 JSON 파일을 로드하는 비동기 메서드
-  Future<List<dynamic>> _loadJsonData() async {
-    List<dynamic> combinedFoodList = [];
-
-    for (String fileName in widget.jsonFileNames) {
-      String jsonData = await DefaultAssetBundle.of(context).loadString('assets/$fileName.json');
-      combinedFoodList.addAll(json.decode(jsonData));
-    }
-
-    return combinedFoodList;
   }
 }
