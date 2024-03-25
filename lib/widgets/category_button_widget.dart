@@ -4,11 +4,13 @@ class CategoryButton extends StatelessWidget {
   final String imageUrl;
   final String buttonText;
   final VoidCallback onPressed;
+  final List<String> jsonFileNames;
 
   const CategoryButton({super.key,
     required this.imageUrl,
     required this.buttonText,
     required this.onPressed,
+    required this.jsonFileNames,
   });
 
   @override

@@ -5,17 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:foodrecipe/provider/bookmark_provider.dart';
 import 'package:provider/provider.dart';
 
-class FoodPage extends StatefulWidget {
-  final String title;
-  final List<String> jsonFileNames;
+import '../widgets/custom_bottom_navigation_action_widget.dart';
 
-  const FoodPage({Key? key, required this.title, required this.jsonFileNames}) : super(key: key);
+class AllFoodPage extends StatefulWidget {
+  final String title;
+  final List<String> jsonFileNames; // 수정된 부분: JSON 파일 이름들의 리스트
+
+  const AllFoodPage({Key? key, required this.title, required this.jsonFileNames}) : super(key: key);
 
   @override
-  State<FoodPage> createState() => _FoodPageState();
+  State<AllFoodPage> createState() => _FoodPageState();
 }
 
-class _FoodPageState extends State<FoodPage> {
+class _FoodPageState extends State<AllFoodPage> {
+  int _selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +48,7 @@ class _FoodPageState extends State<FoodPage> {
 
                 var foodIndex = index ~/ 2;
                 var food = foodList[foodIndex];
-                List<String> tags =
-                    (food['tags'] as List<dynamic>).cast<String>();
+                List<String> tags = (food['tags'] as List<dynamic>).cast<String>();
                 bool isFavorite = favorites.contains(food['name']);
 
                 return Padding(
@@ -56,7 +58,8 @@ class _FoodPageState extends State<FoodPage> {
                     children: [
                       GestureDetector(
                         onTap: () {
-
+                          debugPrint('Food tapped: ${food['name']}');
+                          // 음식 상세 페이지로 이동하는 코드를 추가할 수 있습니다.
                         },
                         child: Image.network(
                           food['image'],
@@ -102,8 +105,6 @@ class _FoodPageState extends State<FoodPage> {
                               color: Colors.yellow,
                             ),
                           )
-
-
                         ],
                       ),
                       const SizedBox(height: 4.0),
@@ -122,8 +123,18 @@ class _FoodPageState extends State<FoodPage> {
           }
         },
       ),
+      bottomNavigationBar: BottomNavigator(
+        selectedIndex: _selectedIndex,
+        onItemTapped: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+      ),
     );
   }
+
+  // 새로운 메서드 추가: 여러 개의 JSON 파일을 로드하는 비동기 메서드
   Future<List<dynamic>> _loadJsonData() async {
     List<dynamic> combinedFoodList = [];
 
