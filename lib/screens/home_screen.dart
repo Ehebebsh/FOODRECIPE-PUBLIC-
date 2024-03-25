@@ -94,37 +94,40 @@ class HomePageState extends State<HomePage> {
                 CategoryButton(
                   imageUrl: 'https://via.placeholder.com/150',
                   buttonText: '한식',
+                  jsonFileNames: ['koreafood_data'],
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const FoodPage(
-                              title: '한식', jsonFileName: 'koreafood_data')),
+                              title: '한식',  jsonFileNames: ['koreafood_data'],)),
                     );
                   },
                 ),
                 CategoryButton(
                   imageUrl: 'https://via.placeholder.com/150',
                   buttonText: '중식',
+                  jsonFileNames: ['chinesefood_data'],
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const FoodPage(
-                              title: '중식', jsonFileName: 'chinesefood_data')),
+                              title: '중식',  jsonFileNames: ['westernfood_data'],)),
                     );
                   },
                 ),
                 CategoryButton(
                   imageUrl: 'https://via.placeholder.com/150',
                   buttonText: '양식',
+                  jsonFileNames: ['westernfood_data'],
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const FoodPage(
                                 title: '양식',
-                                jsonFileName: 'westernfood_data',
+                                jsonFileNames: ['westernfood_data'],
                               )),
                     );
                   },

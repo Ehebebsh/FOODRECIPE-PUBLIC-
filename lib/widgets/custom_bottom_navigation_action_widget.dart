@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodrecipe/screens/all_food_resipe_menu_screen.dart';
 import 'package:foodrecipe/screens/setting_screen.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import '../screens/home_screen.dart';
@@ -28,10 +29,16 @@ class BottomNavigator extends StatelessWidget {
         );
         break;
       case 1:
-        // '음식' 아이템을 눌렀을 때의 동작
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => FoodPage()));
-        break;
-
+        Navigator.pushAndRemoveUntil(
+          context,
+          CustomPageRoute(
+            builder: (context) => AllFoodPage(
+              title: '요리 레시피',
+              jsonFileNames: ['koreafood_data', 'chinesefood_data', 'westernfood_data'], // 수정된 부분: 파일 이름만으로 변경
+            ),
+          ),
+              (route) => false,
+        );
       case 2:
         Navigator.pushAndRemoveUntil(
             context,
