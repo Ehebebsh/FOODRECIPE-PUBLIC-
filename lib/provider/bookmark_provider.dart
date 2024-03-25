@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class BookMarkProvider extends ChangeNotifier {
   final List<String> _favorites = [];
 
-  // 생성자에서 즐겨찾기 목록을 로드합니다.
   BookMarkProvider() {
     loadFavorites();
   }
