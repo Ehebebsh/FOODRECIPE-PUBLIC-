@@ -76,7 +76,7 @@ class BookMarkPagePageState extends State<BookMarkPage> {
                       onPressed: () {
                         favoritesProvider.toggleFavorite(foodData['name']);
                         // 즐겨찾기 취소 안내 토스트 메시지 표시
-                        CherryToast.info(
+                        CherryToast.delete(
                           animationType: AnimationType.fromTop,
                           title: Text('${foodData['name']} 즐겨찾기가 취소되었습니다.'),
                         ).show(context);
