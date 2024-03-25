@@ -61,6 +61,7 @@ class FoodDetailPage extends StatelessWidget {
   List<Widget> _buildRecipeList(List<dynamic>? recipe) {
     List<Widget> widgets = [];
     if (recipe != null) {
+      print('dd');
       for (var step in recipe) {
         widgets.add(
           ListTile(
