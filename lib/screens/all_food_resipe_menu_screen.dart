@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 
+
 class AllFoodPage extends StatefulWidget {
   final String title;
   final List<String> jsonFileNames; // 수정된 부분: JSON 파일 이름들의 리스트
@@ -62,13 +63,7 @@ class _FoodPageState extends State<AllFoodPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => FoodDetailPage(
-                                foodName: food['name'],
-                                imageUrl: food['image'],
-                                ingredients: List<String>.from(food['재료'] ?? []),
-                                description: List<String>.from(food['음식설명'] ?? []),
-                                recipe: List<String>.from(food['레시피'] ?? []),
-                              ),
+                              builder: (context) => FoodDetailPage(foodData: food),
                             ),
                           );
                         },
@@ -95,7 +90,8 @@ class _FoodPageState extends State<AllFoodPage> {
                           GestureDetector(
                             onTap: () {
                               String foodName = food['name'];
-                              bool isAdding = !favorites.contains(foodName); // isAdding을 뒤집음
+                              bool isAdding = !favorites
+                                  .contains(foodName); // isAdding을 뒤집음
                               favoritesProvider.toggleFavorite(foodName);
 
                               // 즐겨찾기가 추가되거나 삭제될 때마다 적절한 Toast를 표시합니다.
@@ -112,7 +108,9 @@ class _FoodPageState extends State<AllFoodPage> {
                               }
                             },
                             child: Icon(
-                              isFavorite ? Icons.star : Icons.star_border_outlined,
+                              isFavorite
+                                  ? Icons.star
+                                  : Icons.star_border_outlined,
                               color: Colors.yellow,
                             ),
                           )
