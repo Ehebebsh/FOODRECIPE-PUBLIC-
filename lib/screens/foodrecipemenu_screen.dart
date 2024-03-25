@@ -3,25 +3,27 @@ import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/provider/bookmark_provider.dart';
+import 'package:foodrecipe/screens/food_detail_screen.dart';
 import 'package:provider/provider.dart';
 
 class FoodPage extends StatefulWidget {
   final String title;
   final List<String> jsonFileNames;
 
-  const FoodPage({Key? key, required this.title, required this.jsonFileNames}) : super(key: key);
+  const FoodPage({Key? key, required this.title, required this.jsonFileNames})
+      : super(key: key);
 
   @override
   State<FoodPage> createState() => _FoodPageState();
 }
 
 class _FoodPageState extends State<FoodPage> {
-
   Future<List<dynamic>> _loadJsonData() async {
     List<dynamic> combinedFoodList = [];
 
     for (String fileName in widget.jsonFileNames) {
-      String jsonData = await DefaultAssetBundle.of(context).loadString('assets/$fileName.json');
+      String jsonData = await DefaultAssetBundle.of(context)
+          .loadString('assets/$fileName.json');
       combinedFoodList.addAll(json.decode(jsonData));
     }
 
@@ -67,6 +69,12 @@ class _FoodPageState extends State<FoodPage> {
                     children: [
                       GestureDetector(
                         onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FoodDetailPage(foodData: food),
+                            ),
+                          );
 
                         },
                         child: Image.network(
@@ -92,7 +100,8 @@ class _FoodPageState extends State<FoodPage> {
                           GestureDetector(
                             onTap: () {
                               String foodName = food['name'];
-                              bool isAdding = !favorites.contains(foodName); // isAdding을 뒤집음
+                              bool isAdding = !favorites
+                                  .contains(foodName); // isAdding을 뒤집음
                               favoritesProvider.toggleFavorite(foodName);
 
                               // 즐겨찾기가 추가되거나 삭제될 때마다 적절한 Toast를 표시합니다.
@@ -109,12 +118,12 @@ class _FoodPageState extends State<FoodPage> {
                               }
                             },
                             child: Icon(
-                              isFavorite ? Icons.star : Icons.star_border_outlined,
+                              isFavorite
+                                  ? Icons.star
+                                  : Icons.star_border_outlined,
                               color: Colors.yellow,
                             ),
                           )
-
-
                         ],
                       ),
                       const SizedBox(height: 4.0),
