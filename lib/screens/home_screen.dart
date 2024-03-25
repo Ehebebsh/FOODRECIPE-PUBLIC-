@@ -94,7 +94,7 @@ class HomePageState extends State<HomePage> {
                 CategoryButton(
                   imageUrl: 'https://via.placeholder.com/150',
                   buttonText: '한식',
-                  jsonFileNames: ['koreafood_data'],
+                  jsonFileNames: const ['koreafood_data'],
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -107,7 +107,7 @@ class HomePageState extends State<HomePage> {
                 CategoryButton(
                   imageUrl: 'https://via.placeholder.com/150',
                   buttonText: '중식',
-                  jsonFileNames: ['chinesefood_data'],
+                  jsonFileNames: const ['chinesefood_data'],
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -120,7 +120,7 @@ class HomePageState extends State<HomePage> {
                 CategoryButton(
                   imageUrl: 'https://via.placeholder.com/150',
                   buttonText: '양식',
-                  jsonFileNames: ['westernfood_data'],
+                  jsonFileNames: const ['westernfood_data'],
                   onPressed: () {
                     Navigator.push(
                       context,
