@@ -1,0 +1,131 @@
+[
+  {
+    "name": "쉬워요",
+    "image": "assets/hiyo.JPG",
+    "tags": [
+      "찌개",
+      "양식"
+    ],
+    "재료" : ["줜나 맛있습니다."]
+  },
+  {
+    "name": "불고기",
+    "image": "assets/icon.jpg",
+    "tags": [
+      "한식",
+      "고기"
+    ]
+  },
+  {
+    "name": "김치찌개",
+    "image": "assets/hiyo.JPG",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "김치찜",
+    "image": "assets/icon.jpg",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "dfa3",
+    "image": "assets/adbadge.png",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "4fd",
+    "image": "assets/adbadge.png",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "sdf5",
+    "image": "assets/icon.jpg",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "fads6",
+    "image": "assets/adbadge.png",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "vasd7",
+    "image": "assets/icon.jpg",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "bas8",
+    "image": "assets/adbadge.png",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "fw9",
+    "image": "assets/icon.jpg",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "fw10",
+    "image": "assets/adbadge.png",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "1fwf1",
+    "image": "assets/icon.jpg",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "1fwfaw2",
+    "image": "assets/hiyo.JPG",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "1vaevvv3",
+    "image": "assets/adbadge.png",
+    "tags": [
+      "2",
+      "3"
+    ]
+  },
+  {
+    "name": "1gaga4",
+    "image": "assets/hiyo.JPG",
+    "tags": [
+      "2",
+      "3"
+    ]
+  }
+]
