@@ -26,6 +26,8 @@ class HomePageState extends State<HomePage> {
     super.initState();
     _pageController = PageController();
     loadImageUrlsFromJson();
+    loadEasyFoodImages();
+    loadHardFoodImages();
   }
 
   @override
@@ -251,78 +253,154 @@ class HomePageState extends State<HomePage> {
               ],
             ),
             const SizedBox(height: 20),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                '손쉽게 할 수 있는 요리',
-                style: TextStyle(
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.bold,
-                ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    '손쉽게 할 수 있는 요리',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const FoodPage(
+                                  title: '간단한 요리',
+                                  jsonFileNames: ['easyfood'],
+                                )),
+                      );
+                    },
+                    child: const Text(
+                      '더보기',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 10),
-            SizedBox(
-              height: 120,
-              child: GridView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 5,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: SizedBox(
-                        width: 120,
-                        child: Image.network(
-                          'https://via.placeholder.com/150',
-                          fit: BoxFit.cover,
+            FutureBuilder(
+              future: loadEasyFoodImages(), // 이미지 로딩 함수
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else {
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    List<String>? easyFoodImages = snapshot.data;
+                    return SizedBox(
+                      height: 120,
+                      child: GridView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 5, // 5장의 이미지만 표시
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 1,
                         ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                easyFoodImages![index],
+                                width: 120,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                    ),
-                  );
-                },
-              ),
+                    );
+                  }
+                }
+              },
             ),
             const SizedBox(height: 20),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                '당신의 요리 솜씨를 뽐내보세요!',
-                style: TextStyle(
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.bold,
-                ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    '당신의 요리 솜씨를 뽐내보세요!',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const FoodPage(
+                                  title: '손이 많이 가는 요리',
+                                  jsonFileNames: ['hardfood'],
+                                )),
+                      );
+                    },
+                    child: const Text(
+                      '더보기',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 10),
-            SizedBox(
-              height: 120,
-              child: GridView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 5,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: SizedBox(
-                        width: 120,
-                        child: Image.network(
-                          'https://via.placeholder.com/150',
-                          fit: BoxFit.cover,
+            FutureBuilder(
+              future: loadHardFoodImages(), // 이미지 로딩 함수
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else {
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    List<String>? hardFoodImages = snapshot.data;
+                    return SizedBox(
+                      height: 120,
+                      child: GridView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 5, // 5장의 이미지만 표시
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 1,
                         ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                hardFoodImages![index],
+                                width: 120,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                    ),
-                  );
-                },
-              ),
+                    );
+                  }
+                }
+              },
             ),
           ],
         ),
@@ -336,5 +414,33 @@ class HomePageState extends State<HomePage> {
         },
       ),
     );
+  }
+
+  Future<List<String>> loadEasyFoodImages() async {
+    List<String> easyFoodImages = [];
+
+    String easyFoodJsonString =
+        await DefaultAssetBundle.of(context).loadString('assets/easyfood.json');
+    List<dynamic> easyFoodJsonList = json.decode(easyFoodJsonString);
+
+    for (var item in easyFoodJsonList) {
+      easyFoodImages.add(item['image']);
+    }
+
+    return easyFoodImages;
+  }
+
+  Future<List<String>> loadHardFoodImages() async {
+    List<String> hardFoodImages = [];
+
+    String hardFoodJsonString =
+        await DefaultAssetBundle.of(context).loadString('assets/hardfood.json');
+    List<dynamic> hardFoodJsonList = json.decode(hardFoodJsonString);
+
+    for (var item in hardFoodJsonList) {
+      hardFoodImages.add(item['image']);
+    }
+
+    return hardFoodImages;
   }
 }
