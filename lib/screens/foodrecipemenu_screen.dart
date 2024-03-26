@@ -85,8 +85,8 @@ class _FoodPageState extends State<FoodPage> {
                           );
 
                         },
-                        child: Image.network(
-                          food['image'],
+                        child: Image.asset(
+                          food['image'], // 이미지 경로 수정
                           fit: BoxFit.cover,
                           width: double.infinity,
                           height: 200,

@@ -1,24 +1,41 @@
 [
   {
     "name": "짜장면",
-    "image": "https://via.placeholder.com/150",
-    "tags": ["면요리", "중식"],
-    "ingredients": ["된장","소금","물"],
-    "recipe": ["1. 물을 넣는다", "2. 소금을 넣는다", "3. 된장을 넣는다"]
+    "image": "assets/1.png",
+    "tags": [
+      "면요리",
+      "중식"
+    ],
+    "ingredients": [
+      "된장",
+      "소금",
+      "물"
+    ],
+    "recipe": [
+      "1. 물을 넣는다",
+      "2. 소금을 넣는다",
+      "3. 된장을 넣는다"
+    ]
   },
   {
     "name": "탕수육",
-    "image": "https://via.placeholder.com/150",
-    "tags": ["고기요리", "중식"]
+    "image": "assets/2.png",
+    "tags": [
+      "고기요리",
+      "중식"
+    ]
   },
   {
     "name": "양장피",
-    "image": "https://via.placeholder.com/150",
-    "tags": ["고기요리", "중식"]
+    "image": "assets/1.png",
+    "tags": [
+      "고기요리",
+      "중식"
+    ]
   },
   {
     "name": "1",
-    "image": "https://via.placeholder.com/150",
+    "image": "assets/3.png",
     "tags": [
       "2",
       "3"
@@ -26,7 +43,7 @@
   },
   {
     "name": "213faf",
-    "image": "https://via.placeholder.com/150",
+    "image": "assets/1.png",
     "tags": [
       "2",
       "3"
@@ -34,7 +51,7 @@
   },
   {
     "name": "3213",
-    "image": "https://via.placeholder.com/150",
+    "image": "assets/2.png",
     "tags": [
       "2",
       "3"
@@ -42,7 +59,7 @@
   },
   {
     "name": "faae4",
-    "image": "https://via.placeholder.com/150",
+    "image": "assets/3.png",
     "tags": [
       "2",
       "3"
@@ -50,7 +67,7 @@
   },
   {
     "name": "5vaaw",
-    "image": "https://via.placeholder.com/150",
+    "image": "assets/1.png",
     "tags": [
       "2",
       "3"
@@ -58,7 +75,7 @@
   },
   {
     "name": "6jhf",
-    "image": "https://via.placeholder.com/150",
+    "image": "assets/2.png",
     "tags": [
       "2",
       "3"
@@ -66,7 +83,7 @@
   },
   {
     "name": "7fgh",
-    "image": "https://via.placeholder.com/150",
+    "image": "assets/1.png",
     "tags": [
       "2",
       "3"
@@ -74,7 +91,7 @@
   },
   {
     "name": "8dr",
-    "image": "https://via.placeholder.com/150",
+    "image": "assets/2.png",
     "tags": [
       "2",
       "3"
@@ -82,7 +99,7 @@
   },
   {
     "name": "9drg",
-    "image": "https://via.placeholder.com/150",
+    "image": "assets/3.png",
     "tags": [
       "2",
       "3"
@@ -90,7 +107,7 @@
   },
   {
     "name": "10bdf",
-    "image": "https://via.placeholder.com/150",
+    "image": "assets/3.png",
     "tags": [
       "2",
       "3"
@@ -98,7 +115,7 @@
   },
   {
     "name": "1dbf1",
-    "image": "https://via.placeholder.com/150",
+    "image": "assets/2.png",
     "tags": [
       "2",
       "3"
@@ -106,7 +123,7 @@
   },
   {
     "name": "1bdf2",
-    "image": "https://via.placeholder.com/150",
+    "image": "assets/5.png",
     "tags": [
       "2",
       "3"
@@ -114,7 +131,7 @@
   },
   {
     "name": "drrgd13",
-    "image": "https://via.placeholder.com/150",
+    "image": "assets/4.png",
     "tags": [
       "2",
       "3"
@@ -122,7 +139,7 @@
   },
   {
     "name": "1drgdrgd4",
-    "image": "https://via.placeholder.com/150",
+    "image": "assets/3.png",
     "tags": [
       "2",
       "3"
@@ -130,7 +147,7 @@
   },
   {
     "name": "불고기",
-    "image": "https://via.placeholder.com/150",
+    "image": "assets/2.png",
     "tags": [
       "한식",
       "고기"
