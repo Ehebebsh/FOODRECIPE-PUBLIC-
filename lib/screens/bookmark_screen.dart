@@ -70,7 +70,7 @@ class BookMarkPagePageState extends State<BookMarkPage> {
                   child: ListTile(
                     title: Text(foodData['name']),
                     subtitle: Text(foodData['tags'].join(', ')),
-                    leading: Image.network(foodData['image']),
+                    leading: Image.asset(foodData['image']),
                     trailing: IconButton(
                       icon: const Icon(Icons.star, color: Colors.yellow),
                       onPressed: () {

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import '../widgets/category_button_widget.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
@@ -13,6 +16,76 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  int _bannerIndex = 0;
+  List<String> imageUrls = [];
+  List<String> pageTexts = ['오늘의 \n추천요리!', '내일의 \n추천요리!', 'ajrw \n추천요리!'];
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+    loadImageUrlsFromJson();
+  }
+
+  @override
+  void dispose() {
+    // 페이지 컨트롤러 해제
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  Future<void> loadImageUrlsFromJson() async {
+    List<String> urls = [];
+
+    List<String> jsonFiles = [
+      'assets/koreafood_data.json',
+      'assets/chinesefood_data.json',
+      'assets/westernfood_data.json',
+    ];
+
+    for (String jsonFile in jsonFiles) {
+      String jsonData =
+          await DefaultAssetBundle.of(context).loadString(jsonFile);
+
+      List<dynamic> jsonList = json.decode(jsonData);
+
+      urls.addAll(jsonList.map<String>((json) => json['image']).toList());
+      _pageController = PageController(initialPage: 0);
+    }
+
+    Random random = Random();
+    imageUrls = [
+      urls[random.nextInt(urls.length)],
+      urls[random.nextInt(urls.length)],
+      urls[random.nextInt(urls.length)],
+    ];
+
+    setState(() {});
+  }
+
+  Widget _buildDot(int index) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      height: 8,
+      width: _bannerIndex == index ? 8 : 8,
+      decoration: BoxDecoration(
+        color: _bannerIndex == index
+            ? const Color.fromRGBO(190, 228, 157, 1)
+            : Colors.grey,
+        borderRadius: BorderRadius.circular(10),
+      ),
+    );
+  }
+
+  String _buildText(int index) {
+    if (index < pageTexts.length) {
+      return pageTexts[index];
+    } else {
+      return pageTexts.last;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,26 +96,22 @@ class HomePageState extends State<HomePage> {
         leading: const Padding(
           padding: EdgeInsets.all(3),
           child: CircleAvatar(
-            // CircleAvatar의 radius를 AppBar 높이에 맞게 조정하세요.
             backgroundImage: AssetImage('assets/logo.JPG'),
             backgroundColor: Colors.transparent,
           ),
         ),
-        // AppBar에서 actions 대신 title 속성을 사용하여 타원형 텍스트 필드를 추가합니다.
         title: InkWell(
           onTap: () {
-            // 텍스트 필드를 탭했을 때 검색 페이지로 이동합니다.
             showSearch(
               context: context,
               delegate: CustomSearchDelegate(context),
             );
           },
           child: Container(
-            height: 40, // 텍스트 필드의 높이입니다.
+            height: 40,
             decoration: BoxDecoration(
-              color: Colors.grey[200], // 텍스트 필드의 배경색입니다.
-              borderRadius:
-                  BorderRadius.circular(20), // 타원형 모양을 만들기 위한 테두리 반경입니다.
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,14 +119,14 @@ class HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 15),
                   child: Text(
-                    '오늘의 레시피를 검색해보세요!', // 텍스트 필드의 플레이스홀더 텍스트입니다.
+                    '오늘의 레시피를 검색해보세요!',
                     style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 15),
                   child: Icon(
-                    Icons.search, // 오른쪽에 위치할 검색 아이콘입니다.
+                    Icons.search,
                     color: Colors.grey[600],
                   ),
                 ),
@@ -70,23 +139,66 @@ class HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Image.network(
-              'https://via.placeholder.com/700',
-              width: MediaQuery.of(context).size.width,
-              height: 200,
-              fit: BoxFit.cover,
-            ),
-            const SizedBox(height: 20),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                '요리 종류',
-                style: TextStyle(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
+            if (imageUrls.isNotEmpty) ...[
+              SizedBox(
+                height: 200,
+                child: Stack(
+                  children: [
+                    PageView.builder(
+                      controller: _pageController,
+                      itemCount: imageUrls.length,
+                      itemBuilder: (context, index) {
+                        return Image.asset(
+                          imageUrls[index],
+                          width: MediaQuery.of(context).size.width,
+                          height: 200,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                      onPageChanged: (index) {
+                        setState(() {
+                          _bannerIndex = index;
+                        });
+                      },
+                    ),
+                    Positioned(
+                      bottom: 10,
+                      right: 10,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: List.generate(
+                          imageUrls.length,
+                          (index) => _buildDot(index),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 10,
+                      left: 10,
+                      child: Text(
+                        _buildText(_bannerIndex),
+                        style: const TextStyle(
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+              const SizedBox(height: 20),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  '요리 종류',
+                  style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+              ),
+            ],
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -100,7 +212,9 @@ class HomePageState extends State<HomePage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const FoodPage(
-                              title: '한식',  jsonFileNames: ['koreafood_data'],)),
+                                title: '한식',
+                                jsonFileNames: ['koreafood_data'],
+                              )),
                     );
                   },
                 ),
@@ -113,7 +227,9 @@ class HomePageState extends State<HomePage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const FoodPage(
-                              title: '중식',  jsonFileNames: ['chinesefood_data'],)),
+                                title: '중식',
+                                jsonFileNames: ['chinesefood_data'],
+                              )),
                     );
                   },
                 ),

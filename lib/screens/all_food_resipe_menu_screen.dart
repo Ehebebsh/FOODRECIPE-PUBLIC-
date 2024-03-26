@@ -88,7 +88,7 @@ class _FoodPageState extends State<AllFoodPage> {
                             ),
                           );
                         },
-                        child: Image.network(
+                        child: Image.asset(
                           food['image'],
                           fit: BoxFit.cover,
                           width: double.infinity,

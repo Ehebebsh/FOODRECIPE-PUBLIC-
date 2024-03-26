@@ -16,7 +16,7 @@ class FoodDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(
+            Image.asset(
               foodData['image'],
               fit: BoxFit.cover,
               width: double.infinity,
