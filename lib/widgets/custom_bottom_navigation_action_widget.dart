@@ -53,6 +53,13 @@ class BottomNavigator extends StatelessWidget {
           CustomPageRoute(builder: (context) => const SettingPage()),
           (route) => false,
         );
+      case 4:
+      // '설정' 아이템을 눌렀을 때의 동작
+        Navigator.pushAndRemoveUntil(
+          context,
+          CustomPageRoute(builder: (context) => const SettingPage()),
+              (route) => false,
+        );
         break;
       default:
         break;
