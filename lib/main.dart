@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider( // MultiProvider 사용
       providers: [
         ChangeNotifierProvider(create: (_) => BookMarkProvider()),
-        ChangeNotifierProvider(create: (_) => CartProvider()), // 새로운 프로바이더 추가
+        ChangeNotifierProvider(create: (_) => FoodCartProvider()), // 새로운 프로바이더 추가
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
