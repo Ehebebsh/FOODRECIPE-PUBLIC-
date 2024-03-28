@@ -45,6 +45,7 @@ class _FoodPageState extends State<FoodPage> {
 
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         title: Text(widget.title),
       ),
       body: FutureBuilder(
