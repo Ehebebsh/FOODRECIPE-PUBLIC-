@@ -12,7 +12,7 @@ class SettingPage extends StatefulWidget {
 }
 
 class SettingPageState extends State<SettingPage> {
-  int _selectedIndex = 3;
+  int _selectedIndex = 4;
 
   @override
   Widget build(BuildContext context) {
