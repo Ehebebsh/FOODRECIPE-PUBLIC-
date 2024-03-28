@@ -23,6 +23,7 @@ class BookMarkPagePageState extends State<BookMarkPage> {
 
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         title: const Text('즐겨찾기 목록'),
       ),
       body: FutureBuilder(
@@ -33,6 +34,10 @@ class BookMarkPagePageState extends State<BookMarkPage> {
               .loadString('assets/chinesefood_data.json'),
           DefaultAssetBundle.of(context)
               .loadString('assets/westernfood_data.json'),
+          DefaultAssetBundle.of(context)
+              .loadString('assets/easyfood.json'),
+          DefaultAssetBundle.of(context)
+              .loadString('assets/hardfood.json'),
         ]),
         builder: (context, AsyncSnapshot<List<String>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -43,11 +48,15 @@ class BookMarkPagePageState extends State<BookMarkPage> {
             List<dynamic> koreanFoodList = json.decode(snapshot.data![0]);
             List<dynamic> chineseFoodList = json.decode(snapshot.data![1]);
             List<dynamic> westernfoodList = json.decode(snapshot.data![2]);
+            List<dynamic> easyfoodList = json.decode(snapshot.data![3]);
+            List<dynamic> hardfoodList = json.decode(snapshot.data![4]);
 
             List<dynamic> combinedFoodList = [
               ...koreanFoodList,
               ...chineseFoodList,
-              ...westernfoodList
+              ...westernfoodList,
+              ...easyfoodList,
+              ...hardfoodList
             ];
 
             // 중복된 음식 이름 제거

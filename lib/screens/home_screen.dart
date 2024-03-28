@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import '../widgets/category_button_widget.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
@@ -94,6 +93,7 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        forceMaterialTransparency: true,
         backgroundColor: Colors.white,
         leading: const Padding(
           padding: EdgeInsets.all(3),
