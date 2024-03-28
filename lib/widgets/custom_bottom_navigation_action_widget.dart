@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/screens/all_food_resipe_menu_screen.dart';
+import 'package:foodrecipe/screens/foodcart_screen.dart';
 import 'package:foodrecipe/screens/setting_screen.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import '../screens/home_screen.dart';
@@ -50,7 +51,7 @@ class BottomNavigator extends StatelessWidget {
         // '설정' 아이템을 눌렀을 때의 동작
         Navigator.pushAndRemoveUntil(
           context,
-          CustomPageRoute(builder: (context) => const SettingPage()),
+          CustomPageRoute(builder: (context) => const FoodCartPage()),
           (route) => false,
         );
       case 4:
@@ -81,6 +82,10 @@ class BottomNavigator extends StatelessWidget {
         BottomNavigationBarItem(
           icon: Icon(Icons.star),
           label: '즐겨찾기',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.shopping_cart),
+          label: '장바구니',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
