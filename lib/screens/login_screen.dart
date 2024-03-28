@@ -6,6 +6,9 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        forceMaterialTransparency: true,
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
