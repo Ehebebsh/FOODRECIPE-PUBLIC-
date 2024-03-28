@@ -12,7 +12,6 @@ class FoodCartProvider extends ChangeNotifier {
       _selectedIngredients.add(ingredient);
     }
     notifyListeners();
-    debugPrint('저장된 재료: $_selectedIngredients');
   }
 
   void clearSelectedIngredients() {
@@ -22,7 +21,8 @@ class FoodCartProvider extends ChangeNotifier {
 
   // setSelectedIngredients 메소드 추가
   void setSelectedIngredients(Set<String> ingredients) {
-    _selectedIngredients = ingredients.toSet(); // 수정: 새로운 Set을 할당하여 _selectedIngredients를 업데이트
+    _selectedIngredients.addAll(ingredients);
     notifyListeners();
   }
+
 }
