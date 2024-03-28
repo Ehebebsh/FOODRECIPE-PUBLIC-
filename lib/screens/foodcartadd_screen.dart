@@ -13,8 +13,8 @@ class FoodCartAddPage extends StatefulWidget {
 
 class FoodCartAddPageState extends State<FoodCartAddPage> {
   List<dynamic> allFoodData = []; // 모든 음식 데이터를 저장할 리스트
-  Set<String> selectedIngredients = Set(); // 선택된 재료를 저장할 집합
-  Set<String> allIngredients = Set(); // 모든 재료를 저장할 집합
+  Set<String> selectedIngredients = {}; // 선택된 재료를 저장할 집합
+  Set<String> allIngredients = {}; // 모든 재료를 저장할 집합
 
   @override
   void initState() {
@@ -25,11 +25,11 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
   Future<void> loadJsonData() async {
     try {
       final chineseJsonString =
-          await rootBundle.loadString('assets/chinesefood_data.json');
+      await rootBundle.loadString('assets/chinesefood_data.json');
       final koreanJsonString =
-          await rootBundle.loadString('assets/koreafood_data.json');
+      await rootBundle.loadString('assets/koreafood_data.json');
       final westernJsonString =
-          await rootBundle.loadString('assets/westernfood_data.json');
+      await rootBundle.loadString('assets/westernfood_data.json');
 
       setState(() {
         // 각 JSON 파일의 데이터를 하나의 리스트로 합침
@@ -62,6 +62,7 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
               // 선택된 재료를 FoodCartProvider에 저장
               Provider.of<FoodCartProvider>(context, listen: false)
                   .setSelectedIngredients(selectedIngredients);
+              print('프로바이더에 저장된 재료: ${Provider.of<FoodCartProvider>(context, listen: false).selectedIngredients}');
               Navigator.pop(context); // 페이지 닫기
             },
             icon: Icon(Icons.save),
@@ -78,20 +79,26 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
                 '재료 선택:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              // 각 재료와 체크박스를 출력
+              // 각 재료를 탭할 때 선택 상태를 변경하도록 수정
               for (var ingredient in allIngredients)
-                CheckboxListTile(
-                  title: Text(ingredient),
-                  value: selectedIngredients.contains(ingredient),
-                  onChanged: (value) {
+                GestureDetector(
+                  onTap: () {
                     setState(() {
-                      if (value != null && value) {
-                        selectedIngredients.add(ingredient);
-                      } else {
+                      if (selectedIngredients.contains(ingredient)) {
                         selectedIngredients.remove(ingredient);
+                      } else {
+                        selectedIngredients.add(ingredient);
                       }
                     });
                   },
+                  child: ListTile(
+                    title: Text(ingredient),
+                    trailing: Icon(
+                      selectedIngredients.contains(ingredient)
+                          ? Icons.check_circle
+                          : Icons.circle_outlined,
+                    ),
+                  ),
                 ),
             ],
           ),
