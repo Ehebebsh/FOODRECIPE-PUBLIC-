@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:foodrecipe/provider/foodcart_provider.dart';
 import 'package:foodrecipe/screens/foodcartadd_screen.dart';
-import 'package:foodrecipe/widgets/custom_bottom_navigation_action_widget.dart';
 
+import '../widgets/custom_bottom_navigation_action_widget.dart';
 
 class FoodCartPage extends StatefulWidget {
   const FoodCartPage({Key? key}) : super(key: key);
@@ -19,8 +21,18 @@ class FoodCartPageState extends State<FoodCartPage> {
       appBar: AppBar(
         title: const Text('장바구니'),
       ),
-      body: SingleChildScrollView(
-        // Add your body content here
+      body: Consumer<FoodCartProvider>(
+        builder: (context, foodCartProvider, _) {
+          Set<String> selectedIngredients =
+              foodCartProvider.selectedIngredients;
+          return ListView(
+            children: selectedIngredients
+                .map((ingredient) => ListTile(
+              title: Text(ingredient),
+            ))
+                .toList(),
+          );
+        },
       ),
       bottomNavigationBar: BottomNavigator(
         selectedIndex: _selectedIndex,
@@ -34,8 +46,12 @@ class FoodCartPageState extends State<FoodCartPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => FoodCartAddPage()), // 새로운 페이지로 이동
-          );
+            MaterialPageRoute(builder: (context) => FoodCartAddPage()),
+          ).then((_) {
+            // 페이지가 닫힌 후에 선택된 재료가 업데이트되었을 경우를 처리
+            Provider.of<FoodCartProvider>(context, listen: false)
+                .notifyListeners();
+          });
         },
         child: Icon(Icons.add),
       ),

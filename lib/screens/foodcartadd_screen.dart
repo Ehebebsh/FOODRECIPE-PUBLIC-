@@ -25,11 +25,11 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
   Future<void> loadJsonData() async {
     try {
       final chineseJsonString =
-          await rootBundle.loadString('assets/chinesefood_data.json');
+      await rootBundle.loadString('assets/chinesefood_data.json');
       final koreanJsonString =
-          await rootBundle.loadString('assets/koreafood_data.json');
+      await rootBundle.loadString('assets/koreafood_data.json');
       final westernJsonString =
-          await rootBundle.loadString('assets/westernfood_data.json');
+      await rootBundle.loadString('assets/westernfood_data.json');
 
       setState(() {
         // 각 JSON 파일의 데이터를 하나의 리스트로 합침
@@ -62,6 +62,7 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
               // 선택된 재료를 FoodCartProvider에 저장
               Provider.of<FoodCartProvider>(context, listen: false)
                   .setSelectedIngredients(selectedIngredients);
+              print('프로바이더에 저장된 재료: ${Provider.of<FoodCartProvider>(context, listen: false).selectedIngredients}');
               Navigator.pop(context); // 페이지 닫기
             },
             icon: Icon(Icons.save),
