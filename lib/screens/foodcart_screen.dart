@@ -9,7 +9,7 @@ class FoodCartPage extends StatefulWidget {
 }
 
 class FoodCartPageState extends State<FoodCartPage> {
-  int _selectedIndex = 3;
+  int _selectedIndex = 4;
 
   @override
   Widget build(BuildContext context) {

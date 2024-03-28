@@ -10,10 +10,10 @@ class BookMarkPage extends StatefulWidget {
   const BookMarkPage({Key? key}) : super(key: key);
 
   @override
-  BookMarkPagePageState createState() => BookMarkPagePageState();
+  BookMarkPageState createState() => BookMarkPageState();
 }
 
-class BookMarkPagePageState extends State<BookMarkPage> {
+class BookMarkPageState extends State<BookMarkPage> {
   int _selectedIndex = 2;
 
   @override
