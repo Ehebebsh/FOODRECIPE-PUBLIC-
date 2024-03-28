@@ -97,7 +97,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             Icon(
               Icons.add_circle_outline,
-              color: Colors.yellow, // 카카오 컬러로 변경 가능
+              color: Colors.black, // 카카오 컬러로 변경 가능
             ),
             const SizedBox(width: 10),
             Text(
