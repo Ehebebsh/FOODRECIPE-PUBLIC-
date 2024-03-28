@@ -92,7 +92,7 @@ class _FoodPageState extends State<AllFoodPage> {
                           food['image'],
                           fit: BoxFit.cover,
                           width: double.infinity,
-                          height: 200,
+                          height: 300,
                         ),
                       ),
                       const SizedBox(height: 8.0),
