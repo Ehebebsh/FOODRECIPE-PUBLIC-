@@ -19,14 +19,16 @@ class HomePageState extends State<HomePage> {
   List<String> imageUrls = [];
   List<String> pageTexts = ['오늘의 \n추천요리!', '내일의 \n추천요리!', 'ajrw \n추천요리!'];
   late PageController _pageController;
+  late Future<List<String>> easyFoodImagesFuture;
+  late Future<List<String>> hardFoodImagesFuture;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
     loadImageUrlsFromJson();
-    loadEasyFoodImages();
-    loadHardFoodImages();
+    easyFoodImagesFuture = loadEasyFoodImages();
+    hardFoodImagesFuture = loadHardFoodImages();
   }
 
   @override
@@ -289,7 +291,7 @@ class HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 10),
             FutureBuilder(
-              future: loadEasyFoodImages(), // 이미지 로딩 함수
+              future: easyFoodImagesFuture, // 이미지 로딩 함수
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
@@ -297,7 +299,7 @@ class HomePageState extends State<HomePage> {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
-                    List<String>? easyFoodImages = snapshot.data;
+                    List<String>? easyFoodImages = snapshot.data as List<String>?;
                     return SizedBox(
                       height: 120,
                       child: GridView.builder(
@@ -364,7 +366,7 @@ class HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 10),
             FutureBuilder(
-              future: loadHardFoodImages(), // 이미지 로딩 함수
+              future: hardFoodImagesFuture, // 이미지 로딩 함수
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
@@ -372,7 +374,7 @@ class HomePageState extends State<HomePage> {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
-                    List<String>? hardFoodImages = snapshot.data;
+                    List<String>? hardFoodImages = snapshot.data as List<String>?;
                     return SizedBox(
                       height: 120,
                       child: GridView.builder(
