@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:convert' show json;
 
+import 'package:foodrecipe/screens/food_detail_screen.dart';
+
 class CustomSearchDelegate extends SearchDelegate<String> {
   final BuildContext context;
 
@@ -120,7 +122,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
           child: ListTile(
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(4.0), // 이미지 모서리를 둥글게 처리합니다.
-              child: Image.network(
+              child: Image.asset(
                 food['image'],
                 fit: BoxFit.cover,
                 width: 50,
@@ -135,7 +137,12 @@ class CustomSearchDelegate extends SearchDelegate<String> {
             ),
             subtitle: Text(food['tags'].join(', ')),
             onTap: () {
-              // 항목을 탭했을 때의 동작을 처리합니다.
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FoodDetailPage(foodData: food),
+                ),
+              );
             },
             // ListTile의 내부 여백을 조정합니다.
             contentPadding:

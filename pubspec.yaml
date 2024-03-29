@@ -40,7 +40,7 @@ dependencies:
   provider: ^6.1.2
   shared_preferences: ^2.2.2
   cherry_toast: ^1.9.1
-
+  flutter_native_splash: ^2.3.11
 dev_dependencies:
   flutter_test:
     sdk: flutter
