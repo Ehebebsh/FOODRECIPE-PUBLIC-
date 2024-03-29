@@ -57,10 +57,10 @@ class LoginScreen extends StatelessWidget {
       elevation: 3,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: Colors.grey),
+        side: const BorderSide(color: Colors.grey),
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: const Padding(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -68,7 +68,7 @@ class LoginScreen extends StatelessWidget {
               Icons.add_circle_outline,
               color: Colors.red, // 구글 컬러로 변경 가능
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Text(
               '구글 로그인',
               style: TextStyle(
@@ -91,10 +91,10 @@ class LoginScreen extends StatelessWidget {
       elevation: 3,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: Colors.grey),
+        side: const BorderSide(color: Colors.grey),
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: const Padding(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -102,7 +102,7 @@ class LoginScreen extends StatelessWidget {
               Icons.add_circle_outline,
               color: Colors.black, // 카카오 컬러로 변경 가능
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Text(
               '카카오 로그인',
               style: TextStyle(

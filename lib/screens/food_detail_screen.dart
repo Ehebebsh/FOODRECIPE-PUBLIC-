@@ -12,7 +12,7 @@ class FoodDetailPage extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(bottom: Radius.circular(16))
             ),
             expandedHeight: 250,
@@ -20,7 +20,7 @@ class FoodDetailPage extends StatelessWidget {
             floating: false,
             pinned: true,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.pop(context); // 이전 화면으로 이동
               },
@@ -28,7 +28,7 @@ class FoodDetailPage extends StatelessWidget {
             primary: true,
             flexibleSpace: FlexibleSpaceBar(
               background: ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(16.0),
                   bottomRight: Radius.circular(16.0),
                 ),
@@ -38,7 +38,7 @@ class FoodDetailPage extends StatelessWidget {
                       image: AssetImage(foodData['image']),
                       fit: BoxFit.cover,
                     ),
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(16.0),
                       bottomRight: Radius.circular(16.0),
                     ),
@@ -50,26 +50,26 @@ class FoodDetailPage extends StatelessWidget {
 
 
           SliverPadding(
-            padding: EdgeInsets.fromLTRB(4, 8, 4, 4),
+            padding: const EdgeInsets.fromLTRB(4, 8, 4, 4),
             sliver: SliverToBoxAdapter(
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16.0),
                 ),
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       foodData['name'],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     if (foodData['description'] != null)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +80,7 @@ class FoodDetailPage extends StatelessWidget {
                       ),
                     if (foodData['description'] == null ||
                         foodData['description'].isEmpty)
-                      Text(
+                      const Text(
                         'No description available',
                         style: TextStyle(fontSize: 14.0),
                       ),
@@ -115,10 +115,10 @@ class FoodDetailPage extends StatelessWidget {
           //   ),
           // ),
           SliverPadding(
-            padding: EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(4.0),
             sliver: SliverToBoxAdapter(
               child: Container(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16.0),
@@ -126,12 +126,12 @@ class FoodDetailPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       '재료',
                       style: TextStyle(
                           fontSize: 16.0, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     if (foodData['ingredients'] != null)
                       Wrap(
                         spacing: 8.0,
@@ -139,7 +139,7 @@ class FoodDetailPage extends StatelessWidget {
                         children: [
                           for (var ingredient in foodData['ingredients']!)
                             Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: 12.0,
                                 vertical: 4.0,
                               ),
@@ -149,14 +149,14 @@ class FoodDetailPage extends StatelessWidget {
                               ),
                               child: Text(
                                 ingredient.toString(),
-                                style: TextStyle(color: Colors.black),
+                                style: const TextStyle(color: Colors.black),
                               ),
                             ),
                         ],
                       ),
                     if (foodData['ingredients'] == null ||
                         foodData['ingredients']!.isEmpty)
-                      Text(
+                      const Text(
                         'No ingredients available',
                         style: TextStyle(fontSize: 14.0),
                       ),
@@ -166,10 +166,10 @@ class FoodDetailPage extends StatelessWidget {
             ),
           ),
           SliverPadding(
-            padding: EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(4.0),
             sliver: SliverToBoxAdapter(
               child: Container(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16.0),
@@ -177,12 +177,12 @@ class FoodDetailPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       '요리 레시피:',
                       style: TextStyle(
                           fontSize: 16.0, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: _buildRecipeList(foodData['recipe']),
@@ -192,7 +192,7 @@ class FoodDetailPage extends StatelessWidget {
               ),
             ),
           ),
-          SliverPadding(
+          const SliverPadding(
             padding: EdgeInsets.all(4.0),
             sliver: SliverToBoxAdapter(
               child: SizedBox(height: 16.0), // Add some bottom padding
@@ -209,13 +209,13 @@ class FoodDetailPage extends StatelessWidget {
       for (var step in recipe) {
         widgets.add(
           ListTile(
-            leading: Icon(Icons.arrow_right),
+            leading: const Icon(Icons.arrow_right),
             title: Text(step),
           ),
         );
       }
     } else {
-      widgets.add(Text('No recipe available'));
+      widgets.add(const Text('No recipe available'));
     }
     return widgets;
   }

@@ -12,9 +12,9 @@ class FoodCartAddPage extends StatefulWidget {
 }
 
 class FoodCartAddPageState extends State<FoodCartAddPage> {
-  List<dynamic> allFoodData = []; // 모든 음식 데이터를 저장할 리스트
-  Set<String> selectedIngredients = {}; // 선택된 재료를 저장할 집합
-  Set<String> allIngredients = {}; // 모든 재료를 저장할 집합
+  List<dynamic> allFoodData = [];
+  Set<String> selectedIngredients = {};
+  Set<String> allIngredients = {};
 
   @override
   void initState() {
@@ -25,19 +25,17 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
   Future<void> loadJsonData() async {
     try {
       final chineseJsonString =
-      await rootBundle.loadString('assets/chinesefood_data.json');
+          await rootBundle.loadString('assets/chinesefood_data.json');
       final koreanJsonString =
-      await rootBundle.loadString('assets/koreafood_data.json');
+          await rootBundle.loadString('assets/koreafood_data.json');
       final westernJsonString =
-      await rootBundle.loadString('assets/westernfood_data.json');
+          await rootBundle.loadString('assets/westernfood_data.json');
 
       setState(() {
-        // 각 JSON 파일의 데이터를 하나의 리스트로 합침
         allFoodData.addAll(json.decode(chineseJsonString));
         allFoodData.addAll(json.decode(koreanJsonString));
         allFoodData.addAll(json.decode(westernJsonString));
 
-        // 모든 음식 데이터에서 재료를 추출하여 저장
         for (var item in allFoodData) {
           final ingredients = item['ingredients'] as List?;
           if (ingredients != null) {
@@ -46,26 +44,28 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
         }
       });
     } catch (error) {
-      print('Error loading JSON data: $error');
+      debugPrint('Error loading JSON data: $error');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // 현재 화면의 가로 크기를 얻습니다.
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('재료 선택'),
+        title: const Text('재료 선택'),
         actions: [
-          // 저장하기 버튼 추가
           IconButton(
             onPressed: () {
-              // 선택된 재료를 FoodCartProvider에 저장
+              // Provider를 사용하여 선택된 재료 목록을 업데이트합니다.
+              // 예시 코드이므로 실제 Provider 사용 방법과 다를 수 있습니다.
               Provider.of<FoodCartProvider>(context, listen: false)
                   .setSelectedIngredients(selectedIngredients);
-              print('프로바이더에 저장된 재료: ${Provider.of<FoodCartProvider>(context, listen: false).selectedIngredients}');
-              Navigator.pop(context); // 페이지 닫기
+              Navigator.pop(context);
             },
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.shopping_cart),
           ),
         ],
       ),
@@ -75,31 +75,91 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '재료 선택:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              // 각 재료를 탭할 때 선택 상태를 변경하도록 수정
-              for (var ingredient in allIngredients)
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      if (selectedIngredients.contains(ingredient)) {
-                        selectedIngredients.remove(ingredient);
-                      } else {
-                        selectedIngredients.add(ingredient);
-                      }
-                    });
-                  },
-                  child: ListTile(
-                    title: Text(ingredient),
-                    trailing: Icon(
-                      selectedIngredients.contains(ingredient)
-                          ? Icons.check_circle
-                          : Icons.circle_outlined,
-                    ),
-                  ),
+              Container(
+                width: screenWidth - 16, // 좌우 패딩을 고려하여 가로 크기를 설정합니다.
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
                 ),
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '선택된 재료',
+                      style: TextStyle(fontWeight: FontWeight.bold,
+                      fontSize: 15),
+                    ),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: selectedIngredients
+                          .map(
+                            (ingredient) => Chip(
+                          label: Text(ingredient),
+                          deleteIcon: const Icon(Icons.close),
+                          onDeleted: () {
+                            setState(() {
+                              selectedIngredients.remove(ingredient);
+                            });
+                          },
+                        ),
+                      )
+                          .toList(),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              Container(
+                width: screenWidth - 16, // 여기서도 동일하게 가로 크기를 설정합니다.
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '재료 선택',
+                      style: TextStyle(fontWeight: FontWeight.bold,
+                          fontSize: 15),
+                    ),
+                    const SizedBox(height: 8),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: allIngredients.length,
+                      itemBuilder: (context, index) {
+                        var ingredient = allIngredients.elementAt(index);
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (selectedIngredients.contains(ingredient)) {
+                                selectedIngredients.remove(ingredient);
+                              } else {
+                                selectedIngredients.add(ingredient);
+                              }
+                            });
+                          },
+                          child: ListTile(
+                            title: Text(ingredient),
+                            trailing: Icon(
+                              selectedIngredients.contains(ingredient)
+                                  ? Icons.check_circle
+                                  : Icons.circle_outlined,
+                              color: selectedIngredients.contains(ingredient)
+                                  ? Colors.green
+                                  : null,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

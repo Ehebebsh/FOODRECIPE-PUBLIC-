@@ -292,7 +292,7 @@ class HomePageState extends State<HomePage> {
               future: loadEasyFoodImages(), // 이미지 로딩 함수
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 } else {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
@@ -367,7 +367,7 @@ class HomePageState extends State<HomePage> {
               future: loadHardFoodImages(), // 이미지 로딩 함수
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 } else {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
