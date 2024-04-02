@@ -23,7 +23,7 @@ class SettingPageState extends State<SettingPage> {
         automaticallyImplyLeading: false,
         title: const Text('설정'),
       ),
-      body: SingleChildScrollView( // 화면이 넘칠 경우 스크롤 가능하도록 변경
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -63,9 +63,9 @@ class SettingPageState extends State<SettingPage> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white, // 버튼 배경색 변경
-                padding: const EdgeInsets.symmetric(vertical: 15), // 버튼 내부 padding 조정
-                shape: RoundedRectangleBorder( // 버튼 모서리 둥글게 변경
+                backgroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
