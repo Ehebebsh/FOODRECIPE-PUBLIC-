@@ -18,7 +18,7 @@ class CustomPageRoute<T> extends PageRoute<T> {
   bool get opaque => false;
 
   @override
-  Color? get barrierColor => null; // ModalRoute의 추상 속성 구현
+  Color? get barrierColor => null;
 
   @override
   bool get barrierDismissible => false;
@@ -27,10 +27,10 @@ class CustomPageRoute<T> extends PageRoute<T> {
   String? get barrierLabel => null;
 
   @override
-  bool get maintainState => true; // ModalRoute의 추상 속성 구현
+  bool get maintainState => true;
 
   @override
-  Duration get transitionDuration => const Duration(milliseconds: 400);
+  Duration get transitionDuration => const Duration(milliseconds: 500);
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {

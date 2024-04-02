@@ -22,7 +22,7 @@ class FoodDetailPage extends StatelessWidget {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
-                Navigator.pop(context); // 이전 화면으로 이동
+                Navigator.pop(context);
               },
             ),
             primary: true,
@@ -89,31 +89,7 @@ class FoodDetailPage extends StatelessWidget {
               ),
             ),
           ),
-          // SliverPadding(
-          //   padding: EdgeInsets.all(4.0),
-          //   sliver: SliverToBoxAdapter(
-          //     child: Wrap(
-          //       children: [
-          //         for (var tag in foodData['tags'])
-          //           Container(
-          //             margin: EdgeInsets.only(right: 8.0, bottom: 8.0),
-          //             padding: EdgeInsets.symmetric(
-          //               horizontal: 12.0,
-          //               vertical: 4.0,
-          //             ),
-          //             decoration: BoxDecoration(
-          //               color: Colors.white, // 배경색을 흰색으로 설정
-          //               borderRadius: BorderRadius.circular(20.0),
-          //             ),
-          //             child: Text(
-          //               tag,
-          //               style: TextStyle(color: Colors.black),
-          //             ),
-          //           ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
+
           SliverPadding(
             padding: const EdgeInsets.all(4.0),
             sliver: SliverToBoxAdapter(
