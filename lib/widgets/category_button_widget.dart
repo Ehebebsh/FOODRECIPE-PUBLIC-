@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CategoryButton extends StatelessWidget {
-  final String imageUrl;
+  final String image;
   final String buttonText;
   final VoidCallback onPressed;
   final List<String> jsonFileNames;
 
   const CategoryButton({super.key,
-    required this.imageUrl,
+    required this.image,
     required this.buttonText,
     required this.onPressed,
     required this.jsonFileNames,
@@ -23,7 +23,7 @@ class CategoryButton extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(
-            image: NetworkImage(imageUrl),
+            image: AssetImage(image), // 애셋 이미지 사용
             fit: BoxFit.cover,
           ),
         ),

@@ -208,7 +208,7 @@ class HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CategoryButton(
-                  imageUrl: 'https://via.placeholder.com/150',
+                  image: 'assets/koreanfood_images/food4.jpg',
                   buttonText: '한식',
                   jsonFileNames: const ['koreafood_data'],
                   onPressed: () {
@@ -223,7 +223,7 @@ class HomePageState extends State<HomePage> {
                   },
                 ),
                 CategoryButton(
-                  imageUrl: 'https://via.placeholder.com/150',
+                  image: 'assets/chinesefood_image/ch1.jpg',
                   buttonText: '중식',
                   jsonFileNames: const ['chinesefood_data'],
                   onPressed: () {
@@ -238,7 +238,7 @@ class HomePageState extends State<HomePage> {
                   },
                 ),
                 CategoryButton(
-                  imageUrl: 'https://via.placeholder.com/150',
+                  image: 'https://via.placeholder.com/150',
                   buttonText: '양식',
                   jsonFileNames: const ['westernfood_data'],
                   onPressed: () {
