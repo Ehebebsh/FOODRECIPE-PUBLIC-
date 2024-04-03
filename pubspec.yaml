@@ -68,7 +68,7 @@ flutter:
    - assets/
    - assets/chinesefood_image/
    - assets/koreanfood_images/
-
+   - assets/westernfood_image/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
