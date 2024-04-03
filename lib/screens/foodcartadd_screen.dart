@@ -113,7 +113,7 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
               ),
               const SizedBox(height: 16),
               Container(
-                width: screenWidth - 16, // 여기서도 동일하게 가로 크기를 설정합니다.
+                width: screenWidth - 16,
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(10),
@@ -124,15 +124,13 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
                   children: [
                     const Text(
                       '재료 선택',
-                      style: TextStyle(fontWeight: FontWeight.bold,
-                          fontSize: 15),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                     const SizedBox(height: 8),
-                    ListView.builder(
+                    ListView(
                       shrinkWrap: true,
-                      itemCount: allIngredients.length,
-                      itemBuilder: (context, index) {
-                        var ingredient = allIngredients.elementAt(index);
+                      physics: NeverScrollableScrollPhysics(),
+                      children: allIngredients.map((ingredient) {
                         return GestureDetector(
                           onTap: () {
                             setState(() {
@@ -155,7 +153,7 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
                             ),
                           ),
                         );
-                      },
+                      }).toList(),
                     ),
                   ],
                 ),
