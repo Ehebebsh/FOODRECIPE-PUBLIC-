@@ -238,8 +238,8 @@ class HomePageState extends State<HomePage> {
                   },
                 ),
                 CategoryButton(
-                  image: 'https://via.placeholder.com/150',
-                  buttonText: '양식',
+                  image: 'assets/westernfood_image/wes1.jpg',
+                  buttonText: '일식/양식',
                   jsonFileNames: const ['westernfood_data'],
                   onPressed: () {
                     Navigator.push(
