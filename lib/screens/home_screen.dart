@@ -17,7 +17,7 @@ class HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   int _bannerIndex = 0;
   List<String> imageUrls = [];
-  List<String> pageTexts = ['오늘의 \n추천요리!', '내일의 \n추천요리!', 'ajrw \n추천요리!'];
+  List<String> pageTexts = ['오늘의 \n추천요리!', '내일의 \n추천요리!', '오늘의 \n추천요리!'];
   late PageController _pageController;
   late Future<List<String>> easyFoodImagesFuture;
   late Future<List<String>> hardFoodImagesFuture;
@@ -184,7 +184,7 @@ class HomePageState extends State<HomePage> {
                         style: const TextStyle(
                           fontSize: 35,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                       ),
                     ),

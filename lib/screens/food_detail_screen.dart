@@ -108,12 +108,12 @@ class FoodDetailPage extends StatelessWidget {
                           fontSize: 16.0, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8.0),
-                    if (foodData['ingredients'] != null)
+                    if (foodData['detail-ingredients'] != null)
                       Wrap(
                         spacing: 8.0,
                         runSpacing: 8.0,
                         children: [
-                          for (var ingredient in foodData['ingredients']!)
+                          for (var ingredient in foodData['detail-ingredients']!)
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 12.0,
@@ -130,8 +130,8 @@ class FoodDetailPage extends StatelessWidget {
                             ),
                         ],
                       ),
-                    if (foodData['ingredients'] == null ||
-                        foodData['ingredients']!.isEmpty)
+                    if (foodData['detail-ingredients'] == null ||
+                        foodData['detail-ingredients']!.isEmpty)
                       const Text(
                         'No ingredients available',
                         style: TextStyle(fontSize: 14.0),
