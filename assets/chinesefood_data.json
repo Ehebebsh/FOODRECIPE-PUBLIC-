@@ -3,9 +3,9 @@
     "name": "짜장면",
     "image": "assets/chinesefood_image/ch1.jpg",
     "tags": [
-      "짜장면",
-      "중식",
-      "면요리"
+      "#짜장면",
+      "#중식",
+      "#면요리"
     ],
     "detail-ingredients": [
       "양파 1개",
@@ -33,9 +33,9 @@
     "name": "짬뽕",
     "image": "assets/chinesefood_image/ch2.jpg",
     "tags": [
-      "짬뽕",
-      "중식",
-      "국물요리"
+      "#짬뽕",
+      "#중식",
+      "#국물요리"
     ],
     "detail-ingredients": [
       "면 200g",
@@ -74,9 +74,9 @@
     "name": "탕수육",
     "image": "assets/chinesefood_image/ch3.jpg",
     "tags": [
-      "탕수육",
-      "중식",
-      "고기요리"
+      "#탕수육",
+      "#중식",
+      "#고기요리"
     ],
     "detail-ingredients": [
       "돼지고기 등심 200g",
@@ -108,9 +108,9 @@
     "name": "양장피",
     "image": "assets/default.png",
     "tags": [
-      "양장피",
-      "중식",
-      "해산물요리"
+      "#양장피",
+      "#중식",
+      "#해산물요리"
     ],
     "detail-ingredients": [
       "양장피 1장",
@@ -150,8 +150,8 @@
     "name": "볶음밥",
     "image": "assets/chinesefood_image/ch5.jpg",
     "tags": [
-      "밥요리",
-      "중식"
+      "#밥요리",
+      "#중식"
     ],
     "detail-ingredients": [
       "밥 1.5공기",
@@ -179,8 +179,8 @@
     "name": "깐풍기",
     "image": "assets/default.png",
     "tags": [
-      "중식",
-      "닭고기요리"
+      "#중식",
+      "#닭고기요리"
     ],
     "detail-ingredients": [
       "닭다리살 350g",
@@ -208,9 +208,9 @@
     "name": "고추잡채",
     "image": "assets/default.png",
     "tags": [
-      "중식",
-      "채소요리",
-      "고기요리"
+      "#중식",
+      "#채소요리",
+      "#고기요리"
     ],
     "detail-ingredients": [
       "돼지고기(등심) 300~350g",
@@ -241,8 +241,8 @@
     "name": "마파두부",
     "image": "assets/chinesefood_image/ch8.jpg",
     "tags": [
-      "중식",
-      "두부요리"
+      "#중식",
+      "#두부요리"
     ],
     "detail-ingredients": [
       "두부 1모",
@@ -278,8 +278,8 @@
     "name": "회과육",
     "image": "assets/default.png",
     "tags": [
-      "중식",
-      "고기요리"
+      "#중식",
+      "#고기요리"
     ],
     "detail-ingredients": [
       "통삼겹살 800g",
@@ -315,8 +315,8 @@
     "name": "배추찜",
     "image": "assets/default.png",
     "tags": [
-      "중식",
-      "채소요리"
+      "#중식",
+      "#채소요리"
     ],
     "detail-ingredients": [
       "알배추 1통",
@@ -345,8 +345,8 @@
     "name": "유산슬덮밥",
     "image": "assets/default.png",
     "tags": [
-      "중식",
-      "고기요리"
+      "#중식",
+      "#고기요리"
     ],
     "detail-ingredients": [
       "채썬 돼지고기 70g",
