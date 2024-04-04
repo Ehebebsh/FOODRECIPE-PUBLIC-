@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import '../models/easyandhard_foodimage_model.dart';
 import '../widgets/category_button_widget.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
@@ -222,7 +223,7 @@ class HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      CustomPageRoute(
                           builder: (context) =>
                           const FoodPage(
                             title: '한식',
@@ -238,7 +239,7 @@ class HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      CustomPageRoute(
                           builder: (context) =>
                           const FoodPage(
                             title: '중식',
@@ -254,7 +255,7 @@ class HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      CustomPageRoute(
                           builder: (context) =>
                           const FoodPage(
                             title: '양식',
@@ -329,7 +330,7 @@ class HomePageState extends State<HomePage> {
                                   onTap: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(
+                                      CustomPageRoute(
                                         builder: (context) => FoodDetailPage(foodData: foodData),
                                       ),
                                     );
@@ -380,7 +381,7 @@ class HomePageState extends State<HomePage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        CustomPageRoute(
                             builder: (context) =>
                             const FoodPage(
                               title: '손이 많이 가는 요리',
@@ -427,7 +428,7 @@ class HomePageState extends State<HomePage> {
                                   onTap: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(
+                                      CustomPageRoute(
                                         builder: (context) => FoodDetailPage(foodData: foodData),
                                       ),
                                     );
