@@ -72,7 +72,7 @@ class FoodCartPageState extends State<FoodCartPage> {
           ).then((_) {});
         },
         backgroundColor: Colors.grey[100],
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add,),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
