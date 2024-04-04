@@ -2,6 +2,7 @@ import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/provider/foodcart_provider.dart';
+import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
 
 import 'package:foodrecipe/screens/foodcartadd_screen.dart';
@@ -67,7 +68,7 @@ class FoodCartPageState extends State<FoodCartPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const FoodCartAddPage()),
+            CustomPageRoute(builder: (context) => const FoodCartAddPage()),
           ).then((_) {});
         },
         backgroundColor: Colors.grey[100],

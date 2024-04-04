@@ -4,6 +4,7 @@ import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/provider/bookmark_provider.dart';
 import 'package:foodrecipe/screens/food_detail_screen.dart';
+import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 
@@ -84,7 +85,7 @@ class _FoodPageState extends State<AllFoodPage> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
+                            CustomPageRoute(
                               builder: (context) => FoodDetailPage(foodData: food),
                             ),
                           );

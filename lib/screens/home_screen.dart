@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import '../models/easyandhard_foodimage_model.dart';
 import '../widgets/category_button_widget.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 import '../widgets/custom_search_delegate_widget.dart';
-import 'food_detail_screen.dart';
 import 'foodrecipemenu_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,19 +19,16 @@ class HomePageState extends State<HomePage> {
   List<String> imageUrls = [];
   List<String> pageTexts = ['오늘의 \n추천요리!', '내일의 \n추천요리!', '오늘의 \n추천요리!'];
   late PageController _pageController;
-  late Future<List<dynamic>> easyFoodImagesFuture;
-  late Future<List<dynamic>> hardFoodImagesFuture;
-  final FoodImageLoader foodImageLoader = FoodImageLoader();
-
-
+  late Future<List<String>> easyFoodImagesFuture;
+  late Future<List<String>> hardFoodImagesFuture;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
     loadImageUrlsFromJson();
-    easyFoodImagesFuture = foodImageLoader.loadEasyFoodImages(context);
-    hardFoodImagesFuture = foodImageLoader.loadHardFoodImages(context);
+    easyFoodImagesFuture = loadEasyFoodImages();
+    hardFoodImagesFuture = loadHardFoodImages();
   }
 
   @override
@@ -54,7 +49,7 @@ class HomePageState extends State<HomePage> {
 
     for (String jsonFile in jsonFiles) {
       String jsonData =
-      await DefaultAssetBundle.of(context).loadString(jsonFile);
+          await DefaultAssetBundle.of(context).loadString(jsonFile);
 
       List<dynamic> jsonList = json.decode(jsonData);
 
@@ -159,10 +154,7 @@ class HomePageState extends State<HomePage> {
                       itemBuilder: (context, index) {
                         return Image.asset(
                           imageUrls[index],
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width,
+                          width: MediaQuery.of(context).size.width,
                           height: 200,
                           fit: BoxFit.cover,
                         );
@@ -180,7 +172,7 @@ class HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: List.generate(
                           imageUrls.length,
-                              (index) => _buildDot(index),
+                          (index) => _buildDot(index),
                         ),
                       ),
                     ),
@@ -205,7 +197,7 @@ class HomePageState extends State<HomePage> {
                 child: Text(
                   '요리 종류',
                   style: TextStyle(
-                      fontSize: 17.0,
+                      fontSize: 15.0,
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 ),
@@ -223,11 +215,10 @@ class HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                          const FoodPage(
-                            title: '한식',
-                            jsonFileNames: ['koreafood_data'],
-                          )),
+                          builder: (context) => const FoodPage(
+                                title: '한식',
+                                jsonFileNames: ['koreafood_data'],
+                              )),
                     );
                   },
                 ),
@@ -239,11 +230,10 @@ class HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                          const FoodPage(
-                            title: '중식',
-                            jsonFileNames: ['chinesefood_data'],
-                          )),
+                          builder: (context) => const FoodPage(
+                                title: '중식',
+                                jsonFileNames: ['chinesefood_data'],
+                              )),
                     );
                   },
                 ),
@@ -255,11 +245,10 @@ class HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                          const FoodPage(
-                            title: '양식',
-                            jsonFileNames: ['westernfood_data'],
-                          )),
+                          builder: (context) => const FoodPage(
+                                title: '양식',
+                                jsonFileNames: ['westernfood_data'],
+                              )),
                     );
                   },
                 ),
@@ -274,7 +263,7 @@ class HomePageState extends State<HomePage> {
                   const Text(
                     '손쉽게 할 수 있는 요리',
                     style: TextStyle(
-                      fontSize: 17.0,
+                      fontSize: 15.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -283,11 +272,10 @@ class HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                            const FoodPage(
-                              title: '간단한 요리',
-                              jsonFileNames: ['easyfood'],
-                            )),
+                            builder: (context) => const FoodPage(
+                                  title: '간단한 요리',
+                                  jsonFileNames: ['easyfood'],
+                                )),
                       );
                     },
                     child: const Text(
@@ -301,59 +289,37 @@ class HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            const SizedBox(height: 3),
+            const SizedBox(height: 10),
             FutureBuilder(
-              future: easyFoodImagesFuture,
+              future: easyFoodImagesFuture, // 이미지 로딩 함수
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const CircularProgressIndicator();
                 } else {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
-                    List<String> easyFoodImages = snapshot.data![0];
-                    List<dynamic> easyFoodJsonList = snapshot.data![1];
+                    List<String>? easyFoodImages = snapshot.data as List<String>?;
                     return SizedBox(
-                      height: 180,
-                      child: ListView.builder(
+                      height: 120,
+                      child: GridView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 5,
+                        itemCount: 5, // 5장의 이미지만 표시
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 1,
+                        ),
                         itemBuilder: (BuildContext context, int index) {
-                          var foodData = easyFoodJsonList[index] as Map<String, dynamic>;
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => FoodDetailPage(foodData: foodData),
-                                      ),
-                                    );
-                                  },
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.asset(
-                                      easyFoodImages[index],
-                                      width: 120,
-                                      height: 120,
-                                      fit: BoxFit.cover, // 이미지를 꽉 차게 표시
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  foodData['name'] ?? '',
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  foodData['tags'] != null ? foodData['tags'].sublist(0, 2).join(', ') : '',
-                                  style: const TextStyle(fontSize: 14, color: Colors.grey),
-                                ),
-                              ],
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                easyFoodImages![index],
+                                width: 120,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           );
                         },
@@ -372,7 +338,7 @@ class HomePageState extends State<HomePage> {
                   const Text(
                     '당신의 요리 솜씨를 뽐내보세요!',
                     style: TextStyle(
-                      fontSize: 17.0,
+                      fontSize: 15.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -381,11 +347,10 @@ class HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                            const FoodPage(
-                              title: '손이 많이 가는 요리',
-                              jsonFileNames: ['hardfood'],
-                            )),
+                            builder: (context) => const FoodPage(
+                                  title: '손이 많이 가는 요리',
+                                  jsonFileNames: ['hardfood'],
+                                )),
                       );
                     },
                     child: const Text(
@@ -399,59 +364,37 @@ class HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            const SizedBox(height: 3),
+            const SizedBox(height: 10),
             FutureBuilder(
-              future: hardFoodImagesFuture,
+              future: hardFoodImagesFuture, // 이미지 로딩 함수
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const CircularProgressIndicator();
                 } else {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
-                    List<String> easyFoodImages = snapshot.data![0];
-                    List<dynamic> easyFoodJsonList = snapshot.data![1];
+                    List<String>? hardFoodImages = snapshot.data as List<String>?;
                     return SizedBox(
-                      height: 180,
-                      child: ListView.builder(
+                      height: 120,
+                      child: GridView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 5,
+                        itemCount: 5, // 5장의 이미지만 표시
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 1,
+                        ),
                         itemBuilder: (BuildContext context, int index) {
-                          var foodData = easyFoodJsonList[index] as Map<String, dynamic>;
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => FoodDetailPage(foodData: foodData),
-                                      ),
-                                    );
-                                  },
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.asset(
-                                      easyFoodImages[index],
-                                      width: 120,
-                                      height: 120,
-                                      fit: BoxFit.cover, // 이미지를 꽉 차게 표시
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  foodData['name'] ?? '',
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  foodData['tags'] != null ? foodData['tags'].sublist(0, 2).join(', ') : '',
-                                  style: const TextStyle(fontSize: 14, color: Colors.grey),
-                                ),
-                              ],
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                hardFoodImages![index],
+                                width: 120,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           );
                         },
@@ -473,5 +416,33 @@ class HomePageState extends State<HomePage> {
         },
       ),
     );
+  }
+
+  Future<List<String>> loadEasyFoodImages() async {
+    List<String> easyFoodImages = [];
+
+    String easyFoodJsonString =
+        await DefaultAssetBundle.of(context).loadString('assets/easyfood.json');
+    List<dynamic> easyFoodJsonList = json.decode(easyFoodJsonString);
+
+    for (var item in easyFoodJsonList) {
+      easyFoodImages.add(item['image']);
+    }
+
+    return easyFoodImages;
+  }
+
+  Future<List<String>> loadHardFoodImages() async {
+    List<String> hardFoodImages = [];
+
+    String hardFoodJsonString =
+        await DefaultAssetBundle.of(context).loadString('assets/hardfood.json');
+    List<dynamic> hardFoodJsonList = json.decode(hardFoodJsonString);
+
+    for (var item in hardFoodJsonList) {
+      hardFoodImages.add(item['image']);
+    }
+
+    return hardFoodImages;
   }
 }
