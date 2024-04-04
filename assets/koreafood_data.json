@@ -3,11 +3,10 @@
     "name": "된장찌개",
     "image": "assets/koreanfood_images/food1.jpg",
     "tags": [
-      "찌개",
-      "한식",
-      "두부"
+      "#찌개",
+      "#한식",
+      "#두부"
     ],
-
     "detail-ingredients": [
       "된장 2큰술",
       "두부 1/2모",
@@ -35,9 +34,9 @@
     "name": "돼지고기 김치찌개",
     "image": "assets/koreanfood_images/food2.jpg",
     "tags": [
-      "찌개",
-      "한식",
-      "돼지고기"
+      "#찌개",
+      "#한식",
+      "#돼지고기"
     ],
 
     "detail-ingredients": [
@@ -68,10 +67,9 @@
     "name": "불고기",
     "image": "assets/koreanfood_images/food3.jpg",
     "tags": [
-      "한식",
-      "고기요리"
+      "#한식",
+      "#고기요리"
     ],
-
     "detail-ingredients": [
       "소불고기용 고기 700g",
       "양파 1개",
@@ -99,9 +97,9 @@
     "name": "제육볶음",
     "image": "assets/koreanfood_images/food4.jpg",
     "tags": [
-      "한식",
-      "돼지고기",
-      "매운요리"
+      "#한식",
+      "#돼지고기",
+      "#매운요리"
     ],
 
     "detail-ingredients": [
@@ -130,9 +128,9 @@
     "name": "떡국",
     "image": "assets/koreanfood_images/food5.jpg",
     "tags": [
-      "한식",
-      "설날",
-      "떡국"
+      "#한식",
+      "#설날",
+      "#떡국"
     ],
     "detail-ingredients": [
       "떡국떡 400g",
@@ -162,9 +160,9 @@
     "name": "소고기 미역국",
     "image": "assets/koreanfood_images/food6.jpg",
     "tags": [
-      "한식",
-      "미역국",
-      "소고기"
+      "#한식",
+      "#미역국",
+      "#소고기"
     ],
 
     "detail-ingredients": [
@@ -189,9 +187,9 @@
     "name": "순두부찌개",
     "image": "assets/koreanfood_images/food7.jpg",
     "tags": [
-      "찌개",
-      "한식",
-      "순두부"
+      "#찌개",
+      "#한식",
+      "#순두부"
     ],
 
     "detail-ingredients": [
@@ -226,10 +224,10 @@
     "name": "오이냉국",
     "image": "assets/default.png",
     "tags": [
-      "냉국",
-      "한식",
-      "여름요리",
-      "오이"
+      "#냉국",
+      "#한식",
+      "#여름요리",
+      "#오이"
     ],
 
     "detail-ingredients": [
@@ -261,10 +259,10 @@
     "name": "콩나물 무침",
     "image": "assets/koreanfood_images/food8.jpg",
     "tags": [
-      "한국요리",
-      "반찬",
-      "채소요리",
-      "콩나물"
+      "#한국요리",
+      "#반찬",
+      "#채소요리",
+      "#콩나물"
     ],
 
     "detail-ingredients": [
@@ -292,9 +290,9 @@
     "name": "우엉조림",
     "image": "assets/default.png",
     "tags": [
-      "한국요리",
-      "반찬",
-      "우엉"
+      "#한국요리",
+      "#반찬",
+      "#우엉"
     ],
 
     "detail-ingredients": [
@@ -322,12 +320,12 @@
     "name": "멸치볶음",
     "image": "assets/koreanfood_images/food9.jpg",
     "tags": [
-      "한국요리",
-      "반찬",
-      "멸치",
-      "고소한",
-      "영양",
-      "술안주"
+      "#한국요리",
+      "#반찬",
+      "#멸치",
+      "#고소한",
+      "#영양",
+      "#술안주"
     ],
 
     "detail-ingredients": [
@@ -356,10 +354,10 @@
     "name": "매콤하고 칼칼한 닭볶음탕",
     "image": "assets/koreanfood_images/food10.jpg",
     "tags": [
-      "한국요리",
-      "닭요리",
-      "매운요리",
-      "닭볶음탕"
+      "#한국요리",
+      "#닭요리",
+      "#매운요리",
+      "#닭볶음탕"
     ],
 
     "detail-ingredients": [
@@ -398,9 +396,9 @@
     "name": "소갈비찜",
     "image": "assets/koreanfood_images/food11.jpg",
     "tags": [
-      "한국요리",
-      "찜요리",
-      "소고기"
+      "#한국요리",
+      "#찜요리",
+      "#소고기"
     ],
     "detail-ingredients": [
       "소갈비 800g",
@@ -429,10 +427,10 @@
     "name": "청국장찌개",
     "image": "assets/koreanfood_images/food12.jpg",
     "tags": [
-      "한국요리",
-      "찌개",
-      "청국장",
-      "김치"
+      "#한국요리",
+      "#찌개",
+      "#청국장",
+      "#김치"
     ],
 
     "detail-ingredients": [
@@ -465,10 +463,10 @@
     "name": "김치볶음밥",
     "image": "assets/koreanfood_images/food13.jpg",
     "tags": [
-      "한국요리",
-      "볶음밥",
-      "김치",
-      "베이컨"
+      "#한국요리",
+      "#볶음밥",
+      "#김치",
+      "#베이컨"
     ],
 
     "detail-ingredients": [
@@ -494,10 +492,10 @@
     "name": "고구마 누룽지",
     "image": "assets/default.png",
     "tags": [
-      "간식",
-      "고구마",
-      "누룽지",
-      "에어프라이어"
+      "#간식",
+      "#고구마",
+      "#누룽지",
+      "#에어프라이어"
     ],
 
     "detail-ingredients": [
@@ -519,10 +517,10 @@
     "name": "부대찌개",
     "image": "assets/koreanfood_images/food14.jpg",
     "tags": [
-      "한국요리",
-      "찌개",
-      "부대찌개",
-      "김치"
+      "#한국요리",
+      "#찌개",
+      "#부대찌개",
+      "#김치"
     ],
 
     "detail-ingredients": [
@@ -559,10 +557,10 @@
     "name": "조개국",
     "image": "assets/koreanfood_images/food15.jpg",
     "tags": [
-      "한국요리",
-      "국물요리",
-      "조개",
-      "해물요리"
+      "#한국요리",
+      "#국물요리",
+      "#조개",
+      "#해물요리"
     ],
 
     "detail-ingredients": [
@@ -590,10 +588,10 @@
     "name": "어묵국",
     "image": "assets/koreanfood_images/food16.jpg",
     "tags": [
-      "한국요리",
-      "국물요리",
-      "어묵",
-      "한그릇요리"
+      "#한국요리",
+      "#국물요리",
+      "#어묵",
+      "#한그릇요리"
     ],
 
     "detail-ingredients": [
@@ -622,9 +620,9 @@
     "name": "떡볶이",
     "image": "assets/koreanfood_images/food17.jpg",
     "tags": [
-      "떡볶이",
-      "한식",
-      "간식"
+      "#떡볶이",
+      "#한식",
+      "#간식"
     ],
     "detail-ingredients": [
       "떡볶이 떡 2컵",
