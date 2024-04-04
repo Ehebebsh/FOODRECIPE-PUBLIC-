@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import '../widgets/category_button_widget.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 import '../widgets/custom_search_delegate_widget.dart';
@@ -214,7 +215,7 @@ class HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      CustomPageRoute(
                           builder: (context) => const FoodPage(
                                 title: '한식',
                                 jsonFileNames: ['koreafood_data'],
@@ -229,7 +230,7 @@ class HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      CustomPageRoute(
                           builder: (context) => const FoodPage(
                                 title: '중식',
                                 jsonFileNames: ['chinesefood_data'],
@@ -244,7 +245,7 @@ class HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      CustomPageRoute(
                           builder: (context) => const FoodPage(
                                 title: '양식',
                                 jsonFileNames: ['westernfood_data'],
@@ -271,7 +272,7 @@ class HomePageState extends State<HomePage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        CustomPageRoute(
                             builder: (context) => const FoodPage(
                                   title: '간단한 요리',
                                   jsonFileNames: ['easyfood'],
@@ -346,7 +347,7 @@ class HomePageState extends State<HomePage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        CustomPageRoute(
                             builder: (context) => const FoodPage(
                                   title: '손이 많이 가는 요리',
                                   jsonFileNames: ['hardfood'],
