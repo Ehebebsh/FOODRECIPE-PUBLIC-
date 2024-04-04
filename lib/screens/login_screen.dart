@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../api/kakao_login.dart';
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -84,9 +86,15 @@ class LoginScreen extends StatelessWidget {
 
   Widget _buildKakaoLoginButton() {
     return MaterialButton(
-      onPressed: () {
-        // TODO: 카카오 로그인 기능 구현
-      },
+      onPressed: () async {
+        bool loginSuccess = await KakaoLogin().login();
+        if(loginSuccess){
+          print('success');
+        }
+        else(){
+          print("fail");
+        };
+        },
       color: Colors.yellow, // 카카오 컬러로 변경 가능
       elevation: 3,
       shape: RoundedRectangleBorder(

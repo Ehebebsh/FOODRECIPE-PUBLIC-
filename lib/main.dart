@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodrecipe/provider/foodcart_provider.dart';
 import 'package:foodrecipe/provider/bookmark_provider.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
 import 'package:foodrecipe/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
+  KakaoSdk.init(nativeAppKey: "f1be4eee65c1b453e96568a01c0014e6");
   WidgetsFlutterBinding.ensureInitialized();
 }
 
