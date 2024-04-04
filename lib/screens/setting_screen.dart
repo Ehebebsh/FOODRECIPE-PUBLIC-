@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:foodrecipe/screens/login_screen.dart';
+import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 
@@ -58,7 +59,7 @@ class SettingPageState extends State<SettingPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
+                  CustomPageRoute(
                       builder: (context) => const LoginScreen()),
                 );
               },
