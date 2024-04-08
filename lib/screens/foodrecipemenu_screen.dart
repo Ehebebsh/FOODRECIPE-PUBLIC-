@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +5,8 @@ import 'package:foodrecipe/provider/bookmark_provider.dart';
 import 'package:foodrecipe/screens/food_detail_screen.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
+
+import '../models/foodlist_model.dart';
 
 class FoodPage extends StatefulWidget {
   final String title;
@@ -20,23 +21,14 @@ class FoodPage extends StatefulWidget {
 
 class _FoodPageState extends State<FoodPage> {
   Future<List<dynamic>>? _foodListFuture;
+  late final FoodListModel _foodListModel;
+
 
   @override
   void initState() {
     super.initState();
-    _foodListFuture = _loadJsonData();
-  }
-
-  Future<List<dynamic>> _loadJsonData() async {
-    List<dynamic> combinedFoodList = [];
-
-    for (String fileName in widget.jsonFileNames) {
-      String jsonData = await DefaultAssetBundle.of(context)
-          .loadString('assets/$fileName.json');
-      combinedFoodList.addAll(json.decode(jsonData));
-    }
-
-    return combinedFoodList;
+    _foodListModel = FoodListModel(jsonFileNames: widget.jsonFileNames);
+    _foodListFuture = _foodListModel.loadJsonData();
   }
 
   @override

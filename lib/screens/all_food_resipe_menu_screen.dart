@@ -6,6 +6,7 @@ import 'package:foodrecipe/provider/bookmark_provider.dart';
 import 'package:foodrecipe/screens/food_detail_screen.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
+import '../models/foodlist_model.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 
 
@@ -22,26 +23,14 @@ class AllFoodPage extends StatefulWidget {
 class _FoodPageState extends State<AllFoodPage> {
   int _selectedIndex = 1;
   Future<List<dynamic>>? _foodListFuture;
+  late final FoodListModel _foodListModel;
 
   @override
   void initState() {
     super.initState();
-    _foodListFuture = _loadJsonData(); // 데이터 로드를 initState에서 한 번만 수행
+    _foodListModel = FoodListModel(jsonFileNames: widget.jsonFileNames);
+    _foodListFuture = _foodListModel.loadJsonData(); // 데이터 로드를 initState에서 한 번만 수행
   }
-
-
-  Future<List<dynamic>> _loadJsonData() async {
-    List<dynamic> combinedFoodList = [];
-
-    for (String fileName in widget.jsonFileNames) {
-      String jsonData = await DefaultAssetBundle.of(context).loadString('assets/$fileName.json');
-      combinedFoodList.addAll(json.decode(jsonData));
-    }
-
-    return combinedFoodList;
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
