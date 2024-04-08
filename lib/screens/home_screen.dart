@@ -1,13 +1,17 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:foodrecipe/admob_helper.dart';
+import 'package:foodrecipe/provider/ad_count_provider.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
+import 'package:provider/provider.dart';
 import '../models/easyandhard_foodimage_model.dart';
 import '../widgets/category_button_widget.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 import '../widgets/custom_search_delegate_widget.dart';
 import 'food_detail_screen.dart';
 import 'foodrecipemenu_screen.dart';
+import 'package:foodrecipe/cons/api_key.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,7 +30,9 @@ class HomePageState extends State<HomePage> {
   late Future<List<dynamic>> hardFoodImagesFuture;
   final FoodImageLoader foodImageLoader = FoodImageLoader();
 
+  RewardAdManager adManager = RewardAdManager(rewardAdId: rewardAdId);
 
+  int totalButtonTapCount = 0;
 
   @override
   void initState() {
@@ -35,6 +41,7 @@ class HomePageState extends State<HomePage> {
     loadImageUrlsFromJson();
     easyFoodImagesFuture = foodImageLoader.loadEasyFoodImages(context);
     hardFoodImagesFuture = foodImageLoader.loadHardFoodImages(context);
+    adManager.loadAd();
   }
 
   @override
@@ -42,27 +49,38 @@ class HomePageState extends State<HomePage> {
     // 페이지 컨트롤러 해제
     _pageController.dispose();
     super.dispose();
+    adManager.dispose();
   }
 
   Future<void> loadImageUrlsFromJson() async {
     List<String> urls = [];
 
+    // List of JSON files to load
     List<String> jsonFiles = [
-      'assets/koreafood_data.json',
-      'assets/chinesefood_data.json',
-      'assets/westernfood_data.json',
+      'assets/foodimage.json',
     ];
 
+    // Iterate over each JSON file
     for (String jsonFile in jsonFiles) {
+      // Load the JSON data from the asset bundle
       String jsonData =
-      await DefaultAssetBundle.of(context).loadString(jsonFile);
+          await DefaultAssetBundle.of(context).loadString(jsonFile);
 
+      // Parse the JSON data into a list of dynamic objects
       List<dynamic> jsonList = json.decode(jsonData);
 
-      urls.addAll(jsonList.map<String>((json) => json['image']).toList());
+      // Extract image URLs from the JSON data and add to the 'urls' list
+      if (jsonList.isNotEmpty) {
+        List<dynamic> images =
+            jsonList[0]['image']; // Get the 'image' list from the first object
+        urls.addAll(images.map<String>((json) => json.toString()).toList());
+      }
+
+      // Initialize the PageController (if needed)
       _pageController = PageController(initialPage: 0);
     }
 
+    // Select random image URLs from the 'urls' list
     Random random = Random();
     imageUrls = [
       urls[random.nextInt(urls.length)],
@@ -70,6 +88,7 @@ class HomePageState extends State<HomePage> {
       urls[random.nextInt(urls.length)],
     ];
 
+    // Update the state to trigger UI rebuild
     setState(() {});
   }
 
@@ -93,6 +112,14 @@ class HomePageState extends State<HomePage> {
       return pageTexts[index];
     } else {
       return pageTexts.last;
+    }
+  }
+
+  void checkAndShowAd() {
+    // Provider를 통해 Counter 인스턴스에 접근합니다.
+    int count = Provider.of<Counter>(context, listen: false).count;
+    if (count % 7 == 0) {
+      adManager.showAd();
     }
   }
 
@@ -151,7 +178,7 @@ class HomePageState extends State<HomePage> {
           children: <Widget>[
             if (imageUrls.isNotEmpty) ...[
               SizedBox(
-                height: 200,
+                height: 220,
                 child: Stack(
                   children: [
                     PageView.builder(
@@ -160,10 +187,7 @@ class HomePageState extends State<HomePage> {
                       itemBuilder: (context, index) {
                         return Image.asset(
                           imageUrls[index],
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width,
+                          width: MediaQuery.of(context).size.width,
                           height: 200,
                           fit: BoxFit.cover,
                         );
@@ -181,7 +205,7 @@ class HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: List.generate(
                           imageUrls.length,
-                              (index) => _buildDot(index),
+                          (index) => _buildDot(index),
                         ),
                       ),
                     ),
@@ -221,14 +245,17 @@ class HomePageState extends State<HomePage> {
                   buttonText: '한식',
                   jsonFileNames: const ['koreafood_data'],
                   onPressed: () {
+                    Provider.of<Counter>(context, listen: false).increment();
+                    checkAndShowAd();
+
                     Navigator.push(
                       context,
                       CustomPageRoute(
-                          builder: (context) =>
-                          const FoodPage(
-                            title: '한식',
-                            jsonFileNames: ['koreafood_data'],
-                          )),
+                        builder: (context) => const FoodPage(
+                          title: '한식',
+                          jsonFileNames: ['koreafood_data'],
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -237,14 +264,15 @@ class HomePageState extends State<HomePage> {
                   buttonText: '중식',
                   jsonFileNames: const ['chinesefood_data'],
                   onPressed: () {
+                    Provider.of<Counter>(context, listen: false).increment();
+                    checkAndShowAd();
                     Navigator.push(
                       context,
                       CustomPageRoute(
-                          builder: (context) =>
-                          const FoodPage(
-                            title: '중식',
-                            jsonFileNames: ['chinesefood_data'],
-                          )),
+                          builder: (context) => const FoodPage(
+                                title: '중식',
+                                jsonFileNames: ['chinesefood_data'],
+                              )),
                     );
                   },
                 ),
@@ -253,14 +281,15 @@ class HomePageState extends State<HomePage> {
                   buttonText: '일식/양식',
                   jsonFileNames: const ['westernfood_data'],
                   onPressed: () {
+                    Provider.of<Counter>(context, listen: false).increment();
+                    checkAndShowAd();
                     Navigator.push(
                       context,
                       CustomPageRoute(
-                          builder: (context) =>
-                          const FoodPage(
-                            title: '양식',
-                            jsonFileNames: ['westernfood_data'],
-                          )),
+                          builder: (context) => const FoodPage(
+                                title: '양식',
+                                jsonFileNames: ['westernfood_data'],
+                              )),
                     );
                   },
                 ),
@@ -281,14 +310,15 @@ class HomePageState extends State<HomePage> {
                   ),
                   TextButton(
                     onPressed: () {
+                      Provider.of<Counter>(context, listen: false).increment();
+                      checkAndShowAd();
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                            const FoodPage(
-                              title: '간단한 요리',
-                              jsonFileNames: ['easyfood'],
-                            )),
+                            builder: (context) => const FoodPage(
+                                  title: '간단한 요리',
+                                  jsonFileNames: ['easyfood'],
+                                )),
                       );
                     },
                     child: const Text(
@@ -320,18 +350,24 @@ class HomePageState extends State<HomePage> {
                         scrollDirection: Axis.horizontal,
                         itemCount: 5,
                         itemBuilder: (BuildContext context, int index) {
-                          var foodData = easyFoodJsonList[index] as Map<String, dynamic>;
+                          var foodData =
+                              easyFoodJsonList[index] as Map<String, dynamic>;
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 GestureDetector(
                                   onTap: () {
+                                    Provider.of<Counter>(context, listen: false)
+                                        .increment();
+                                    checkAndShowAd();
                                     Navigator.push(
                                       context,
                                       CustomPageRoute(
-                                        builder: (context) => FoodDetailPage(foodData: foodData),
+                                        builder: (context) =>
+                                            FoodDetailPage(foodData: foodData),
                                       ),
                                     );
                                   },
@@ -348,11 +384,18 @@ class HomePageState extends State<HomePage> {
                                 const SizedBox(height: 8),
                                 Text(
                                   foodData['name'] ?? '',
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  foodData['tags'] != null ? foodData['tags'].sublist(0, 2).join(', ') : '',
-                                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                                  foodData['tags'] != null
+                                      ? foodData['tags']
+                                          .sublist(0, 2)
+                                          .join(', ')
+                                      : '',
+                                  style: const TextStyle(
+                                      fontSize: 14, color: Colors.grey),
                                 ),
                               ],
                             ),
@@ -379,14 +422,15 @@ class HomePageState extends State<HomePage> {
                   ),
                   TextButton(
                     onPressed: () {
+                      Provider.of<Counter>(context, listen: false).increment();
+                      checkAndShowAd();
                       Navigator.push(
                         context,
                         CustomPageRoute(
-                            builder: (context) =>
-                            const FoodPage(
-                              title: '손이 많이 가는 요리',
-                              jsonFileNames: ['hardfood'],
-                            )),
+                            builder: (context) => const FoodPage(
+                                  title: '손이 많이 가는 요리',
+                                  jsonFileNames: ['hardfood'],
+                                )),
                       );
                     },
                     child: const Text(
@@ -418,18 +462,24 @@ class HomePageState extends State<HomePage> {
                         scrollDirection: Axis.horizontal,
                         itemCount: 5,
                         itemBuilder: (BuildContext context, int index) {
-                          var foodData = easyFoodJsonList[index] as Map<String, dynamic>;
+                          var foodData =
+                              easyFoodJsonList[index] as Map<String, dynamic>;
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 GestureDetector(
                                   onTap: () {
+                                    Provider.of<Counter>(context, listen: false)
+                                        .increment();
+                                    checkAndShowAd();
                                     Navigator.push(
                                       context,
                                       CustomPageRoute(
-                                        builder: (context) => FoodDetailPage(foodData: foodData),
+                                        builder: (context) =>
+                                            FoodDetailPage(foodData: foodData),
                                       ),
                                     );
                                   },
@@ -446,11 +496,18 @@ class HomePageState extends State<HomePage> {
                                 const SizedBox(height: 8),
                                 Text(
                                   foodData['name'] ?? '',
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  foodData['tags'] != null ? foodData['tags'].sublist(0, 2).join(', ') : '',
-                                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                                  foodData['tags'] != null
+                                      ? foodData['tags']
+                                          .sublist(0, 2)
+                                          .join(', ')
+                                      : '',
+                                  style: const TextStyle(
+                                      fontSize: 14, color: Colors.grey),
                                 ),
                               ],
                             ),
