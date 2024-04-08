@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:foodrecipe/widgets/custom_bottom_navigation_action_widget.dart';
 
+import 'food_detail_screen.dart';
+
 class BookMarkPage extends StatefulWidget {
   const BookMarkPage({Key? key}) : super(key: key);
 
@@ -80,6 +82,14 @@ class BookMarkPageState extends State<BookMarkPage> {
                     title: Text(foodData['name']),
                     subtitle: Text(foodData['tags'].join(', ')),
                     leading: Image.asset(foodData['image']),
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FoodDetailPage(foodData: foodData),
+                        ),
+                      );
+                    },
                     trailing: IconButton(
                       icon: const Icon(Icons.star, color: Colors.yellow),
                       onPressed: () {
