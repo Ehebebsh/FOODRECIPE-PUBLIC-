@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:foodrecipe/provider/ad_count_provider.dart';
 import 'package:foodrecipe/provider/foodcart_provider.dart';
 import 'package:foodrecipe/provider/bookmark_provider.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider( // MultiProvider 사용
       providers: [
         ChangeNotifierProvider(create: (_) => BookMarkProvider()),
-        ChangeNotifierProvider(create: (_) => FoodCartProvider()), // 새로운 프로바이더 추가
+        ChangeNotifierProvider(create: (_) => FoodCartProvider()),
+        ChangeNotifierProvider(create: (context) => Counter()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

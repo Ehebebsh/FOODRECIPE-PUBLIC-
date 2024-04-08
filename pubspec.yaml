@@ -42,6 +42,7 @@ dependencies:
   cherry_toast: ^1.9.1
   flutter_native_splash: ^2.3.11
   kakao_flutter_sdk_user:
+  google_mobile_ads: ^4.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
