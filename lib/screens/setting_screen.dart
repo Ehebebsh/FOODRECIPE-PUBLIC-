@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:foodrecipe/screens/login_screen.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 
@@ -53,6 +55,15 @@ class SettingPageState extends State<SettingPage> {
                 style: TextStyle(fontSize: 15),
               ),
               title: Text('버전 정보'),
+            ),
+            const SizedBox(height: 10),
+            ListTile(
+              leading: Icon(Icons.logout),
+              onTap: () async {
+                await GoogleSignIn().signOut();
+                await UserApi.instance.logout();
+              },
+              title: Text('로그아웃'),
             ),
             const SizedBox(height: 20), // 간격 조정
             ElevatedButton(
