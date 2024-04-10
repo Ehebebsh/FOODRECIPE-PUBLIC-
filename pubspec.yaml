@@ -40,9 +40,12 @@ dependencies:
   provider: ^6.1.2
   shared_preferences: ^2.2.2
   cherry_toast: ^1.9.1
-  flutter_native_splash: ^2.3.11
+  flutter_native_splash: ^2.3.10
   kakao_flutter_sdk_user:
   google_mobile_ads: ^4.0.0
+  google_sign_in: ^6.2.1
+  firebase_auth: ^4.17.8
+  firebase_core: ^2.15.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
