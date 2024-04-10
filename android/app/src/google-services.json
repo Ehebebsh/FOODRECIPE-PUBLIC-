@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "524735177351",
+    "project_id": "foodrecipe-767df",
+    "storage_bucket": "foodrecipe-767df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:524735177351:android:cfee90cb7344832694ce22",
+        "android_client_info": {
+          "package_name": "com.junhajeonghoon.foodrecipe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "524735177351-5cfnrsslm2polgsmf5pasj6cv3dfuhqa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.junhajeonghoon.foodrecipe",
+            "certificate_hash": "676dd98e521b97e0e3b20e7ff12cdccc8c5369b2"
+          }
+        },
+        {
+          "client_id": "524735177351-odh8gtuqb2nu9uf65hj9hdfdp19aq55u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.junhajeonghoon.foodrecipe",
+            "certificate_hash": "9bdcd66b318d8d0ebe1afae10bd7c447082d1e6e"
+          }
+        },
+        {
+          "client_id": "524735177351-4ct1o4ng5kdg6no8tbt4ektthrau49q0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQR3MpkODxK6HkO6smOCbDIRRaPF7zR7M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "524735177351-4ct1o4ng5kdg6no8tbt4ektthrau49q0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
