@@ -6,6 +6,7 @@ import 'package:foodrecipe/provider/bookmark_provider.dart';
 import 'package:foodrecipe/screens/food_detail_screen.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
+import '../api/loginchecker.dart';
 import '../models/foodlist_model.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 
@@ -100,29 +101,57 @@ class _FoodPageState extends State<AllFoodPage> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
-                              String foodName = food['name'];
-                              bool isAdding = !favorites
-                                  .contains(foodName); // isAdding을 뒤집음
-                              favoritesProvider.toggleFavorite(foodName);
+                            onTap: () async {
+                              bool isGoogleLoggedIn = await LoginChecker().checkGoogleLoginStatus();
+                              bool isKakaoLoggedIn = await LoginChecker().checkKakaoLoginStatus();
 
-                              // 즐겨찾기가 추가되거나 삭제될 때마다 적절한 Toast를 표시합니다.
-                              if (isAdding) {
-                                CherryToast.add(
-                                  title: Text('$foodName 즐겨찾기가 추가됐습니다.'),
-                                  animationType: AnimationType.fromTop,
-                                ).show(context);
+                              if (isGoogleLoggedIn || isKakaoLoggedIn) {
+                                String foodName = food['name'];
+                                bool isAdding = !favorites.contains(foodName); // isAdding을 뒤집음
+                                favoritesProvider.toggleFavorite(foodName);
+
+                                // 즐겨찾기가 추가되거나 삭제될 때마다 적절한 Toast를 표시합니다.
+                                if (isAdding) {
+                                  CherryToast.add(
+                                    title: Text('$foodName 즐겨찾기가 추가됐습니다.'),
+                                    animationType: AnimationType.fromTop,
+                                  ).show(context);
+                                } else {
+                                  CherryToast.delete(
+                                    title: Text('$foodName 즐겨찾기가 삭제됐습니다.'),
+                                    animationType: AnimationType.fromTop,
+                                  ).show(context);
+                                }
                               } else {
-                                CherryToast.delete(
-                                  title: Text('$foodName 즐겨찾기가 삭제됐습니다.'),
-                                  animationType: AnimationType.fromTop,
-                                ).show(context);
+                                // 구글 또는 카카오 로그인이 되어 있지 않으면 로그인 유도 메시지 표시
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text('로그인 필요'),
+                                      content: Text('즐겨찾기 기능을 사용하려면 로그인이 필요합니다.'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('닫기'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            // 구글 또는 카카오 로그인 페이지로 이동
+                                            // 예시: Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                                          },
+                                          child: Text('로그인'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               }
                             },
                             child: Icon(
-                              isFavorite
-                                  ? Icons.star
-                                  : Icons.star_border_outlined,
+                              isFavorite ? Icons.star : Icons.star_border_outlined,
                               color: Colors.yellow,
                             ),
                           )

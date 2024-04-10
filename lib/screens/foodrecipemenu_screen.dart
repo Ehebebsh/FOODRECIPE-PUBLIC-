@@ -5,7 +5,6 @@ import 'package:foodrecipe/provider/bookmark_provider.dart';
 import 'package:foodrecipe/screens/food_detail_screen.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
-
 import '../api/loginchecker.dart';
 import '../models/foodlist_model.dart';
 

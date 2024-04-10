@@ -5,8 +5,9 @@ import 'package:foodrecipe/provider/bookmark_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:foodrecipe/widgets/custom_bottom_navigation_action_widget.dart';
+import 'package:foodrecipe/screens/food_detail_screen.dart';
 
-import 'food_detail_screen.dart';
+import '../api/loginchecker.dart';
 
 class BookMarkPage extends StatefulWidget {
   const BookMarkPage({Key? key}) : super(key: key);
@@ -17,6 +18,20 @@ class BookMarkPage extends StatefulWidget {
 
 class BookMarkPageState extends State<BookMarkPage> {
   int _selectedIndex = 2;
+  bool _isLoggedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    checkLoginStatus();
+  }
+
+  Future<void> checkLoginStatus() async {
+    bool isLoggedIn = await LoginChecker().checkLoginStatus();
+    setState(() {
+      _isLoggedIn = isLoggedIn;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +43,14 @@ class BookMarkPageState extends State<BookMarkPage> {
         forceMaterialTransparency: true,
         title: const Text('즐겨찾기 목록'),
       ),
-      body: FutureBuilder(
+      body: _isLoggedIn
+          ? FutureBuilder(
         future: Future.wait([
-          DefaultAssetBundle.of(context)
-              .loadString('assets/koreafood_data.json'),
-          DefaultAssetBundle.of(context)
-              .loadString('assets/chinesefood_data.json'),
-          DefaultAssetBundle.of(context)
-              .loadString('assets/westernfood_data.json'),
-          DefaultAssetBundle.of(context)
-              .loadString('assets/easyfood.json'),
-          DefaultAssetBundle.of(context)
-              .loadString('assets/hardfood.json'),
+          DefaultAssetBundle.of(context).loadString('assets/koreafood_data.json'),
+          DefaultAssetBundle.of(context).loadString('assets/chinesefood_data.json'),
+          DefaultAssetBundle.of(context).loadString('assets/westernfood_data.json'),
+          DefaultAssetBundle.of(context).loadString('assets/easyfood.json'),
+          DefaultAssetBundle.of(context).loadString('assets/hardfood.json'),
         ]),
         builder: (context, AsyncSnapshot<List<String>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -68,7 +79,19 @@ class BookMarkPageState extends State<BookMarkPage> {
                 .where((food) => uniqueNames.add(food['name']))
                 .toList();
 
-            return ListView.builder(
+            return favoriteFoods.isEmpty
+                ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '즐겨찾기한 음식이 없습니다.',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+            )
+                : ListView.builder(
               itemCount: favoriteFoods.length,
               itemBuilder: (context, index) {
                 var foodData = favoriteFoods[index];
@@ -82,7 +105,7 @@ class BookMarkPageState extends State<BookMarkPage> {
                     title: Text(foodData['name']),
                     subtitle: Text(foodData['tags'].join(', ')),
                     leading: Image.asset(foodData['image']),
-                    onTap: (){
+                    onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -107,6 +130,25 @@ class BookMarkPageState extends State<BookMarkPage> {
             );
           }
         },
+      )
+          : Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '로그인하여 즐겨찾기 기능을 이용해보세요!',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // 로그인 페이지로 이동
+                // 예시: Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+              },
+              child: Text('로그인'),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigator(
         selectedIndex: _selectedIndex,
