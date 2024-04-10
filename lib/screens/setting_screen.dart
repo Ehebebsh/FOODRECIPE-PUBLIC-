@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:foodrecipe/api/loginchecker.dart';
 import 'package:foodrecipe/screens/login_screen.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -16,6 +17,23 @@ class SettingPage extends StatefulWidget {
 
 class SettingPageState extends State<SettingPage> {
   int _selectedIndex = 4;
+  bool _isLoggedIn = false; // 로그인 상태를 저장할 변수
+
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus(); // initState에서 로그인 상태 확인
+  }
+
+  // 로그인 상태 확인 메서드
+  Future<void> _checkLoginStatus() async {
+    LoginChecker loginChecker = LoginChecker();
+    bool isLoggedIn = await loginChecker.checkLoginStatus();
+    setState(() {
+      _isLoggedIn = isLoggedIn;
+      print('_isLoggedIn: $_isLoggedIn');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +62,8 @@ class SettingPageState extends State<SettingPage> {
               trailing: const Icon(Icons.arrow_forward_ios),
               title: const Text('개인정보 처리방침'),
               onTap: () {
-                launch("https://sites.google.com/view/mooddiaryprivacy/%ED%99%88");
+                launch(
+                    "https://sites.google.com/view/mooddiaryprivacy/%ED%99%88");
               },
             ),
             const SizedBox(height: 10), // 간격 조정
@@ -57,35 +76,42 @@ class SettingPageState extends State<SettingPage> {
               title: Text('버전 정보'),
             ),
             const SizedBox(height: 10),
-            ListTile(
-              leading: Icon(Icons.logout),
-              onTap: () async {
-                await GoogleSignIn().signOut();
-                await UserApi.instance.logout();
-              },
-              title: Text('로그아웃'),
-            ),
-            const SizedBox(height: 20), // 간격 조정
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  CustomPageRoute(
-                      builder: (context) => const LoginScreen()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+            if (_isLoggedIn) // 로그인 상태에 따라 UI 조건부 렌더링
+              ListTile(
+                leading: Icon(Icons.logout),
+                onTap: () async {
+                  LoginChecker loginChecker = LoginChecker();
+                  if (await loginChecker.checkGoogleLoginStatus()) {
+                    await GoogleSignIn().signOut(); // 구글 로그아웃
+                  } else if (await loginChecker.checkKakaoLoginStatus()) {
+                    await UserApi.instance.logout(); // 카카오 로그아웃
+                  }
+                  setState(() {
+                    _isLoggedIn = false;
+                  });
+                },
+                title: Text('로그아웃'),
+              )
+            else
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    CustomPageRoute(builder: (context) => const LoginScreen()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text(
+                  '간편 로그인',
+                  style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
               ),
-              child: const Text(
-                '간편 로그인',
-                style: TextStyle(fontSize: 16, color: Colors.black),
-              ),
-            ),
             const SizedBox(height: 20), // 간격 조정
           ],
         ),

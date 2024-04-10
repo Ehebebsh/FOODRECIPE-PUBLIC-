@@ -1,4 +1,9 @@
+import 'package:cherry_toast/cherry_toast.dart';
+import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
+import 'package:foodrecipe/screens/home_screen.dart';
+import 'package:foodrecipe/screens/setting_screen.dart';
+import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import '../widgets/googleandkakao_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -65,6 +70,18 @@ class LoginScreen extends StatelessWidget {
                 // 사용자 인증 성공
                 final User? user = userCredential.user;
                 print('Firebase 사용자 인증 성공: ${user?.displayName}');
+
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  CustomPageRoute(builder: (context) => const HomePage()),
+                      (route) => false,
+                );
+
+                CherryToast.success(
+                  animationType: AnimationType.fromTop,
+                  title: Text('${user?.displayName}님 환영합니다.'),
+                ).show(context);
+
               } catch (error) {
                 // 실패 시 처리
                 print('Firebase 사용자 인증 실패: $error');
