@@ -6,11 +6,13 @@ import 'package:foodrecipe/provider/bookmark_provider.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
 import 'package:foodrecipe/screens/home_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
   KakaoSdk.init(nativeAppKey: "f1be4eee65c1b453e96568a01c0014e6");
-  WidgetsFlutterBinding.ensureInitialized();
 }
 
 class MyApp extends StatelessWidget {
