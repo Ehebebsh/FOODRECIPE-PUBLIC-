@@ -53,21 +53,13 @@ class FoodCartPageState extends State<FoodCartPage> {
           List<String> selectedIngredients =
           foodCartProvider.selectedIngredients.toList();
           return selectedIngredients.isEmpty
-              ? Center(
+              ? const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   '장바구니가 비어있습니다.',
                   style: TextStyle(fontSize: 20),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    // 로그인 버튼 눌렀을 때 로그인 기능 구현
-                    // 예시: Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-                  },
-                  child: Text('로그인 하기'),
                 ),
               ],
             ),
@@ -99,17 +91,17 @@ class FoodCartPageState extends State<FoodCartPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               '로그인을 하고 장바구니를 이용해보세요!',
               style: TextStyle(fontSize: 20),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // 로그인 버튼 눌렀을 때 로그인 기능 구현
                 // 예시: Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
               },
-              child: Text('로그인'),
+              child: const Text('로그인'),
             ),
           ],
         ),
