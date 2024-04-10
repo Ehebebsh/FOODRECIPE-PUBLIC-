@@ -55,32 +55,30 @@ class HomePageState extends State<HomePage> {
   Future<void> loadImageUrlsFromJson() async {
     List<String> urls = [];
 
-    // List of JSON files to load
     List<String> jsonFiles = [
       'assets/foodimage.json',
     ];
 
-    // Iterate over each JSON file
-    for (String jsonFile in jsonFiles) {
-      // Load the JSON data from the asset bundle
-      String jsonData =
-          await DefaultAssetBundle.of(context).loadString(jsonFile);
 
-      // Parse the JSON data into a list of dynamic objects
+    for (String jsonFile in jsonFiles) {
+      String jsonData =
+      await DefaultAssetBundle.of(context).loadString(jsonFile);
+
+
       List<dynamic> jsonList = json.decode(jsonData);
 
-      // Extract image URLs from the JSON data and add to the 'urls' list
+
       if (jsonList.isNotEmpty) {
         List<dynamic> images =
-            jsonList[0]['image']; // Get the 'image' list from the first object
+        jsonList[0]['image'];
         urls.addAll(images.map<String>((json) => json.toString()).toList());
       }
 
-      // Initialize the PageController (if needed)
+
       _pageController = PageController(initialPage: 0);
     }
 
-    // Select random image URLs from the 'urls' list
+
     Random random = Random();
     imageUrls = [
       urls[random.nextInt(urls.length)],
@@ -88,7 +86,7 @@ class HomePageState extends State<HomePage> {
       urls[random.nextInt(urls.length)],
     ];
 
-    // Update the state to trigger UI rebuild
+
     setState(() {});
   }
 
@@ -117,7 +115,9 @@ class HomePageState extends State<HomePage> {
 
   void checkAndShowAd() {
     // Provider를 통해 Counter 인스턴스에 접근합니다.
-    int count = Provider.of<Counter>(context, listen: false).count;
+    int count = Provider
+        .of<Counter>(context, listen: false)
+        .count;
     if (count % 7 == 0) {
       adManager.showAd();
     }
@@ -187,7 +187,10 @@ class HomePageState extends State<HomePage> {
                       itemBuilder: (context, index) {
                         return Image.asset(
                           imageUrls[index],
-                          width: MediaQuery.of(context).size.width,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
                           height: 200,
                           fit: BoxFit.cover,
                         );
@@ -205,7 +208,7 @@ class HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: List.generate(
                           imageUrls.length,
-                          (index) => _buildDot(index),
+                              (index) => _buildDot(index),
                         ),
                       ),
                     ),
@@ -251,7 +254,8 @@ class HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       CustomPageRoute(
-                        builder: (context) => const FoodPage(
+                        builder: (context) =>
+                        const FoodPage(
                           title: '한식',
                           jsonFileNames: ['koreafood_data'],
                         ),
@@ -269,10 +273,11 @@ class HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       CustomPageRoute(
-                          builder: (context) => const FoodPage(
-                                title: '중식',
-                                jsonFileNames: ['chinesefood_data'],
-                              )),
+                          builder: (context) =>
+                          const FoodPage(
+                            title: '중식',
+                            jsonFileNames: ['chinesefood_data'],
+                          )),
                     );
                   },
                 ),
@@ -286,10 +291,11 @@ class HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       CustomPageRoute(
-                          builder: (context) => const FoodPage(
-                                title: '양식',
-                                jsonFileNames: ['westernfood_data'],
-                              )),
+                          builder: (context) =>
+                          const FoodPage(
+                            title: '양식',
+                            jsonFileNames: ['westernfood_data'],
+                          )),
                     );
                   },
                 ),
@@ -315,10 +321,11 @@ class HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const FoodPage(
-                                  title: '간단한 요리',
-                                  jsonFileNames: ['easyfood'],
-                                )),
+                            builder: (context) =>
+                            const FoodPage(
+                              title: '간단한 요리',
+                              jsonFileNames: ['easyfood'],
+                            )),
                       );
                     },
                     child: const Text(
@@ -351,10 +358,10 @@ class HomePageState extends State<HomePage> {
                         itemCount: 5,
                         itemBuilder: (BuildContext context, int index) {
                           var foodData =
-                              easyFoodJsonList[index] as Map<String, dynamic>;
+                          easyFoodJsonList[index] as Map<String, dynamic>;
                           return Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -391,8 +398,8 @@ class HomePageState extends State<HomePage> {
                                 Text(
                                   foodData['tags'] != null
                                       ? foodData['tags']
-                                          .sublist(0, 2)
-                                          .join(', ')
+                                      .sublist(0, 2)
+                                      .join(', ')
                                       : '',
                                   style: const TextStyle(
                                       fontSize: 14, color: Colors.grey),
@@ -427,10 +434,11 @@ class HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         CustomPageRoute(
-                            builder: (context) => const FoodPage(
-                                  title: '손이 많이 가는 요리',
-                                  jsonFileNames: ['hardfood'],
-                                )),
+                            builder: (context) =>
+                            const FoodPage(
+                              title: '손이 많이 가는 요리',
+                              jsonFileNames: ['hardfood'],
+                            )),
                       );
                     },
                     child: const Text(
@@ -463,10 +471,10 @@ class HomePageState extends State<HomePage> {
                         itemCount: 5,
                         itemBuilder: (BuildContext context, int index) {
                           var foodData =
-                              easyFoodJsonList[index] as Map<String, dynamic>;
+                          easyFoodJsonList[index] as Map<String, dynamic>;
                           return Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -503,8 +511,8 @@ class HomePageState extends State<HomePage> {
                                 Text(
                                   foodData['tags'] != null
                                       ? foodData['tags']
-                                          .sublist(0, 2)
-                                          .join(', ')
+                                      .sublist(0, 2)
+                                      .join(', ')
                                       : '',
                                   style: const TextStyle(
                                       fontSize: 14, color: Colors.grey),
