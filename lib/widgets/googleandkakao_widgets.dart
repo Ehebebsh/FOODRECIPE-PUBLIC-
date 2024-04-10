@@ -1,4 +1,8 @@
+import 'package:cherry_toast/cherry_toast.dart';
+import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
+import 'package:foodrecipe/screens/home_screen.dart';
+import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import '../api/kakao_login.dart';
 
 class GoogleLoginButton extends StatelessWidget {
@@ -50,11 +54,21 @@ class KakaoLoginButton extends StatelessWidget {
     return MaterialButton(
       onPressed: () async {
         bool loginSuccess = await KakaoLogin().login();
-        if(loginSuccess){
-          print('success');
-        }
-        else {
-          print("fail");
+        if (loginSuccess) {
+          String? userName = await KakaoLogin().getUserName();
+          print('카카오 사용자 닉네임: $userName');
+          // Kakao 로그인 성공 시 SettingPage로 이동하고 이전 화면 제거
+          Navigator.pushAndRemoveUntil(
+            context,
+            CustomPageRoute(builder: (context) => const HomePage()),
+                (route) => false,
+          );
+          CherryToast.success(
+            animationType: AnimationType.fromTop,
+            title: Text('$userName님 환영합니다.'),
+          ).show(context);
+        } else {
+          print("Kakao 로그인 실패");
         }
       },
       color: Colors.yellow, // 카카오 컬러로 변경 가능

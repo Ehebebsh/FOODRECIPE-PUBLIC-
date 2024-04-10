@@ -37,4 +37,15 @@ class KakaoLogin implements SocialLogin {
       return false;
     }
   }
+
+  Future<String?> getUserName() async {
+    try {
+      // 사용자 닉네임 가져오기
+      User user = await UserApi.instance.me();
+      return user.kakaoAccount?.profile?.nickname;
+    } catch (error) {
+      print('카카오 사용자 정보 가져오기 에러: $error');
+      return null;
+    }
+  }
 }
