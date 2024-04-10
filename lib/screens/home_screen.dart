@@ -1,17 +1,17 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:foodrecipe/admob_helper.dart';
+import 'package:foodrecipe/utils/admob_helper.dart';
 import 'package:foodrecipe/provider/ad_count_provider.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
 import '../models/easyandhard_foodimage_model.dart';
+import '../utils/api_key.dart';
 import '../widgets/category_button_widget.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 import '../widgets/custom_search_delegate_widget.dart';
 import 'food_detail_screen.dart';
 import 'foodrecipemenu_screen.dart';
-import 'package:foodrecipe/cons/api_key.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,7 +24,7 @@ class HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   int _bannerIndex = 0;
   List<String> imageUrls = [];
-  List<String> pageTexts = ['오늘의 \n추천요리!', '내일의 \n추천요리!', '오늘의 \n추천요리!'];
+  List<String> pageTexts = ['오늘의 \n추천요리!', '내일의 \n추천요리!', '엄마의 \n추천요리!'];
   late PageController _pageController;
   late Future<List<dynamic>> easyFoodImagesFuture;
   late Future<List<dynamic>> hardFoodImagesFuture;

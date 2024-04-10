@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../api/kakao_login.dart';
+import '../widgets/googleandkakao_widgets.dart';
+
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,84 +43,16 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          _buildGoogleLoginButton(),
+          GoogleLoginButton(
+            onPressed: () {
+            },
+          ),
           const SizedBox(height: 10),
-          _buildKakaoLoginButton(),
+          KakaoLoginButton(
+            onPressed: () async {
+            },
+          ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildGoogleLoginButton() {
-    return MaterialButton(
-      onPressed: () {
-        // TODO: 구글 로그인 기능 구현
-      },
-      color: Colors.white,
-      elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: const BorderSide(color: Colors.grey),
-      ),
-      child: const Padding(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.add_circle_outline,
-              color: Colors.red, // 구글 컬러로 변경 가능
-            ),
-            SizedBox(width: 10),
-            Text(
-              '구글 로그인',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black87,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildKakaoLoginButton() {
-    return MaterialButton(
-      onPressed: () async {
-        bool loginSuccess = await KakaoLogin().login();
-        if(loginSuccess){
-          print('success');
-        }
-        else(){
-          print("fail");
-        };
-        },
-      color: Colors.yellow, // 카카오 컬러로 변경 가능
-      elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: const BorderSide(color: Colors.grey),
-      ),
-      child: const Padding(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.add_circle_outline,
-              color: Colors.black, // 카카오 컬러로 변경 가능
-            ),
-            SizedBox(width: 10),
-            Text(
-              '카카오 로그인',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black87,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

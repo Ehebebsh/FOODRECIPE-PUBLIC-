@@ -4,8 +4,10 @@ import 'package:foodrecipe/screens/foodcart_screen.dart';
 import 'package:foodrecipe/screens/setting_screen.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import '../screens/home_screen.dart';
-import 'package:foodrecipe/cons/colortable.dart';
+
 import 'package:foodrecipe/screens/bookmark_screen.dart';
+
+import '../utils/colortable.dart';
 
 class BottomNavigator extends StatelessWidget {
   final int selectedIndex;
