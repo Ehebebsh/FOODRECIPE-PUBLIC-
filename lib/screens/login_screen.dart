@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../widgets/googleandkakao_widgets.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -44,7 +44,32 @@ class LoginScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           GoogleLoginButton(
-            onPressed: () {
+            onPressed: () async {
+              try {
+                // 구글 로그인 시도
+                final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+                if (googleUser == null) {
+                  throw Exception('구글 로그인에 실패했습니다.');
+                }
+
+                // 구글에서 인증 정보 가져오기
+                final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+                final OAuthCredential credential = GoogleAuthProvider.credential(
+                  accessToken: googleAuth.accessToken,
+                  idToken: googleAuth.idToken,
+                );
+
+                // Firebase에 인증 및 사용자 생성
+                final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+                // 사용자 인증 성공
+                final User? user = userCredential.user;
+                print('Firebase 사용자 인증 성공: ${user?.displayName}');
+              } catch (error) {
+                // 실패 시 처리
+                print('Firebase 사용자 인증 실패: $error');
+                // 실패 시 사용자에게 알림을 제공하는 등의 추가 처리 가능
+              }
             },
           ),
           const SizedBox(height: 10),
