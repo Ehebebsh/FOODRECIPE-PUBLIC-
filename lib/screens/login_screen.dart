@@ -52,8 +52,8 @@ class LoginScreen extends StatelessWidget {
 
   Widget _buildGoogleLoginButton() {
     return MaterialButton(
-      onPressed: () async {
-
+      onPressed: () {
+        // TODO: 구글 로그인 기능 구현
       },
       color: Colors.white,
       elevation: 3,
