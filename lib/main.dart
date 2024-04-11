@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:foodrecipe/provider/ad_count_provider.dart';
 import 'package:foodrecipe/provider/foodcart_provider.dart';
 import 'package:foodrecipe/provider/bookmark_provider.dart';
+import 'package:foodrecipe/provider/user_provider.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
 import 'package:foodrecipe/screens/home_screen.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => BookMarkProvider()),
         ChangeNotifierProvider(create: (_) => FoodCartProvider()),
         ChangeNotifierProvider(create: (context) => Counter()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:foodrecipe/api/loginchecker.dart';
+import 'package:foodrecipe/provider/user_provider.dart';
 import 'package:foodrecipe/screens/login_screen.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 
@@ -80,16 +83,23 @@ class SettingPageState extends State<SettingPage> {
               ListTile(
                 leading: Icon(Icons.logout),
                 onTap: () async {
+                  await FirebaseAuth.instance.signOut();
                   LoginChecker loginChecker = LoginChecker();
                   if (await loginChecker.checkGoogleLoginStatus()) {
                     await GoogleSignIn().signOut(); // 구글 로그아웃
                   } else if (await loginChecker.checkKakaoLoginStatus()) {
                     await UserApi.instance.logout(); // 카카오 로그아웃
                   }
+                 // Firebase Auth 로그아웃 추가
+
+                  // 사용자 관련 상태 초기화 (예시)
+                  Provider.of<UserProvider>(context, listen: false).clearUser(); // 가정: UserProvider에 clearUser 메서드가 있다고 가정
+
                   setState(() {
                     _isLoggedIn = false;
                   });
                 },
+
                 title: Text('로그아웃'),
               )
             else
