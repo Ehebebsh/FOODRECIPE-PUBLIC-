@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../api/loginchecker.dart';
 import '../models/foodlist_model.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
+import 'login_screen.dart';
 
 
 class AllFoodPage extends StatefulWidget {
@@ -133,16 +134,18 @@ class _FoodPageState extends State<AllFoodPage> {
                                       actions: [
                                         TextButton(
                                           onPressed: () {
-                                            Navigator.pop(context);
+                                            Navigator.push(
+                                              context,
+                                              CustomPageRoute(builder: (context) =>  LoginScreen()),
+                                            );
                                           },
-                                          child: Text('닫기'),
+                                          child: Text('로그인'),
                                         ),
                                         TextButton(
                                           onPressed: () {
-                                            // 구글 또는 카카오 로그인 페이지로 이동
-                                            // 예시: Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                                            Navigator.pop(context);
                                           },
-                                          child: Text('로그인'),
+                                          child: Text('닫기'),
                                         ),
                                       ],
                                     );

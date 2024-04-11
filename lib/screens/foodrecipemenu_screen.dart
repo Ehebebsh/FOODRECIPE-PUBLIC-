@@ -7,6 +7,7 @@ import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
 import '../api/loginchecker.dart';
 import '../models/foodlist_model.dart';
+import 'login_screen.dart';
 
 class FoodPage extends StatefulWidget {
   final String title;
@@ -129,21 +130,23 @@ class _FoodPageState extends State<FoodPage> {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: Text('로그인 필요'),
-                                      content: Text('즐겨찾기 기능을 사용하려면 로그인이 필요합니다.'),
+                                      title: const Text('로그인 필요'),
+                                      content: const Text('즐겨찾기 기능을 사용하려면 로그인이 필요합니다.'),
                                       actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              CustomPageRoute(builder: (context) =>  LoginScreen()),
+                                            );
+                                          },
+                                          child: const Text('로그인'),
+                                        ),
                                         TextButton(
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },
-                                          child: Text('닫기'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            // 구글 또는 카카오 로그인 페이지로 이동
-                                            // 예시: Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-                                          },
-                                          child: Text('로그인'),
+                                          child: const Text('닫기'),
                                         ),
                                       ],
                                     );
