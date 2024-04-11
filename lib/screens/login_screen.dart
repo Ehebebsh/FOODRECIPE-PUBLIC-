@@ -2,13 +2,14 @@ import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/models/userfirestoreservice.dart';
+import 'package:foodrecipe/provider/user_provider.dart';
 import 'package:foodrecipe/screens/home_screen.dart';
-
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
+import 'package:provider/provider.dart';
 import '../widgets/googleandkakao_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class LoginScreen extends StatefulWidget {
    const LoginScreen({Key? key}) : super(key: key);
@@ -18,8 +19,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // final FirebaseFirestore firestore = FirebaseFirestore.instance;
-   UserFirestoreService _userFirestoreService = UserFirestoreService();
+
+  final UserFirestoreService _userFirestoreService = UserFirestoreService();
 
   @override
   Widget build(BuildContext context) {
@@ -81,10 +82,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 final User? user = userCredential.user;
                 print('Firebase 사용자 인증 성공: ${user?.displayName}');
 
-                // await saveUserDataToFirestore(user!);
                 try {
                   User? user = FirebaseAuth.instance.currentUser;
+
                   if (user != null) {
+                    Provider.of<UserProvider>(context, listen: false).setUser(user);
                     await _userFirestoreService.saveUserData(user);
                     print('사용자 정보 저장 성공');
                   } else {

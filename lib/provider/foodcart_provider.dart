@@ -52,5 +52,5 @@ class FoodCartProvider extends ChangeNotifier {
       _selectedIngredients.addAll(ingredientsList);
       notifyListeners();
     }
-  }//여기는 이제 앱시작할때 로드시킨다고 했느네 일단 안쓰고있음
+  }
 }
