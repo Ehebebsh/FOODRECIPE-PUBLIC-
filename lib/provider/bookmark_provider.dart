@@ -6,7 +6,16 @@ class BookMarkProvider extends ChangeNotifier {
   final List<String> _favorites = [];
 
   BookMarkProvider() {
-    loadFavoritesFromFirestore();
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+        // 사용자가 로그인한 경우 Firestore에서 사용자의 즐겨찾기 목록을 다시 로드
+        loadFavoritesFromFirestore();
+      } else {
+        // 사용자가 로그아웃한 경우 즐겨찾기 목록 초기화
+        _favorites.clear();
+        notifyListeners();
+      }
+    });
   }
 
   List<String> get favorites => _favorites;
@@ -22,13 +31,12 @@ class BookMarkProvider extends ChangeNotifier {
     notifyListeners(); // 데이터가 변경됨을 알립니다.
   }
 
-
   Future<void> saveFavoritesToFirestore() async {
     try {
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         final CollectionReference userCollection =
-            FirebaseFirestore.instance.collection('users');
+        FirebaseFirestore.instance.collection('users');
         await userCollection.doc(user.uid).set({
           'favorites': _favorites,
         }, SetOptions(merge: true));
@@ -51,7 +59,7 @@ class BookMarkProvider extends ChangeNotifier {
             .get();
         if (snapshot.exists) {
           final Map<String, dynamic>? userData =
-              snapshot.data() as Map<String, dynamic>?;
+          snapshot.data() as Map<String, dynamic>?;
 
           if (userData != null && userData.containsKey('favorites')) {
             _favorites.clear();
