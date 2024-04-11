@@ -8,6 +8,7 @@ import 'package:foodrecipe/screens/foodcartadd_screen.dart';
 import '../api/loginchecker.dart';
 import '../models/dismissiblelistitem_model.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
+import 'login_screen.dart';
 
 
 class FoodCartPage extends StatefulWidget {
@@ -93,13 +94,15 @@ class FoodCartPageState extends State<FoodCartPage> {
           children: [
             const Text(
               '로그인을 하고 장바구니를 이용해보세요!',
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // 로그인 버튼 눌렀을 때 로그인 기능 구현
-                // 예시: Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                Navigator.push(
+                  context,
+                  CustomPageRoute(builder: (context) =>  LoginScreen()),
+                );
               },
               child: const Text('로그인'),
             ),

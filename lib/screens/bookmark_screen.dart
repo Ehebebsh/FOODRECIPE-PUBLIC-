@@ -8,6 +8,8 @@ import 'package:foodrecipe/widgets/custom_bottom_navigation_action_widget.dart';
 import 'package:foodrecipe/screens/food_detail_screen.dart';
 
 import '../api/loginchecker.dart';
+import '../widgets/custom_pageroute_widget.dart';
+import 'login_screen.dart';
 
 class BookMarkPage extends StatefulWidget {
   const BookMarkPage({Key? key}) : super(key: key);
@@ -136,14 +138,16 @@ class BookMarkPageState extends State<BookMarkPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '로그인하여 즐겨찾기 기능을 이용해보세요!',
+              '로그인하여 즐겨찾기를 이용해보세요!',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // 로그인 페이지로 이동
-                // 예시: Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                Navigator.push(
+                  context,
+                  CustomPageRoute(builder: (context) =>  LoginScreen()),
+                );
               },
               child: Text('로그인'),
             ),

@@ -109,8 +109,10 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
           actions: [
             IconButton(
               onPressed: () {
-                Provider.of<FoodCartProvider>(context, listen: false)
-                    .setSelectedIngredients(selectedIngredients);
+                // 선택한 재료를 토글하여 FoodCartProvider에 저장
+                selectedIngredients.forEach((ingredient) {
+                  Provider.of<FoodCartProvider>(context, listen: false).toggleIngredient(ingredient);
+                });
                 Navigator.pop(context);
               },
               icon: const Icon(Icons.shopping_cart),
