@@ -1,15 +1,25 @@
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
+import 'package:foodrecipe/models/userfirestoreservice.dart';
 import 'package:foodrecipe/screens/home_screen.dart';
-import 'package:foodrecipe/screens/setting_screen.dart';
+
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import '../widgets/googleandkakao_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  // final FirebaseFirestore firestore = FirebaseFirestore.instance;
+   UserFirestoreService _userFirestoreService = UserFirestoreService();
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +81,19 @@ class LoginScreen extends StatelessWidget {
                 final User? user = userCredential.user;
                 print('Firebase 사용자 인증 성공: ${user?.displayName}');
 
+                // await saveUserDataToFirestore(user!);
+                try {
+                  User? user = FirebaseAuth.instance.currentUser;
+                  if (user != null) {
+                    await _userFirestoreService.saveUserData(user);
+                    print('사용자 정보 저장 성공');
+                  } else {
+                    print('사용자 정보 저장 실패: 사용자가 로그인되어 있지 않음');
+                  }
+                } catch (error) {
+                  print('사용자 정보 저장 실패: $error');
+                }
+
                 Navigator.pushAndRemoveUntil(
                   context,
                   CustomPageRoute(builder: (context) => const HomePage()),
@@ -88,6 +111,7 @@ class LoginScreen extends StatelessWidget {
                 // 실패 시 사용자에게 알림을 제공하는 등의 추가 처리 가능
               }
             },
+
           ),
           const SizedBox(height: 10),
           KakaoLoginButton(

@@ -97,7 +97,7 @@ class SettingPageState extends State<SettingPage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    CustomPageRoute(builder: (context) => const LoginScreen()),
+                    CustomPageRoute(builder: (context) =>  LoginScreen()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
