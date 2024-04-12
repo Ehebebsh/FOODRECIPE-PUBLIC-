@@ -2,13 +2,12 @@ import 'dart:convert';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/provider/bookmark_provider.dart';
-import 'package:foodrecipe/utils/colortable.dart';
 import 'package:provider/provider.dart';
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:foodrecipe/widgets/custom_bottom_navigation_action_widget.dart';
 import 'package:foodrecipe/screens/food_detail_screen.dart';
-
 import '../api/loginchecker.dart';
+import '../utils/colortable.dart';
 import '../widgets/custom_pageroute_widget.dart';
 import 'login_screen.dart';
 
@@ -22,6 +21,7 @@ class BookMarkPage extends StatefulWidget {
 class BookMarkPageState extends State<BookMarkPage> {
   int _selectedIndex = 2;
   bool _isLoggedIn = false;
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -33,6 +33,14 @@ class BookMarkPageState extends State<BookMarkPage> {
     bool isLoggedIn = await LoginChecker().checkLoginStatus();
     setState(() {
       _isLoggedIn = isLoggedIn;
+    });
+    loadFavoriteFoods();
+  }
+
+  Future<void> loadFavoriteFoods() async {
+    await Future.delayed(Duration(seconds: 1)); // 2초 지연
+    setState(() {
+      _isLoading = false;
     });
   }
 
@@ -47,7 +55,9 @@ class BookMarkPageState extends State<BookMarkPage> {
         title: const Text('즐겨찾기 목록'),
       ),
       body: _isLoggedIn
-          ? FutureBuilder(
+          ? _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : FutureBuilder(
         future: Future.wait([
           DefaultAssetBundle.of(context).loadString('assets/koreafood_data.json'),
           DefaultAssetBundle.of(context).loadString('assets/chinesefood_data.json'),
@@ -57,7 +67,7 @@ class BookMarkPageState extends State<BookMarkPage> {
         ]),
         builder: (context, AsyncSnapshot<List<String>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
@@ -82,19 +92,21 @@ class BookMarkPageState extends State<BookMarkPage> {
                 .where((food) => uniqueNames.add(food['name']))
                 .toList();
 
-            return favoriteFoods.isEmpty
-                ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '즐겨찾기한 음식이 없습니다.',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ],
-              ),
-            )
-                : ListView.builder(
+            if (favoriteFoods.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '즐겨찾기한 음식이 없습니다.',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+              );
+            }
+
+            return ListView.builder(
               itemCount: favoriteFoods.length,
               itemBuilder: (context, index) {
                 var foodData = favoriteFoods[index];
@@ -144,7 +156,8 @@ class BookMarkPageState extends State<BookMarkPage> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
                 elevation: MaterialStateProperty.all<double>(10),
                 shadowColor: MaterialStateProperty.all<Color>(Colors.green),
                 side: MaterialStateProperty.all<BorderSide>(
@@ -157,10 +170,10 @@ class BookMarkPageState extends State<BookMarkPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  CustomPageRoute(builder: (context) =>  LoginScreen()),
+                  CustomPageRoute(builder: (context) => LoginScreen()),
                 );
               },
-              child: Text('로그인',style: TextStyle(color: Colors.black)),
+              child: Text('로그인', style: TextStyle(color: Colors.black)),
             ),
           ],
         ),
