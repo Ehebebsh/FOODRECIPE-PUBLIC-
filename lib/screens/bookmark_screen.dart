@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/provider/bookmark_provider.dart';
+import 'package:foodrecipe/utils/colortable.dart';
 import 'package:provider/provider.dart';
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:foodrecipe/widgets/custom_bottom_navigation_action_widget.dart';
@@ -143,13 +144,23 @@ class BookMarkPageState extends State<BookMarkPage> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                elevation: MaterialStateProperty.all<double>(10),
+                shadowColor: MaterialStateProperty.all<Color>(Colors.green),
+                side: MaterialStateProperty.all<BorderSide>(
+                  BorderSide(
+                    color: selectedcolor1, // 테두리 색상 지정
+                    width: 7.0, // 테두리 두께 조절
+                  ),
+                ),
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
                   CustomPageRoute(builder: (context) =>  LoginScreen()),
                 );
               },
-              child: Text('로그인'),
+              child: Text('로그인',style: TextStyle(color: Colors.black)),
             ),
           ],
         ),

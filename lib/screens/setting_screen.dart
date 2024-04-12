@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:foodrecipe/api/loginchecker.dart';
 import 'package:foodrecipe/provider/user_provider.dart';
 import 'package:foodrecipe/screens/login_screen.dart';
+import 'package:foodrecipe/utils/colortable.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -34,7 +36,9 @@ class SettingPageState extends State<SettingPage> {
     bool isLoggedIn = await loginChecker.checkLoginStatus();
     setState(() {
       _isLoggedIn = isLoggedIn;
-      print('_isLoggedIn: $_isLoggedIn');
+      if (kDebugMode) {
+        print('_isLoggedIn: $_isLoggedIn');
+      }
     });
   }
 
@@ -81,7 +85,7 @@ class SettingPageState extends State<SettingPage> {
             const SizedBox(height: 10),
             if (_isLoggedIn) // 로그인 상태에 따라 UI 조건부 렌더링
               ListTile(
-                leading: Icon(Icons.logout),
+                leading: const Icon(Icons.logout),
                 onTap: () async {
                   await FirebaseAuth.instance.signOut();
                   LoginChecker loginChecker = LoginChecker();
@@ -100,23 +104,35 @@ class SettingPageState extends State<SettingPage> {
                   });
                 },
 
-                title: Text('로그아웃'),
+                title: const Text('로그아웃'),
               )
             else
               ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                  elevation: MaterialStateProperty.all<double>(10),
+                  shadowColor: MaterialStateProperty.all<Color>(Colors.green),
+                  side: MaterialStateProperty.all<BorderSide>(
+                    const BorderSide(
+                      color: selectedcolor1, // 테두리 색상 지정
+                      width: 7.0, // 테두리 두께 조절
+                    ),
+                  ),
+                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10), // 모서리를 둥글게 조절
+                    ),
+                  ),
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                    const EdgeInsets.symmetric(vertical: 15),
+                  ),
+                ),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    CustomPageRoute(builder: (context) =>  LoginScreen()),
+                    CustomPageRoute(builder: (context) =>  const LoginScreen()),
                   );
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
                 child: const Text(
                   '간편 로그인',
                   style: TextStyle(fontSize: 16, color: Colors.black),

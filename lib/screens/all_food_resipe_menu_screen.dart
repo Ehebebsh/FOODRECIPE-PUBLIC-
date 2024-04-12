@@ -129,23 +129,23 @@ class _FoodPageState extends State<AllFoodPage> {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: Text('로그인 필요'),
-                                      content: Text('즐겨찾기 기능을 사용하려면 로그인이 필요합니다.'),
+                                      title: const Text('로그인 필요'),
+                                      content: const Text('즐겨찾기 기능을 사용하려면 로그인이 필요합니다.'),
                                       actions: [
                                         TextButton(
                                           onPressed: () {
                                             Navigator.push(
                                               context,
-                                              CustomPageRoute(builder: (context) =>  LoginScreen()),
+                                              CustomPageRoute(builder: (context) =>  const LoginScreen()),
                                             );
                                           },
-                                          child: Text('로그인'),
+                                          child: const Text('로그인'),
                                         ),
                                         TextButton(
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },
-                                          child: Text('닫기'),
+                                          child: const Text('닫기'),
                                         ),
                                       ],
                                     );
