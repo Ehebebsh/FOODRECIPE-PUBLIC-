@@ -26,11 +26,11 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
   Future<void> loadJsonData() async {
     try {
       final ingredientsJsonString =
-      await rootBundle.loadString('assets/ingredients.json');
+          await rootBundle.loadString('assets/ingredients.json');
 
       setState(() {
         final List<dynamic> ingredientsData =
-        json.decode(ingredientsJsonString);
+            json.decode(ingredientsJsonString);
 
         // ingredientsData는 리스트 안에 한 개의 맵이므로 이를 고려하여 처리
         if (ingredientsData.isNotEmpty) {
@@ -77,29 +77,30 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
       onWillPop: () async {
         if (selectedIngredients.isNotEmpty) {
           return await showDialog<bool>(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                content: const Text('선택된 재료가 있습니다. 정말 뒤로 가시겠습니까?'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context, true);
-                    },
-                    child: const Text('예',style: TextStyle(color: Colors.black)),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context, false);
-                    },
-                    child: const Text('아니오',style: TextStyle(
-                      color: Colors.black
-                    )),
-                  ),
-                ],
-              );
-            },
-          ) ?? false;
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: const Text('선택된 재료가 있습니다. 정말 뒤로 가시겠습니까?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context, true);
+                        },
+                        child: const Text('예',
+                            style: TextStyle(color: Colors.black)),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context, false);
+                        },
+                        child: const Text('아니오',
+                            style: TextStyle(color: Colors.black)),
+                      ),
+                    ],
+                  );
+                },
+              ) ??
+              false;
         }
         return true;
       },
@@ -110,9 +111,10 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
             IconButton(
               onPressed: () {
                 // 선택한 재료를 토글하여 FoodCartProvider에 저장
-                selectedIngredients.forEach((ingredient) {
-                  Provider.of<FoodCartProvider>(context, listen: false).toggleIngredient(ingredient);
-                });
+                for (var ingredient in selectedIngredients) {
+                  Provider.of<FoodCartProvider>(context, listen: false)
+                      .toggleIngredient(ingredient);
+                }
                 Navigator.pop(context);
               },
               icon: const Icon(Icons.shopping_cart),
@@ -147,15 +149,15 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
                         children: selectedIngredients
                             .map(
                               (ingredient) => Chip(
-                            label: Text(ingredient),
-                            deleteIcon: const Icon(Icons.close),
-                            onDeleted: () {
-                              setState(() {
-                                selectedIngredients.remove(ingredient);
-                              });
-                            },
-                          ),
-                        )
+                                label: Text(ingredient),
+                                deleteIcon: const Icon(Icons.close),
+                                onDeleted: () {
+                                  setState(() {
+                                    selectedIngredients.remove(ingredient);
+                                  });
+                                },
+                              ),
+                            )
                             .toList(),
                       ),
                     ],
@@ -187,8 +189,8 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
                           hintText: '재료 검색...',
                           prefixIcon: Icon(Icons.search),
                           enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.black), // 원하는 색상 설정
+                            borderSide:
+                                BorderSide(color: Colors.black), // 원하는 색상 설정
                           ),
                         ),
                       ),
@@ -199,11 +201,18 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
                         itemCount: filteredIngredients.length,
                         itemBuilder: (context, index) {
                           final ingredient = filteredIngredients[index];
+                          bool isAlreadyAdded =
+                              Provider.of<FoodCartProvider>(context)
+                                  .selectedIngredients
+                                  .contains(ingredient);
+                          if (isAlreadyAdded) {
+                            return const SizedBox
+                                .shrink(); // 아무 내용도 없는 SizedBox 반환하여 숨김
+                          }
                           return GestureDetector(
                             onTap: () {
                               setState(() {
-                                if (selectedIngredients
-                                    .contains(ingredient)) {
+                                if (selectedIngredients.contains(ingredient)) {
                                   selectedIngredients.remove(ingredient);
                                 } else {
                                   selectedIngredients.add(ingredient);
@@ -216,8 +225,7 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
                                 selectedIngredients.contains(ingredient)
                                     ? Icons.check_circle
                                     : Icons.circle_outlined,
-                                color: selectedIngredients
-                                    .contains(ingredient)
+                                color: selectedIngredients.contains(ingredient)
                                     ? Colors.green
                                     : null,
                               ),

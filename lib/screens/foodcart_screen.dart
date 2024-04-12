@@ -2,6 +2,7 @@ import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/provider/foodcart_provider.dart';
+import 'package:foodrecipe/utils/colortable.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:foodrecipe/screens/foodcartadd_screen.dart';
@@ -98,13 +99,23 @@ class FoodCartPageState extends State<FoodCartPage> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                elevation: MaterialStateProperty.all<double>(10),
+                shadowColor: MaterialStateProperty.all<Color>(Colors.green),
+                side: MaterialStateProperty.all<BorderSide>(
+                  const BorderSide(
+                    color: selectedcolor1, // 테두리 색상 지정
+                    width: 7.0, // 테두리 두께 조절
+                  ),
+                ),
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
-                  CustomPageRoute(builder: (context) =>  LoginScreen()),
+                  CustomPageRoute(builder: (context) =>  const LoginScreen()),
                 );
               },
-              child: const Text('로그인'),
+              child: const Text('로그인',style: TextStyle(color: Colors.black)),
             ),
           ],
         ),

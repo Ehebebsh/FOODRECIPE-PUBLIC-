@@ -1,5 +1,6 @@
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/models/userfirestoreservice.dart';
 import 'package:foodrecipe/provider/user_provider.dart';
@@ -80,7 +81,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 // 사용자 인증 성공
                 final User? user = userCredential.user;
-                print('Firebase 사용자 인증 성공: ${user?.displayName}');
+                if (kDebugMode) {
+                  print('Firebase 사용자 인증 성공: ${user?.displayName}');
+                }
 
                 try {
                   User? user = FirebaseAuth.instance.currentUser;
@@ -88,12 +91,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (user != null) {
                     Provider.of<UserProvider>(context, listen: false).setUser(user);
                     await _userFirestoreService.saveUserData(user);
-                    print('사용자 정보 저장 성공');
+                    if (kDebugMode) {
+                      print('사용자 정보 저장 성공');
+                    }
                   } else {
-                    print('사용자 정보 저장 실패: 사용자가 로그인되어 있지 않음');
+                    if (kDebugMode) {
+                      print('사용자 정보 저장 실패: 사용자가 로그인되어 있지 않음');
+                    }
                   }
                 } catch (error) {
-                  print('사용자 정보 저장 실패: $error');
+                  if (kDebugMode) {
+                    print('사용자 정보 저장 실패: $error');
+                  }
                 }
 
                 Navigator.pushAndRemoveUntil(
@@ -109,7 +118,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
               } catch (error) {
                 // 실패 시 처리
-                print('Firebase 사용자 인증 실패: $error');
+                if (kDebugMode) {
+                  print('Firebase 사용자 인증 실패: $error');
+                }
                 // 실패 시 사용자에게 알림을 제공하는 등의 추가 처리 가능
               }
             },
