@@ -31,6 +31,12 @@ class BookMarkPageState extends State<BookMarkPage> {
     _futureData = loadFoodData();
   }
 
+  String addParticle(String word) {
+    final lastChar = word.codeUnits.last;
+    var hasJongSung = (lastChar - 44032) % 28 > 0;
+    return hasJongSung ? '이' : '가';
+  }
+
   Future<void> checkLoginStatus() async {
     User? currentUser = FirebaseAuth.instance.currentUser;
     await Future.delayed(Duration.zero, () {
@@ -137,8 +143,7 @@ class BookMarkPageState extends State<BookMarkPage> {
                               favoritesProvider.toggleFavorite(foodData['name']);
                                     CherryToast.delete(
                                       animationType: AnimationType.fromTop,
-                                      title: Text(
-                                          '${foodData['name']} 즐겨찾기가 취소되었습니다.'),
+                                      title: Text('${foodData['name']}${addParticle(foodData['name'])} 즐겨찾기에서 취소되었습니다.'),
                                     ).show(context);
                                   },
                                 ),
