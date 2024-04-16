@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:foodrecipe/api/loginchecker.dart';
@@ -22,29 +22,27 @@ class SettingPage extends StatefulWidget {
 
 class SettingPageState extends State<SettingPage> {
   int _selectedIndex = 4;
-  bool _isLoggedIn = false; // 로그인 상태를 저장할 변수
+
 
   @override
   void initState() {
     super.initState();
-    _checkLoginStatus(); // initState에서 로그인 상태 확인
+    checkLoginStatus(); // initState에서 로그인 상태 확인
   }
 
   // 로그인 상태 확인 메서드
-  Future<void> _checkLoginStatus() async {
-    LoginChecker loginChecker = LoginChecker();
-    bool isLoggedIn = await loginChecker.checkLoginStatus();
-    setState(() {
-      _isLoggedIn = isLoggedIn;
-      if (kDebugMode) {
-        print('_isLoggedIn: $_isLoggedIn');
-      }
+  Future<void> checkLoginStatus() async {
+    var currentUser = FirebaseAuth.instance.currentUser;
+    await Future.delayed(Duration.zero, () {
+      Provider.of<UserProvider>(context, listen: false).setUser(currentUser);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    bool _isLoggedIn = Provider.of<UserProvider>(context).isLoggedIn;
+    var userProvider = Provider.of<UserProvider>(context);
+    bool isLoggedIn = userProvider.isLoggedIn;
+
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
@@ -84,7 +82,7 @@ class SettingPageState extends State<SettingPage> {
               title: Text('버전 정보'),
             ),
             const SizedBox(height: 10),
-            if (_isLoggedIn) // 로그인 상태에 따라 UI 조건부 렌더링
+            if (isLoggedIn) // 로그인 상태에 따라 UI 조건부 렌더링
               ListTile(
                 leading: const Icon(Icons.logout),
                 onTap: () async {
@@ -101,7 +99,7 @@ class SettingPageState extends State<SettingPage> {
                   Provider.of<UserProvider>(context, listen: false).clearUser(); // 가정: UserProvider에 clearUser 메서드가 있다고 가정
 
                   setState(() {
-                    _isLoggedIn = false;
+                    isLoggedIn = false;
                   });
                 },
 
