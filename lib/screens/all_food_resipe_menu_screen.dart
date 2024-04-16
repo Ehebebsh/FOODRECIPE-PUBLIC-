@@ -34,6 +34,12 @@ class _FoodPageState extends State<AllFoodPage> {
     _foodListFuture = _foodListModel.loadJsonData(); // 데이터 로드를 initState에서 한 번만 수행
   }
 
+  String addParticle(String word) {
+    final lastChar = word.codeUnits.last;
+    var hasJongSung = (lastChar - 44032) % 28 > 0;
+    return hasJongSung ? '이' : '가';
+  }
+
   @override
   Widget build(BuildContext context) {
     var favoritesProvider = Provider.of<BookMarkProvider>(context);
@@ -114,12 +120,12 @@ class _FoodPageState extends State<AllFoodPage> {
                                 // 즐겨찾기가 추가되거나 삭제될 때마다 적절한 Toast를 표시합니다.
                                 if (isAdding) {
                                   CherryToast.add(
-                                    title: Text('$foodName 즐겨찾기가 추가됐습니다.'),
+                                    title: Text('$foodName${addParticle(foodName)} 즐겨찾기에 추가되었습니다.'),
                                     animationType: AnimationType.fromTop,
                                   ).show(context);
                                 } else {
                                   CherryToast.delete(
-                                    title: Text('$foodName 즐겨찾기가 삭제됐습니다.'),
+                                    title: Text('$foodName${addParticle(foodName)} 즐겨찾기에서 삭제되었습니다.'),
                                     animationType: AnimationType.fromTop,
                                   ).show(context);
                                 }
