@@ -4,8 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FoodCartProvider extends ChangeNotifier {
   final Set<String> _selectedIngredients = {};
+  bool _isLoading = false; // isLoading 속성 추가
 
   Set<String> get selectedIngredients => _selectedIngredients;
+  bool get isLoading => _isLoading; // isLoading 게터 추가
 
   FoodCartProvider() {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
@@ -17,7 +19,13 @@ class FoodCartProvider extends ChangeNotifier {
     });
   }
 
+  void _setLoading(bool loading) { // _setLoading 메서드 추가
+    _isLoading = loading;
+    notifyListeners();
+  }
+
   Future<void> toggleIngredient(String ingredient) async {
+    _setLoading(true); // 데이터 처리 전 isLoading을 true로 설정
     if (_selectedIngredients.contains(ingredient)) {
       _selectedIngredients.remove(ingredient);
     } else {
@@ -25,27 +33,35 @@ class FoodCartProvider extends ChangeNotifier {
     }
     notifyListeners();
     await saveSelectedIngredientsToFirestore();
+    _setLoading(false); // 처리 완료 후 isLoading을 false로 설정
   }
 
   Future<void> clearSelectedIngredients() async {
+    _setLoading(true);
     _selectedIngredients.clear();
     notifyListeners();
     await saveSelectedIngredientsToFirestore();
+    _setLoading(false);
   }
 
   Future<void> setSelectedIngredients(Set<String> ingredients) async {
+    _setLoading(true);
     _selectedIngredients.addAll(ingredients);
     notifyListeners();
     await saveSelectedIngredientsToFirestore();
+    _setLoading(false);
   }
 
   Future<void> removeIngredient(String ingredient) async {
+    _setLoading(true);
     _selectedIngredients.remove(ingredient);
     notifyListeners();
     await saveSelectedIngredientsToFirestore();
+    _setLoading(false);
   }
 
   Future<void> loadSelectedIngredients(String userId) async {
+    _setLoading(true); // 로딩 시작
     try {
       final DocumentSnapshot snapshot = await FirebaseFirestore.instance
           .collection('users')
@@ -62,10 +78,13 @@ class FoodCartProvider extends ChangeNotifier {
     } catch (error) {
       print('Error loading selected ingredients from Firestore: $error');
       throw error;
+    } finally {
+      _setLoading(false); // 로딩 완료
     }
   }
 
   Future<void> saveSelectedIngredientsToFirestore() async {
+    _setLoading(true); // 데이터 저장 시작
     try {
       String? userId = FirebaseAuth.instance.currentUser?.uid;
       if (userId != null) {
@@ -74,12 +93,14 @@ class FoodCartProvider extends ChangeNotifier {
             .doc(userId)
             .set({
           'selectedIngredients': _selectedIngredients.toList(),
-        }, SetOptions(merge: true)); // 필드를 추가하고 이미 문서가 존재하는 경우에는 덮어씁니다.
+        }, SetOptions(merge: true));
         print('Selected ingredients saved to Firestore');
       }
     } catch (error) {
       print('Error saving selected ingredients to Firestore: $error');
       throw error;
+    } finally {
+      _setLoading(false); // 데이터 저장 완료
     }
   }
 }

@@ -44,6 +44,7 @@ class SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool _isLoggedIn = Provider.of<UserProvider>(context).isLoggedIn;
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
