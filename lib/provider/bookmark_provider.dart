@@ -4,14 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class BookMarkProvider extends ChangeNotifier {
   final List<String> _favorites = [];
+  bool _isLoading = false; // 로딩 상태 변수 추가
 
   BookMarkProvider() {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
-        // 사용자가 로그인한 경우 Firestore에서 사용자의 즐겨찾기 목록을 다시 로드
         loadFavoritesFromFirestore();
       } else {
-        // 사용자가 로그아웃한 경우 즐겨찾기 목록 초기화
         _favorites.clear();
         notifyListeners();
       }
@@ -19,6 +18,12 @@ class BookMarkProvider extends ChangeNotifier {
   }
 
   List<String> get favorites => _favorites;
+  bool get isLoading => _isLoading; // 로딩 상태 변수의 게터 추가
+
+  set isLoading(bool value) { // 로딩 상태 변수의 세터 추가
+    _isLoading = value;
+    notifyListeners();
+  }
 
   void toggleFavorite(String foodName) async {
     if (_favorites.contains(foodName)) {
@@ -27,12 +32,13 @@ class BookMarkProvider extends ChangeNotifier {
       _favorites.add(foodName);
     }
     debugPrint('Favorites: $_favorites');
-    await saveFavoritesToFirestore(); // Firestore에도 변경사항을 저장합니다.
-    notifyListeners(); // 데이터가 변경됨을 알립니다.
+    await saveFavoritesToFirestore();
+    notifyListeners();
   }
 
   Future<void> saveFavoritesToFirestore() async {
     try {
+      isLoading = true; // 로딩 시작
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         final CollectionReference userCollection =
@@ -46,11 +52,14 @@ class BookMarkProvider extends ChangeNotifier {
     } catch (error) {
       print('즐겨찾기 목록 Firestore 저장 실패: $error');
       throw error;
+    } finally {
+      isLoading = false; // 로딩 종료
     }
   }
 
   Future<void> loadFavoritesFromFirestore() async {
     try {
+      isLoading = true; // 로딩 시작
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         final DocumentSnapshot snapshot = await FirebaseFirestore.instance
@@ -64,13 +73,15 @@ class BookMarkProvider extends ChangeNotifier {
           if (userData != null && userData.containsKey('favorites')) {
             _favorites.clear();
             _favorites.addAll(List<String>.from(userData['favorites']));
-            notifyListeners(); // 데이터가 변경됨을 알립니다.
+            notifyListeners();
           }
         }
       }
     } catch (error) {
       print('Firestore에서 즐겨찾기 목록 로드 실패: $error');
       throw error;
+    } finally {
+      isLoading = false; // 로딩 종료
     }
   }
 }

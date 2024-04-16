@@ -1,12 +1,13 @@
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/provider/foodcart_provider.dart';
+import 'package:foodrecipe/provider/user_provider.dart';
 import 'package:foodrecipe/utils/colortable.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:foodrecipe/screens/foodcartadd_screen.dart';
-import '../api/loginchecker.dart';
 import '../models/dismissiblelistitem_model.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 import 'login_screen.dart';
@@ -35,16 +36,18 @@ class FoodCartPageState extends State<FoodCartPage> {
     checkLoginStatus(); // Check login status when the widget initializes
   }
 
-  void checkLoginStatus() async {
-    // Assuming you have a method to check login status
-    bool loggedIn = await LoginChecker().checkLoginStatus();
-    setState(() {
-      isLoggedIn = loggedIn;
+  Future<void> checkLoginStatus() async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    Future.delayed(Duration.zero, () {
+      Provider.of<UserProvider>(context, listen: false).setUser(currentUser);
+      setState(() {
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final isLoggedIn = Provider.of<UserProvider>(context).user != null;
     return Scaffold(
       appBar: AppBar(
         title: const Text('장바구니'),
@@ -52,35 +55,31 @@ class FoodCartPageState extends State<FoodCartPage> {
       body: isLoggedIn
           ? Consumer<FoodCartProvider>(
         builder: (context, foodCartProvider, _) {
-          List<String> selectedIngredients =
-          foodCartProvider.selectedIngredients.toList();
-          return selectedIngredients.isEmpty
-              ? const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '장바구니가 비어있습니다.',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ],
-            ),
-          )
-              : ListView.builder(
+          List<String> selectedIngredients = foodCartProvider.selectedIngredients.toList();
+          // 데이터 로딩 중 표시
+          if (foodCartProvider.isLoading) { // isLoading은 FoodCartProvider에 정의된 로딩 상태 변수입니다.
+            return Center(child: CircularProgressIndicator(color: selectedcolor1,)); // 로딩 인디케이터 표시
+          }
+          // 장바구니가 비어 있을 경우에 대한 처리
+          if (selectedIngredients.isEmpty) {
+            return Center(
+              child: Text('장바구니가 비어있습니다.',style: TextStyle(fontSize: 18)),
+            );
+          }
+          // 장바구니에 항목이 있는 경우
+          return ListView.builder(
             itemCount: selectedIngredients.length,
             itemBuilder: (context, index) {
               String ingredient = selectedIngredients[index];
               return Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 2, vertical: 1), // 여기서는 const 사용 가능
+                padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
                 child: DismissibleListItem(
                   ingredient: ingredient,
                   onDismissed: () {
                     foodCartProvider.removeIngredient(ingredient);
                     CherryToast.cartdelete(
                       animationType: AnimationType.fromTop,
-                      title: Text(
-                          '$ingredient${addParticle(ingredient)} 삭제되었습니다.'), // 여기서는 const 제거
+                      title: Text('$ingredient${addParticle(ingredient)} 삭제되었습니다.'),
                     ).show(context);
                   },
                 ),
@@ -104,8 +103,8 @@ class FoodCartPageState extends State<FoodCartPage> {
                 shadowColor: MaterialStateProperty.all<Color>(Colors.green),
                 side: MaterialStateProperty.all<BorderSide>(
                   const BorderSide(
-                    color: selectedcolor1, // 테두리 색상 지정
-                    width: 7.0, // 테두리 두께 조절
+                    color: selectedcolor1,
+                    width: 7.0,
                   ),
                 ),
               ),
@@ -130,20 +129,19 @@ class FoodCartPageState extends State<FoodCartPage> {
       ),
       floatingActionButton: isLoggedIn
           ? FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  CustomPageRoute(
-                      builder: (context) => const FoodCartAddPage()),
-                ).then((_) {});
-              },
-              backgroundColor: Colors.grey[100],
-              child: const Icon(
-                Icons.add,
-              ),
-            )
-          : null, // Hide FAB if not logged in
+        onPressed: () {
+          Navigator.push(
+            context,
+            CustomPageRoute(
+                builder: (context) => const FoodCartAddPage()),
+          ).then((_) {});
+        },
+        backgroundColor: Colors.grey[100],
+        child: const Icon(
+          Icons.add,
+        ),
+      )
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
-  }
-}
+  }}
