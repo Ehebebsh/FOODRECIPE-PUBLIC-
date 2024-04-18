@@ -54,38 +54,29 @@ class HomePageState extends State<HomePage> {
 
   Future<void> loadImageUrlsFromJson() async {
     List<String> urls = [];
-
-    List<String> jsonFiles = [
-      'assets/foodimage.json',
-    ];
-
+    List<String> jsonFiles = ['assets/foodimage.json'];
 
     for (String jsonFile in jsonFiles) {
-      String jsonData =
-      await DefaultAssetBundle.of(context).loadString(jsonFile);
-
-
+      String jsonData = await DefaultAssetBundle.of(context).loadString(jsonFile);
       List<dynamic> jsonList = json.decode(jsonData);
 
-
       if (jsonList.isNotEmpty) {
-        List<dynamic> images =
-        jsonList[0]['image'];
+        List<dynamic> images = jsonList[0]['image'];
         urls.addAll(images.map<String>((json) => json.toString()).toList());
       }
-
-
-      _pageController = PageController(initialPage: 0);
     }
 
-
     Random random = Random();
-    imageUrls = [
-      urls[random.nextInt(urls.length)],
-      urls[random.nextInt(urls.length)],
-      urls[random.nextInt(urls.length)],
-    ];
+    Set<String> uniqueUrls = {}; // 중복을 방지하기 위한 Set 사용
 
+    // 이미지 URL을 랜덤하게 선택하고 중복 제거
+    while (uniqueUrls.length < 3) {
+      String selectedUrl = urls[random.nextInt(urls.length)];
+      uniqueUrls.add(selectedUrl);
+    }
+
+    // Set을 다시 리스트로 변환하여 imageUrls에 저장
+    imageUrls = uniqueUrls.toList();
 
     setState(() {});
   }
