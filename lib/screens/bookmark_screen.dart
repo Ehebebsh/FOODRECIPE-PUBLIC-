@@ -77,7 +77,7 @@ class BookMarkPageState extends State<BookMarkPage> {
         title: const Text('즐겨찾기 목록'),
       ),
       body: favoritesProvider.isLoading
-          ? Center(
+          ? const Center(
           child: CircularProgressIndicator(
             color: selectedcolor1,
           ))
@@ -88,7 +88,7 @@ class BookMarkPageState extends State<BookMarkPage> {
               future: _futureData,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                       child: CircularProgressIndicator(
                         color: selectedcolor1,
                       ));
@@ -100,6 +100,12 @@ class BookMarkPageState extends State<BookMarkPage> {
                       .where((food) => favorites.contains(food['name']))
                       .where((food) => uniqueNames.add(food['name']))
                       .toList();
+
+                  favoriteFoods.sort((a, b) {
+                    var timeA = favoritesProvider.getFavoriteTime(a['name']);
+                    var timeB = favoritesProvider.getFavoriteTime(b['name']);
+                    return timeA.compareTo(timeB);
+                  });
 
                   if (favoriteFoods.isEmpty) {
                     return const Center(
@@ -159,11 +165,11 @@ class BookMarkPageState extends State<BookMarkPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           '로그인하여 즐겨찾기를 이용해보세요!',
                           style: TextStyle(fontSize: 18),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor:
@@ -172,7 +178,7 @@ class BookMarkPageState extends State<BookMarkPage> {
                             shadowColor:
                                 MaterialStateProperty.all<Color>(Colors.green),
                             side: MaterialStateProperty.all<BorderSide>(
-                              BorderSide(
+                              const BorderSide(
                                 color: selectedcolor1,
                                 width: 7.0,
                               ),
@@ -182,10 +188,10 @@ class BookMarkPageState extends State<BookMarkPage> {
                             Navigator.push(
                               context,
                               CustomPageRoute(
-                                  builder: (context) => LoginScreen()),
+                                  builder: (context) => const LoginScreen()),
                             );
                           },
-                          child: Text('로그인',
+                          child: const Text('로그인',
                               style: TextStyle(color: Colors.black)),
                         ),
                       ],
