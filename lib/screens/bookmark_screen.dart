@@ -134,7 +134,14 @@ class BookMarkPageState extends State<BookMarkPage> {
                         child: ListTile(
                           title: Text(foodData['name']),
                           subtitle: Text(foodData['tags'].join(', ')),
-                          leading: Image.asset(foodData['image']),
+                          leading: Container(
+                            width: 80.0, // 이미지의 가로 크기를 조정합니다.
+                            height: 80.0, // 이미지의 세로 크기를 조정합니다.
+                            child: Image.asset(
+                              foodData['image'],
+                              fit: BoxFit.cover, // 이미지를 올바르게 조정합니다.
+                            ),
+                          ),
                           onTap: () {
                             Navigator.push(
                               context,
@@ -147,17 +154,17 @@ class BookMarkPageState extends State<BookMarkPage> {
                             icon: const Icon(Icons.star, color: Colors.yellow),
                             onPressed: () {
                               favoritesProvider.toggleFavorite(foodData['name']);
-                                    CherryToast.delete(
-                                      animationType: AnimationType.fromTop,
-                                      title: Text('${foodData['name']}${addParticle(foodData['name'])} 즐겨찾기에서 취소되었습니다.'),
-                                    ).show(context);
-                                  },
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      }
+                              CherryToast.delete(
+                                animationType: AnimationType.fromTop,
+                                title: Text('${foodData['name']}${addParticle(foodData['name'])} 즐겨찾기에서 취소되었습니다.'),
+                              ).show(context);
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
                     },
                   );
                 } else {
