@@ -1,9 +1,14 @@
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/screens/home_screen.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
+import 'package:provider/provider.dart';
 import '../api/kakao_login.dart';
+import '../models/userfirestoreservice.dart';
+import '../provider/user_provider.dart';
 
 class GoogleLoginButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -51,6 +56,7 @@ class KakaoLoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserFirestoreService _userFirestoreService = UserFirestoreService();
     return MaterialButton(
       onPressed: () async {
         bool loginSuccess = await KakaoLogin().login();
@@ -70,7 +76,27 @@ class KakaoLoginButton extends StatelessWidget {
         } else {
           print("Kakao 로그인 실패");
         }
+        try {
+          User? user = FirebaseAuth.instance.currentUser;
+
+          if (user != null) {
+            Provider.of<UserProvider>(context, listen: false).setUser(user);
+            await _userFirestoreService.saveUserData(user);
+            if (kDebugMode) {
+              print('사용자 정보 저장 성공');
+            }
+          } else {
+            if (kDebugMode) {
+              print('사용자 정보 저장 실패: 사용자가 로그인되어 있지 않음');
+            }
+          }
+        } catch (error) {
+          if (kDebugMode) {
+            print('사용자 정보 저장 실패: $error');
+          }
+        }
       },
+
       color: Colors.yellow, // 카카오 컬러로 변경 가능
       elevation: 3,
       shape: RoundedRectangleBorder(
