@@ -35,7 +35,7 @@ class BottomNavigator extends StatelessWidget {
         Navigator.pushAndRemoveUntil(
           context,
           CustomPageRoute(
-            builder: (context) => AllFoodPage(
+            builder: (context) => const AllFoodPage(
               title: '요리 레시피',
               jsonFileNames: ['koreafood_data', 'chinesefood_data', 'westernfood_data'], // 수정된 부분: 파일 이름만으로 변경
             ),

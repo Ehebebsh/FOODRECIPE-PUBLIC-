@@ -125,8 +125,8 @@ class CustomSearchDelegate extends SearchDelegate<String> {
               child: Image.asset(
                 food['image'],
                 fit: BoxFit.cover,
-                width: 50,
-                height: 50,
+                width: 80,
+                height: 80,
               ),
             ),
             title: Text(
