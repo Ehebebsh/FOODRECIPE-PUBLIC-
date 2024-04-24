@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           useMaterial3: true,
+          fontFamily: 'myfont',
         ),
         home: const HomePage(),
       ),
