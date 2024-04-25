@@ -132,8 +132,14 @@ class BookMarkPageState extends State<BookMarkPage> {
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: ListTile(
-                          title: Text(foodData['name']),
-                          subtitle: Text(foodData['tags'].join(', ')),
+                          title: Text(
+                            foodData['name'],
+                            overflow: TextOverflow.ellipsis, // 이름이 길어질 경우 '...'로 표시
+                          ),
+                          subtitle: Text(
+                            foodData['tags'].join(', '),
+                            overflow: TextOverflow.ellipsis, // 태그가 길어질 경우 '...'로 표시
+                          ),
                           leading: Container(
                             width: 80.0, // 이미지의 가로 크기를 조정합니다.
                             height: 80.0, // 이미지의 세로 크기를 조정합니다.
@@ -172,10 +178,12 @@ class BookMarkPageState extends State<BookMarkPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          '로그인하여 즐겨찾기를 이용해보세요!',
-                          style: TextStyle(fontSize: 18),
-                        ),
+                      Text(
+                      '로그인하여 즐겨찾기를 이용해보세요!',
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.045, // 화면의 너비에 따라 글씨 크기를 조절
+                      ),
+                    ),
                         const SizedBox(height: 20),
                         ElevatedButton(
                           style: ButtonStyle(

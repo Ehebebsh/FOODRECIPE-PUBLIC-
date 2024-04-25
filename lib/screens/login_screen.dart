@@ -26,26 +26,27 @@ class _LoginScreenState extends State<LoginScreen> {
             height: 300,
           ),
           const SizedBox(height: 20),
-          const Center(
+           Center(
             child: Text(
               '간편로그인으로 더 다양한,',
               style: TextStyle(
-                fontSize: 25,
+                fontSize: MediaQuery.of(context).size.width * 0.05, // 화면 너비의 5%를 글자 크기로 설정
                 fontWeight: FontWeight.bold,
                 color: Colors.black87,
               ),
             ),
           ),
-          const Center(
+          Center(
             child: Text(
               '서비스를 이용하세요!',
               style: TextStyle(
-                fontSize: 25,
+                fontSize: MediaQuery.of(context).size.width * 0.05, // 화면 너비의 5%를 글자 크기로 설정
                 fontWeight: FontWeight.bold,
                 color: Colors.black87,
               ),
             ),
           ),
+
           const SizedBox(height: 20),
           const GoogleLoginButton(),
           const SizedBox(height: 10),
