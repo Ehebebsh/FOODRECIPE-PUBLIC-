@@ -4,6 +4,7 @@ import 'package:foodrecipe/provider/ad_count_provider.dart';
 import 'package:foodrecipe/provider/foodcart_provider.dart';
 import 'package:foodrecipe/provider/bookmark_provider.dart';
 import 'package:foodrecipe/provider/user_provider.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
 import 'package:foodrecipe/screens/home_screen.dart';
@@ -12,6 +13,7 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  MobileAds.instance.initialize();
   runApp(const MyApp());
   KakaoSdk.init(nativeAppKey: "f1be4eee65c1b453e96568a01c0014e6");
 }

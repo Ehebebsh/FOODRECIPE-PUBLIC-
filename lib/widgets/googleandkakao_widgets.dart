@@ -5,20 +5,83 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/screens/home_screen.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import '../api/kakao_login.dart';
 import '../models/userfirestoreservice.dart';
 import '../provider/user_provider.dart';
 
 class GoogleLoginButton extends StatelessWidget {
-  final VoidCallback? onPressed;
 
-  const GoogleLoginButton({Key? key, this.onPressed}) : super(key: key);
+  const GoogleLoginButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      onPressed: onPressed,
+        onPressed: () async { // 여기에 로그인 로직 구현
+          try {
+            // 구글 로그인 시도
+            final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+            if (googleUser == null) {
+              throw Exception('구글 로그인에 실패했습니다.');
+            }
+
+            // 구글에서 인증 정보 가져오기
+            final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+            final OAuthCredential credential = GoogleAuthProvider.credential(
+              accessToken: googleAuth.accessToken,
+              idToken: googleAuth.idToken,
+            );
+
+            // Firebase에 인증 및 사용자 생성
+            final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+            // 사용자 인증 성공
+            final User? user = userCredential.user;
+            if (kDebugMode) {
+              print('Firebase 사용자 인증 성공: ${user?.displayName}');
+            }
+
+            // Firebase 현재 사용자 정보 가져오기 및 사용자 정보 저장 시도
+            try {
+              User? currentUser = FirebaseAuth.instance.currentUser;
+
+              if (currentUser != null) {
+                Provider.of<UserProvider>(context, listen: false).setUser(currentUser);
+                await UserFirestoreService().saveUserData(currentUser); // 여기서 _userFirestoreService를 UserFirestoreService()로 변경
+                if (kDebugMode) {
+                  print('사용자 정보 저장 성공');
+                }
+              } else {
+                if (kDebugMode) {
+                  print('사용자 정보 저장 실패: 사용자가 로그인되어 있지 않음');
+                }
+              }
+            } catch (error) {
+              if (kDebugMode) {
+                print('사용자 정보 저장 실패: $error');
+              }
+            }
+
+            Navigator.pushAndRemoveUntil(
+              context,
+              CustomPageRoute(builder: (context) => const HomePage()),
+                  (route) => false,
+            );
+
+            CherryToast.success(
+              animationType: AnimationType.fromTop,
+              title: Text('${user?.displayName}님 환영합니다.'),
+            ).show(context);
+
+          } catch (error) {
+            // 실패 시 처리
+            if (kDebugMode) {
+              print('Firebase 사용자 인증 실패: $error');
+            }
+            // 실패 시 사용자에게 알림을 제공하는 등의 추가 처리 가능
+          }
+        },
       color: Colors.white, // 버튼 색상 변경
       elevation: 3,
       shape: RoundedRectangleBorder(
@@ -53,20 +116,19 @@ class GoogleLoginButton extends StatelessWidget {
 }
 
 class KakaoLoginButton extends StatelessWidget {
-  final VoidCallback onPressed;
 
-  const KakaoLoginButton({Key? key, required this.onPressed}) : super(key: key);
+  const KakaoLoginButton({Key? key}) : super(key: key); // 생성자 수정
 
   @override
   Widget build(BuildContext context) {
-    final UserFirestoreService _userFirestoreService = UserFirestoreService();
+    final UserFirestoreService userFirestoreService = UserFirestoreService();
     return MaterialButton(
-      onPressed: () async {
+      onPressed: () async { // 여기서부터 직접 로직 구현
         bool loginSuccess = await KakaoLogin().login();
         if (loginSuccess) {
           String? userName = await KakaoLogin().getUserName();
           print('카카오 사용자 닉네임: $userName');
-          // Kakao 로그인 성공 시 SettingPage로 이동하고 이전 화면 제거
+          // Kakao 로그인 성공 시 HomePage로 이동하고 이전 화면 제거
           Navigator.pushAndRemoveUntil(
             context,
             CustomPageRoute(builder: (context) => const HomePage()),
@@ -84,7 +146,7 @@ class KakaoLoginButton extends StatelessWidget {
 
           if (user != null) {
             Provider.of<UserProvider>(context, listen: false).setUser(user);
-            await _userFirestoreService.saveUserData(user);
+            await userFirestoreService.saveUserData(user);
             if (kDebugMode) {
               print('사용자 정보 저장 성공');
             }
@@ -99,7 +161,7 @@ class KakaoLoginButton extends StatelessWidget {
           }
         }
       },
-      color: Color(0xFFFEE500), // 카카오 컬러로 변경 가능
+      color: const Color(0xFFFEE500), // 카카오 컬러로 변경 가능
       elevation: 3,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -132,3 +194,4 @@ class KakaoLoginButton extends StatelessWidget {
     );
   }
 }
+
