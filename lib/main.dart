@@ -16,6 +16,7 @@ void main() async {
   MobileAds.instance.initialize();
   runApp(const MyApp());
   KakaoSdk.init(nativeAppKey: "f1be4eee65c1b453e96568a01c0014e6");
+  print('123');
 }
 
 class MyApp extends StatelessWidget {
