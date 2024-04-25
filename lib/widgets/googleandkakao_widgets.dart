@@ -91,7 +91,6 @@ class GoogleLoginButton extends StatelessWidget {
         height: 50, // 버튼의 높이 설정
         width: MediaQuery.of(context).size.width * 0.8, // 화면 너비의 80%로 설정
         child: Row(
-          mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox( // 이미지를 표시하기 위해 SizedBox로 감싸기
               width: MediaQuery.of(context).size.width * 0.1, // 화면 너비의 10%로 설정
@@ -99,13 +98,13 @@ class GoogleLoginButton extends StatelessWidget {
               child: Image.asset('assets/googleicon.png'), // 이미지 추가
             ),
             const SizedBox(width: 10), // 이미지와 텍스트 사이의 간격 조정
-            Padding(
-              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.13), // 왼쪽 패딩 추가
-              child: const Text(
+            Expanded( // 텍스트가 넘치지 않도록 Expanded로 감싸기
+              child: Text(
                 'Google로 시작하기',
                 style: TextStyle(
                   fontSize: 18,
                 ),
+                overflow: TextOverflow.ellipsis, // 텍스트가 넘칠 경우 ...으로 표시
               ),
             ),
           ],
@@ -171,7 +170,7 @@ class KakaoLoginButton extends StatelessWidget {
         height: 50, // 버튼의 높이 설정
         width: MediaQuery.of(context).size.width * 0.8, // 화면 너비의 80%로 설정
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start, // 요소들을 시작 위치에서 정렬
           children: [
             SizedBox( // 이미지를 표시하기 위해 SizedBox로 감싸기
               width: MediaQuery.of(context).size.width * 0.1, // 화면 너비의 10%로 설정
@@ -179,13 +178,13 @@ class KakaoLoginButton extends StatelessWidget {
               child: Image.asset('assets/kakaologo.png'), // 이미지 추가
             ),
             const SizedBox(width: 10), // 이미지와 텍스트 사이의 간격 조정
-            Padding(
-              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.13), // 왼쪽 패딩 추가
-              child: const Text(
+            Expanded( // 텍스트를 담을 공간을 유연하게 조정
+              child: Text(
                 'Kakao로 시작하기',
                 style: TextStyle(
                   fontSize: 18,
                 ),
+                overflow: TextOverflow.ellipsis, // 텍스트가 박스를 벗어날 경우 생략 기호 사용
               ),
             ),
           ],

@@ -92,9 +92,11 @@ class FoodCartPageState extends State<FoodCartPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               '로그인을 하고 장바구니를 이용해보세요!',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.width * 0.041, // 화면 너비에 따라 조정
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(

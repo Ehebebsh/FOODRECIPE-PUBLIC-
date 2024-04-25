@@ -119,7 +119,6 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        forceMaterialTransparency: true,
         backgroundColor: Colors.white,
         leading: const Padding(
           padding: EdgeInsets.all(3),
@@ -137,26 +136,29 @@ class HomePageState extends State<HomePage> {
           },
           child: Container(
             height: 40,
+            width: MediaQuery.of(context).size.width - 100, // 너비를 더 늘림 (예: 120에서 100으로 조정)
             decoration: BoxDecoration(
               color: Colors.grey[200],
               borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text(
-                    '오늘의 레시피를 검색해보세요!',
-                    style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text(
+                      '오늘의 레시피를 검색해보세요!',
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.035,
+                        color: Colors.grey[600],
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 15),
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.grey[600],
-                  ),
+                Icon(
+                  Icons.search,
+                  color: Colors.grey[600],
                 ),
               ],
             ),
@@ -298,10 +300,10 @@ class HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     '손쉽게 할 수 있는 요리',
                     style: TextStyle(
-                      fontSize: 17.0,
+                      fontSize: MediaQuery.of(context).size.width * 0.045, // 화면 너비에 따라 동적으로 조절
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -319,10 +321,10 @@ class HomePageState extends State<HomePage> {
                             )),
                       );
                     },
-                    child: const Text(
+                    child: Text(
                       '더보기',
                       style: TextStyle(
-                        fontSize: 12.0,
+                        fontSize: MediaQuery.of(context).size.width * 0.03, // 화면 너비에 따라 동적으로 조절
                         color: Colors.grey,
                       ),
                     ),
@@ -348,54 +350,56 @@ class HomePageState extends State<HomePage> {
                         scrollDirection: Axis.horizontal,
                         itemCount: 5,
                         itemBuilder: (BuildContext context, int index) {
-                          var foodData =
-                          easyFoodJsonList[index] as Map<String, dynamic>;
+                          var foodData = easyFoodJsonList[index] as Map<String, dynamic>;
                           return Padding(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Provider.of<Counter>(context, listen: false)
-                                        .increment();
-                                    checkAndShowAd();
-                                    Navigator.push(
-                                      context,
-                                      CustomPageRoute(
-                                        builder: (context) =>
-                                            FoodDetailPage(foodData: foodData),
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Container(
+                              width: 120, // 컨테이너의 너비를 고정
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Provider.of<Counter>(context, listen: false).increment();
+                                      checkAndShowAd();
+                                      Navigator.push(
+                                        context,
+                                        CustomPageRoute(
+                                          builder: (context) => FoodDetailPage(foodData: foodData),
+                                        ),
+                                      );
+                                    },
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.asset(
+                                        easyFoodImages[index],
+                                        width: 120,
+                                        height: 120,
+                                        fit: BoxFit.cover, // 이미지를 꽉 차게 표시
                                       ),
-                                    );
-                                  },
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.asset(
-                                      easyFoodImages[index],
-                                      width: 120,
-                                      height: 120,
-                                      fit: BoxFit.cover, // 이미지를 꽉 차게 표시
                                     ),
                                   ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  foodData['name'] ?? '',
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  foodData['tags'] != null
-                                      ? foodData['tags']
-                                      .sublist(0, 2)
-                                      .join(', ')
-                                      : '',
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.grey),
-                                ),
-                              ],
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    foodData['name'] ?? '',
+                                    style: TextStyle(
+                                      fontSize: MediaQuery.of(context).size.width * 0.04, // 텍스트 크기를 화면 너비의 4%로 설정
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.ellipsis, // 긴 텍스트 처리
+                                  ),
+                                  Text(
+                                    foodData['tags'] != null
+                                        ? foodData['tags'].sublist(0, 2).join(', ')
+                                        : '',
+                                    style: TextStyle(
+                                      fontSize: MediaQuery.of(context).size.width * 0.035, // 텍스트 크기를 화면 너비의 3.5%로 설정
+                                      color: Colors.grey,
+                                    ),
+                                    overflow: TextOverflow.ellipsis, // 긴 텍스트 처리
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -411,11 +415,14 @@ class HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    '당신의 요리 솜씨를 뽐내보세요!',
-                    style: TextStyle(
-                      fontSize: 17.0,
-                      fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Text(
+                      '당신의 요리 솜씨를 뽐내보세요!',
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.04, // 동적으로 글자 크기 조정
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis, // 긴 텍스트 처리
                     ),
                   ),
                   TextButton(
@@ -432,10 +439,10 @@ class HomePageState extends State<HomePage> {
                             )),
                       );
                     },
-                    child: const Text(
+                    child: Text(
                       '더보기',
                       style: TextStyle(
-                        fontSize: 12.0,
+                        fontSize: MediaQuery.of(context).size.width * 0.03, // 동적으로 글자 크기 조정
                         color: Colors.grey,
                       ),
                     ),
@@ -461,54 +468,59 @@ class HomePageState extends State<HomePage> {
                         scrollDirection: Axis.horizontal,
                         itemCount: 5,
                         itemBuilder: (BuildContext context, int index) {
-                          var foodData =
-                          easyFoodJsonList[index] as Map<String, dynamic>;
-                          return Padding(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Provider.of<Counter>(context, listen: false)
-                                        .increment();
-                                    checkAndShowAd();
-                                    Navigator.push(
-                                      context,
-                                      CustomPageRoute(
-                                        builder: (context) =>
-                                            FoodDetailPage(foodData: foodData),
+                          var foodData = easyFoodJsonList[index] as Map<String, dynamic>;
+                          // 각 아이템의 최외곽을 Container로 감싸고, width를 설정하여 크기를 고정합니다.
+                          return Container(
+                            width: 120, // 아이템의 너비를 고정. 이 값을 조정하여 원하는 간격을 설정할 수 있습니다.
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Provider.of<Counter>(context, listen: false).increment();
+                                      checkAndShowAd();
+                                      Navigator.push(
+                                        context,
+                                        CustomPageRoute(
+                                          builder: (context) => FoodDetailPage(foodData: foodData),
+                                        ),
+                                      );
+                                    },
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.asset(
+                                        easyFoodImages[index],
+                                        width: 120,
+                                        height: 120,
+                                        fit: BoxFit.cover,
                                       ),
-                                    );
-                                  },
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.asset(
-                                      easyFoodImages[index],
-                                      width: 120,
-                                      height: 120,
-                                      fit: BoxFit.cover, // 이미지를 꽉 차게 표시
                                     ),
                                   ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  foodData['name'] ?? '',
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  foodData['tags'] != null
-                                      ? foodData['tags']
-                                      .sublist(0, 2)
-                                      .join(', ')
-                                      : '',
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.grey),
-                                ),
-                              ],
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    foodData['name'] ?? '',
+                                    style: TextStyle(
+                                      fontSize: MediaQuery.of(context).size.width * 0.04,
+                                      fontWeight: FontWeight.bold,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                      foodData['tags'] != null
+                                          ? foodData['tags'].sublist(0, 2).join(', ')
+                                          : '',
+                                      style: TextStyle(
+                                        fontSize: MediaQuery.of(context).size.width * 0.035,
+                                        color: Colors.grey,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },

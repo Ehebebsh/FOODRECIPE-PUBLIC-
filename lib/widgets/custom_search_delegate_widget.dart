@@ -20,7 +20,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
             fillColor: Colors.grey[200],
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-            hintStyle: TextStyle(color: Colors.grey[600], fontSize: 20),
+            hintStyle: TextStyle(color: Colors.grey[600], fontSize: 15),
           ),
         );
 
@@ -114,14 +114,13 @@ class CustomSearchDelegate extends SearchDelegate<String> {
         final food = suggestionList[index];
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
-          // 각 항목의 여백
           decoration: BoxDecoration(
-            color: Colors.grey[200], // 여기서 배경색을 설정합니다.
-            borderRadius: BorderRadius.circular(10.0), // 모서리를 둥글게 처리합니다.
+            color: Colors.grey[200], // 배경색 설정
+            borderRadius: BorderRadius.circular(10.0), // 모서리 둥글게 처리
           ),
           child: ListTile(
             leading: ClipRRect(
-              borderRadius: BorderRadius.circular(4.0), // 이미지 모서리를 둥글게 처리합니다.
+              borderRadius: BorderRadius.circular(4.0), // 이미지 모서리 둥글게 처리
               child: Image.asset(
                 food['image'],
                 fit: BoxFit.cover,
@@ -134,8 +133,12 @@ class CustomSearchDelegate extends SearchDelegate<String> {
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
+              overflow: TextOverflow.ellipsis, // 이름이 길어지면 '...'으로 표시
             ),
-            subtitle: Text(food['tags'].join(', ')),
+            subtitle: Text(
+              food['tags'].join(', '),
+              overflow: TextOverflow.ellipsis, // 태그가 길어지면 '...'으로 표시
+            ),
             onTap: () {
               Navigator.push(
                 context,
@@ -144,9 +147,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
                 ),
               );
             },
-            // ListTile의 내부 여백을 조정합니다.
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
           ),
         );
       },
