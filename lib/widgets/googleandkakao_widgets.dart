@@ -97,14 +97,15 @@ class GoogleLoginButton extends StatelessWidget {
               height: MediaQuery.of(context).size.width * 0.1, // 화면 너비의 10%로 설정
               child: Image.asset('assets/googleicon.png'), // 이미지 추가
             ),
-            const SizedBox(width: 10), // 이미지와 텍스트 사이의 간격 조정
-            Expanded( // 텍스트가 넘치지 않도록 Expanded로 감싸기
-              child: Text(
-                'Google로 시작하기',
-                style: TextStyle(
-                  fontSize: 18,
+            Expanded(
+              child: Center( // 텍스트를 가운데 정렬
+                child: Text(
+                  'Google로 시작하기',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                overflow: TextOverflow.ellipsis, // 텍스트가 넘칠 경우 ...으로 표시
               ),
             ),
           ],
@@ -177,14 +178,15 @@ class KakaoLoginButton extends StatelessWidget {
               height: MediaQuery.of(context).size.width * 0.1, // 화면 너비의 10%로 설정
               child: Image.asset('assets/kakaologo.png'), // 이미지 추가
             ),
-            const SizedBox(width: 10), // 이미지와 텍스트 사이의 간격 조정
-            Expanded( // 텍스트를 담을 공간을 유연하게 조정
-              child: Text(
-                'Kakao로 시작하기',
-                style: TextStyle(
-                  fontSize: 18,
+            Expanded(
+              child: Center( // 텍스트를 가운데 정렬
+                child: Text(
+                  'Kakao로 시작하기',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                overflow: TextOverflow.ellipsis, // 텍스트가 박스를 벗어날 경우 생략 기호 사용
               ),
             ),
           ],
