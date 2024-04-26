@@ -119,11 +119,12 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        forceMaterialTransparency: true,
         backgroundColor: Colors.white,
         leading: const Padding(
           padding: EdgeInsets.all(3),
           child: CircleAvatar(
-            backgroundImage: AssetImage('assets/logo.JPG'),
+            backgroundImage: AssetImage('assets/logo.png'),
             backgroundColor: Colors.transparent,
           ),
         ),
@@ -156,9 +157,12 @@ class HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                Icon(
-                  Icons.search,
-                  color: Colors.grey[600],
+                Padding(
+                  padding: EdgeInsets.only(right: 15),
+                  child: Icon(
+                    Icons.search,
+                    color: Colors.grey[600],
+                  ),
                 ),
               ],
             ),

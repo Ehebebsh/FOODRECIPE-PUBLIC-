@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           const SizedBox(height: 50), // 이미지 위의 여백
           Image.asset(
-            'assets/logo.JPG',
+            'assets/logo.png',
             width: 300,
             height: 300,
           ),
