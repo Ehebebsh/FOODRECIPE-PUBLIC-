@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:foodrecipe/provider/foodcart_provider.dart';
+import 'package:provider/provider.dart';
 
 class FoodCartAddPage extends StatefulWidget {
   const FoodCartAddPage({Key? key}) : super(key: key);
@@ -13,9 +13,8 @@ class FoodCartAddPage extends StatefulWidget {
 
 class FoodCartAddPageState extends State<FoodCartAddPage> {
   Set<String> selectedIngredients = {};
-  Set<String> allIngredients = {};
-  List<String> filteredIngredients = []; // 검색 결과를 담을 리스트
-  TextEditingController searchController = TextEditingController();
+  List<String> detailIngredients = []; // List로 변경
+  List<String> filteredIngredients = []; // 추가: 검색 결과를 담을 리스트
 
   @override
   void initState() {
@@ -25,33 +24,47 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
 
   Future<void> loadJsonData() async {
     try {
-      final ingredientsJsonString =
-          await rootBundle.loadString('assets/ingredients.json');
+      // 여러 개의 JSON 파일 경로
+      List<String> jsonFiles = [
+        'assets/koreafood_data.json',
+        'assets/westernfood_data.json',
+        'assets/chinesefood_data.json',
+      ];
 
-      setState(() {
-        final List<dynamic> ingredientsData =
-            json.decode(ingredientsJsonString);
+      for (String filePath in jsonFiles) {
+        final ingredientsJsonString = await rootBundle.loadString(filePath);
+        final List<dynamic> foodData = json.decode(ingredientsJsonString);
 
-        // ingredientsData는 리스트 안에 한 개의 맵이므로 이를 고려하여 처리
-        if (ingredientsData.isNotEmpty) {
-          final Map<String, dynamic> data = ingredientsData.first;
-          if (data.containsKey('ingredients')) {
-            final List<dynamic> ingredients = data['ingredients'];
-            allIngredients.addAll(ingredients.cast<String>());
-            filteredIngredients.addAll(ingredients.cast<String>());
+        // 각 JSON 파일의 데이터 처리
+        for (var data in foodData) {
+          if (data.containsKey('detail-ingredients')) {
+            final List<dynamic> ingredients = data['detail-ingredients'];
+
+            // ingredients에서 ', '을 기준으로 분리하여 두 번째 항목부터 끝까지 detailIngredients에 추가
+            for (var ingredient in ingredients) {
+              if (ingredient.contains(', ')) {
+                detailIngredients.add(ingredient.split(', ')[1]);
+              }
+            }
           }
         }
+      }
+
+      setState(() {
+        // Set을 List로 변환하여 UI 업데이트
+        detailIngredients = detailIngredients.toSet().toList();
+        filteredIngredients.addAll(detailIngredients); // 초기에 전체 데이터로 설정
       });
     } catch (error) {
       debugPrint('Error loading JSON data: $error');
     }
   }
 
-  // 검색 기능 구현
+  // 추가: 검색 기능 메서드
   void filterIngredients(String query) {
     if (query.isNotEmpty) {
       List<String> tempList = [];
-      for (var ingredient in allIngredients) {
+      for (var ingredient in detailIngredients) {
         if (ingredient.toLowerCase().contains(query.toLowerCase())) {
           tempList.add(ingredient);
         }
@@ -60,11 +73,10 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
         filteredIngredients.clear();
         filteredIngredients.addAll(tempList);
       });
-      return;
     } else {
       setState(() {
         filteredIngredients.clear();
-        filteredIngredients.addAll(allIngredients);
+        filteredIngredients.addAll(detailIngredients);
       });
     }
   }
@@ -73,171 +85,129 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return WillPopScope(
-      onWillPop: () async {
-        if (selectedIngredients.isNotEmpty) {
-          return await showDialog<bool>(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    content: const Text('선택된 재료가 있습니다. 정말 뒤로 가시겠습니까?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context, true);
-                        },
-                        child: const Text('예',
-                            style: TextStyle(color: Colors.black)),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context, false);
-                        },
-                        child: const Text('아니오',
-                            style: TextStyle(color: Colors.black)),
-                      ),
-                    ],
-                  );
-                },
-              ) ??
-              false;
-        }
-        return true;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('재료 선택'),
-          actions: [
-            IconButton(
-              onPressed: () {
-                // 선택한 재료를 토글하여 FoodCartProvider에 저장
-                for (var ingredient in selectedIngredients) {
-                  Provider.of<FoodCartProvider>(context, listen: false)
-                      .toggleIngredient(ingredient);
-                }
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.shopping_cart),
-            ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: screenWidth - 16,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        '선택된 재료',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15),
-                      ),
-                      const SizedBox(height: 8),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: selectedIngredients
-                            .map(
-                              (ingredient) => Chip(
-                                label: Text(ingredient),
-                                deleteIcon: const Icon(Icons.close),
-                                onDeleted: () {
-                                  setState(() {
-                                    selectedIngredients.remove(ingredient);
-                                  });
-                                },
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ],
-                  ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('재료 선택'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              // 선택한 재료를 FoodCartProvider에 저장
+              for (var ingredient in selectedIngredients) {
+                Provider.of<FoodCartProvider>(context, listen: false)
+                    .toggleIngredient(ingredient);
+              }
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.shopping_cart),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: screenWidth - 16,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                const SizedBox(height: 16),
-                Container(
-                  width: screenWidth - 16,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        '재료 선택',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
-                        controller: searchController,
-                        onChanged: (value) {
-                          filterIngredients(value);
-                        },
-                        decoration: const InputDecoration(
-                          hintText: '재료 검색...',
-                          prefixIcon: Icon(Icons.search),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.black), // 원하는 색상 설정
-                          ),
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '선택된 재료',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15),
+                    ),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: selectedIngredients
+                          .map(
+                            (ingredient) => Chip(
+                          label: Text(ingredient),
+                          deleteIcon: const Icon(Icons.close),
+                          onDeleted: () {
+                            setState(() {
+                              selectedIngredients.remove(ingredient);
+                            });
+                          },
+                        ),
+                      )
+                          .toList(),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              Container(
+                width: screenWidth - 16,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '재료 선택',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      onChanged: (value) {
+                        filterIngredients(value);
+                      },
+                      decoration: InputDecoration(
+                        labelText: '검색',
+                        prefixIcon: const Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: filteredIngredients.length,
-                        itemBuilder: (context, index) {
-                          final ingredient = filteredIngredients[index];
-                          bool isAlreadyAdded =
-                              Provider.of<FoodCartProvider>(context)
-                                  .selectedIngredients
-                                  .contains(ingredient);
-                          if (isAlreadyAdded) {
-                            return const SizedBox
-                                .shrink(); // 아무 내용도 없는 SizedBox 반환하여 숨김
-                          }
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                if (selectedIngredients.contains(ingredient)) {
-                                  selectedIngredients.remove(ingredient);
-                                } else {
-                                  selectedIngredients.add(ingredient);
-                                }
-                              });
-                            },
-                            child: ListTile(
-                              title: Text(ingredient),
-                              trailing: Icon(
-                                selectedIngredients.contains(ingredient)
-                                    ? Icons.check_circle
-                                    : Icons.circle_outlined,
-                                color: selectedIngredients.contains(ingredient)
-                                    ? Colors.green
-                                    : null,
-                              ),
+                    ),
+                    const SizedBox(height: 8),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: filteredIngredients.length,
+                      itemBuilder: (context, index) {
+                        final ingredient = filteredIngredients[index];
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (selectedIngredients.contains(ingredient)) {
+                                selectedIngredients.remove(ingredient);
+                              } else {
+                                selectedIngredients.add(ingredient);
+                              }
+                            });
+                          },
+                          child: ListTile(
+                            title: Text(ingredient),
+                            trailing: Icon(
+                              selectedIngredients.contains(ingredient)
+                                  ? Icons.check_circle
+                                  : Icons.circle_outlined,
+                              color: selectedIngredients.contains(ingredient)
+                                  ? Colors.green
+                                  : null,
                             ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
