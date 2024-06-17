@@ -12,9 +12,9 @@ class UserFirestoreService {
       await _usersCollection.doc(user.uid).set({
         'favorites': favorites,
       });
-      print('사용자 정보 및 즐겨찾기 Firestore에 저장 완료');
+
     } catch (error) {
-      print('사용자 정보 및 즐겨찾기 Firestore 저장 실패: $error');
+
       throw error;
     }
   }
@@ -38,10 +38,7 @@ class UserFirestoreService {
           'favorites': [], // 초기 즐겨찾기 목록은 비어있음
         });
       }
-
-      print('사용자 정보 Firestore에 저장 완료');
     } catch (error) {
-      print('사용자 정보 Firestore 저장 실패: $error');
       throw error;
     }
   }

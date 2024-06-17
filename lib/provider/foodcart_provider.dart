@@ -76,7 +76,6 @@ class FoodCartProvider extends ChangeNotifier {
         }
       }
     } catch (error) {
-      print('Error loading selected ingredients from Firestore: $error');
       throw error;
     } finally {
       _setLoading(false); // 로딩 완료
@@ -94,10 +93,8 @@ class FoodCartProvider extends ChangeNotifier {
             .set({
           'selectedIngredients': _selectedIngredients.toList(),
         }, SetOptions(merge: true));
-        print('Selected ingredients saved to Firestore');
       }
     } catch (error) {
-      print('Error saving selected ingredients to Firestore: $error');
       throw error;
     } finally {
       _setLoading(false); // 데이터 저장 완료

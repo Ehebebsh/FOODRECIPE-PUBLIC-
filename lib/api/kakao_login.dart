@@ -14,7 +14,7 @@ class KakaoLogin implements SocialLogin {
       );
       fb.FirebaseAuth.instance.signInWithCredential(credential);
       bool isInstalled = await isKakaoTalkInstalled();
-      print(await KakaoSdk.origin);
+
       if (isInstalled) {
         try {
           await UserApi.instance.loginWithKakaoAccount();
@@ -26,8 +26,7 @@ class KakaoLogin implements SocialLogin {
         try {
           await UserApi.instance.loginWithKakaoAccount();
           return true;
-        } catch (e) {
-          print(e);
+        } catch (e) {print(e);
           return false;
         }
       }
@@ -52,7 +51,7 @@ class KakaoLogin implements SocialLogin {
       User user = await UserApi.instance.me();
       return user.kakaoAccount?.profile?.nickname;
     } catch (error) {
-      print('카카오 사용자 정보 가져오기 에러: $error');
+
       return null;
     }
   }

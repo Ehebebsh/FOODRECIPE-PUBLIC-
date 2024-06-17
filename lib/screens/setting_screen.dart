@@ -69,7 +69,7 @@ class SettingPageState extends State<SettingPage> {
               title: const Text('개인정보 처리방침'),
               onTap: () {
                 launch(
-                    "https://sites.google.com/view/mooddiaryprivacy/%ED%99%88");
+                    "https://sites.google.com/view/myfoodrecipe/%ED%99%88");
               },
             ),
             const SizedBox(height: 10), // 간격 조정
