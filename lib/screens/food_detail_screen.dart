@@ -120,16 +120,18 @@ class FoodDetailPage extends StatelessWidget {
                                 vertical: 4.0,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.grey[300], // 회색 배경색 적용
+                                color: Colors.grey[300],
                                 borderRadius: BorderRadius.circular(16.0),
                               ),
                               child: Text(
-                                ingredient.toString(),
+                                // ingredient에서 ', '을 기준으로 분리하여 첫 번째 항목을 사용
+                                ingredient.toString().split(', ').first,
                                 style: const TextStyle(color: Colors.black),
                               ),
                             ),
                         ],
                       ),
+
                     if (foodData['detail-ingredients'] == null ||
                         foodData['detail-ingredients']!.isEmpty)
                       const Text(
