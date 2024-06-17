@@ -50,11 +50,8 @@ class BookMarkProvider extends ChangeNotifier {
         await userCollection.doc(user.uid).set({
           'favorites': _favorites,
         }, SetOptions(merge: true));
-
-        print('즐겨찾기 목록 Firestore에 저장 완료');
       }
     } catch (error) {
-      print('즐겨찾기 목록 Firestore 저장 실패: $error');
       throw error;
     } finally {
       isLoading = false;
@@ -93,7 +90,6 @@ class BookMarkProvider extends ChangeNotifier {
         }
       }
     } catch (error) {
-      print('Firestore에서 즐겨찾기 목록 로드 실패: $error');
       throw error;
     } finally {
       isLoading = false;

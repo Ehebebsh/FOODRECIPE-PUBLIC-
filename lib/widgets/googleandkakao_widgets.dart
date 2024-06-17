@@ -39,7 +39,6 @@ class GoogleLoginButton extends StatelessWidget {
             // 사용자 인증 성공
             final User? user = userCredential.user;
             if (kDebugMode) {
-              print('Firebase 사용자 인증 성공: ${user?.displayName}');
             }
 
             // Firebase 현재 사용자 정보 가져오기 및 사용자 정보 저장 시도
@@ -50,16 +49,13 @@ class GoogleLoginButton extends StatelessWidget {
                 Provider.of<UserProvider>(context, listen: false).setUser(currentUser);
                 await UserFirestoreService().saveUserData(currentUser); // 여기서 _userFirestoreService를 UserFirestoreService()로 변경
                 if (kDebugMode) {
-                  print('사용자 정보 저장 성공');
                 }
               } else {
                 if (kDebugMode) {
-                  print('사용자 정보 저장 실패: 사용자가 로그인되어 있지 않음');
                 }
               }
             } catch (error) {
               if (kDebugMode) {
-                print('사용자 정보 저장 실패: $error');
               }
             }
 
@@ -77,7 +73,6 @@ class GoogleLoginButton extends StatelessWidget {
           } catch (error) {
             // 실패 시 처리
             if (kDebugMode) {
-              print('Firebase 사용자 인증 실패: $error');
             }
             // 실패 시 사용자에게 알림을 제공하는 등의 추가 처리 가능
           }
@@ -127,7 +122,6 @@ class KakaoLoginButton extends StatelessWidget {
         bool loginSuccess = await KakaoLogin().login();
         if (loginSuccess) {
           String? userName = await KakaoLogin().getUserName();
-          print('카카오 사용자 닉네임: $userName');
           // Kakao 로그인 성공 시 HomePage로 이동하고 이전 화면 제거
           Navigator.pushAndRemoveUntil(
             context,
@@ -139,7 +133,6 @@ class KakaoLoginButton extends StatelessWidget {
             title: Text('$userName님 환영합니다.'),
           ).show(context);
         } else {
-          print("Kakao 로그인 실패");
         }
         try {
           User? user = FirebaseAuth.instance.currentUser;
@@ -148,16 +141,13 @@ class KakaoLoginButton extends StatelessWidget {
             Provider.of<UserProvider>(context, listen: false).setUser(user);
             await userFirestoreService.saveUserData(user);
             if (kDebugMode) {
-              print('사용자 정보 저장 성공');
             }
           } else {
             if (kDebugMode) {
-              print('사용자 정보 저장 실패: 사용자가 로그인되어 있지 않음');
             }
           }
         } catch (error) {
           if (kDebugMode) {
-            print('사용자 정보 저장 실패: $error');
           }
         }
       },

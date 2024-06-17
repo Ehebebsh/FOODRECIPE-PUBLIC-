@@ -1,1 +1,1 @@
-const String rewardAdId = 'ca-app-pub-3940256099942544/1712485313';
+const String rewardAdId = 'ca-app-pub-8506964275473924/9399558195';

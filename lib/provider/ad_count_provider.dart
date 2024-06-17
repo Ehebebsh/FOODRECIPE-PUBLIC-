@@ -6,7 +6,6 @@ class Counter with ChangeNotifier {
 
   void increment() {
     _count++;
-    print('광고를 확인하기 전 현재 카운트 값: $count');
     notifyListeners();
   }
 }
