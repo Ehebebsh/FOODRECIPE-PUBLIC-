@@ -8,7 +8,7 @@ class UserFirestoreService {
   Future<void> saveUserDataWithFavorites(
       User user, List<String> favorites) async {
     try {
-      // 사용자 정보와 즐겨찾기 데이터를 함께 저장
+
       await _usersCollection.doc(user.uid).set({
         'favorites': favorites,
       });
@@ -21,11 +21,9 @@ class UserFirestoreService {
 
   Future<void> saveUserData(User user) async {
     try {
-      // 문서 존재 여부 확인
       final docSnapshot = await _usersCollection.doc(user.uid).get();
 
       if (docSnapshot.exists) {
-        // 문서가 존재하면 기존 데이터 업데이트 (name과 email 필드만)
         await _usersCollection.doc(user.uid).update({
           'name': user.displayName,
           'email': user.email,
@@ -35,7 +33,6 @@ class UserFirestoreService {
         await _usersCollection.doc(user.uid).set({
           'name': user.displayName,
           'email': user.email,
-          'favorites': [], // 초기 즐겨찾기 목록은 비어있음
         });
       }
     } catch (error) {

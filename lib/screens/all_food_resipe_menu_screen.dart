@@ -11,6 +11,8 @@ import '../widgets/custom_bottom_navigation_action_widget.dart';
 import 'login_screen.dart';
 
 
+
+
 class AllFoodPage extends StatefulWidget {
   final String title;
   final List<String> jsonFileNames; // 수정된 부분: JSON 파일 이름들의 리스트
@@ -116,7 +118,6 @@ class _FoodPageState extends State<AllFoodPage> {
                                 bool isAdding = !favorites.contains(foodName); // isAdding을 뒤집음
                                 favoritesProvider.toggleFavorite(foodName);
 
-                                // 즐겨찾기가 추가되거나 삭제될 때마다 적절한 Toast를 표시합니다.
                                 if (isAdding) {
                                   CherryToast.add(
                                     title: Text('$foodName${addParticle(foodName)} 즐겨찾기에 추가되었습니다.'),

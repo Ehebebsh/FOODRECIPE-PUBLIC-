@@ -82,26 +82,19 @@ class SettingPageState extends State<SettingPage> {
               title: Text('버전 정보'),
             ),
             const SizedBox(height: 10),
-            if (isLoggedIn) // 로그인 상태에 따라 UI 조건부 렌더링
+            if (isLoggedIn)
               ListTile(
                 leading: const Icon(Icons.logout),
                 onTap: () async {
                   await FirebaseAuth.instance.signOut();
                   LoginChecker loginChecker = LoginChecker();
                   if (await loginChecker.checkGoogleLoginStatus()) {
-                    await GoogleSignIn().signOut(); // 구글 로그아웃
+                    await GoogleSignIn().signOut();
                   } else if (await loginChecker.checkKakaoLoginStatus()) {
-                    await UserApi.instance.logout(); // 카카오 로그아웃
+                    await UserApi.instance.logout();
                   }
-                 // Firebase Auth 로그아웃 추가
-
-                  // 사용자 관련 상태 초기화 (예시)
-                  Provider.of<UserProvider>(context, listen: false).clearUser(); // 가정: UserProvider에 clearUser 메서드가 있다고 가정
-
-                  setState(() {
-                    isLoggedIn = false;
-                  });
-                },
+                  Provider.of<UserProvider>(context, listen: false).clearUser();
+                  },
 
                 title: const Text('로그아웃'),
               )
