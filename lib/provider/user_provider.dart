@@ -8,11 +8,11 @@ class UserProvider with ChangeNotifier {
 
   void setUser(User? user) {
     _user = user;
-    notifyListeners(); // 상태가 변경됨을 알림
+    notifyListeners();
   }
 
   void clearUser() {
     _user = null;
-    notifyListeners(); // 상태가 변경됨을 알림
+    notifyListeners();
   }
 }

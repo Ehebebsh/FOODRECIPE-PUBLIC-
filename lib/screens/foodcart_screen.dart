@@ -8,7 +8,7 @@ import 'package:foodrecipe/utils/colortable.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:foodrecipe/screens/foodcartadd_screen.dart';
-import '../models/dismissiblelistitem_model.dart';
+
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 import 'login_screen.dart';
 
@@ -147,3 +147,32 @@ class FoodCartPageState extends State<FoodCartPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }}
+
+class DismissibleListItem extends StatelessWidget {
+  final String ingredient;
+  final VoidCallback onDismissed;
+
+  const DismissibleListItem({
+    required this.ingredient,
+    required this.onDismissed,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: ListTile(
+        title: Text(ingredient),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete, color: Colors.red),
+          onPressed: onDismissed,
+        ),
+      ),
+    );
+  }
+}

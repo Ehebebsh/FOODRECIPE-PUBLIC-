@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class BookMarkProvider extends ChangeNotifier {
   final List<String> _favorites = [];
   bool _isLoading = false;
-  Map<String, DateTime> _favoriteTimes = {}; // 각 즐겨찾기 항목의 추가된 시간을 저장하는 맵
+  final Map<String, DateTime> _favoriteTimes = {};
 
   BookMarkProvider() {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
@@ -13,7 +13,7 @@ class BookMarkProvider extends ChangeNotifier {
         loadFavoritesFromFirestore();
       } else {
         _favorites.clear();
-        _favoriteTimes.clear(); // 로그아웃 시 즐겨찾기 목록과 시간 초기화
+        _favoriteTimes.clear();
         notifyListeners();
       }
     });
@@ -30,10 +30,10 @@ class BookMarkProvider extends ChangeNotifier {
   void toggleFavorite(String foodName) async {
     if (_favorites.contains(foodName)) {
       _favorites.remove(foodName);
-      _favoriteTimes.remove(foodName); // 즐겨찾기 제거 시 시간도 함께 제거
+      _favoriteTimes.remove(foodName);
     } else {
       _favorites.add(foodName);
-      _favoriteTimes[foodName] = DateTime.now(); // 즐겨찾기 추가 시 현재 시간 저장
+      _favoriteTimes[foodName] = DateTime.now();
     }
     debugPrint('Favorites: $_favorites');
     await saveFavoritesToFirestore();
@@ -55,7 +55,7 @@ class BookMarkProvider extends ChangeNotifier {
       }
     } catch (error) {
       print('즐겨찾기 목록 Firestore 저장 실패: $error');
-      throw error;
+      rethrow;
     } finally {
       isLoading = false;
     }
@@ -78,7 +78,6 @@ class BookMarkProvider extends ChangeNotifier {
             _favorites.clear();
             _favorites.addAll(List<String>.from(userData['favorites']));
 
-            // 즐겨찾기 목록을 불러올 때 각 항목의 추가된 시간도 함께 가져옴
             _favoriteTimes.clear();
             userData['favorites'].forEach((foodName) {
               if (userData.containsKey('$foodName-time')) {
@@ -94,18 +93,16 @@ class BookMarkProvider extends ChangeNotifier {
       }
     } catch (error) {
       print('Firestore에서 즐겨찾기 목록 로드 실패: $error');
-      throw error;
+      rethrow;
     } finally {
       isLoading = false;
     }
   }
 
-  // 즐겨찾기한 항목의 추가된 시간을 반환하는 메서드
   DateTime getFavoriteTime(String foodName) {
     if (_favoriteTimes.containsKey(foodName)) {
       return _favoriteTimes[foodName]!;
     } else {
-      // 만약 해당 음식이 즐겨찾기 목록에 없다면 기본값인 현재 시간 반환
       return DateTime.now();
     }
   }

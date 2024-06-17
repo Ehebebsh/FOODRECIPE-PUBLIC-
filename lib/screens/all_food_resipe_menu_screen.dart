@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +9,8 @@ import '../api/loginchecker.dart';
 import '../models/foodlist_model.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 import 'login_screen.dart';
+
+
 
 
 class AllFoodPage extends StatefulWidget {
@@ -117,7 +118,6 @@ class _FoodPageState extends State<AllFoodPage> {
                                 bool isAdding = !favorites.contains(foodName); // isAdding을 뒤집음
                                 favoritesProvider.toggleFavorite(foodName);
 
-                                // 즐겨찾기가 추가되거나 삭제될 때마다 적절한 Toast를 표시합니다.
                                 if (isAdding) {
                                   CherryToast.add(
                                     title: Text('$foodName${addParticle(foodName)} 즐겨찾기에 추가되었습니다.'),

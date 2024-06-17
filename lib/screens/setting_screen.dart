@@ -69,7 +69,7 @@ class SettingPageState extends State<SettingPage> {
               title: const Text('개인정보 처리방침'),
               onTap: () {
                 launch(
-                    "https://sites.google.com/view/mooddiaryprivacy/%ED%99%88");
+                    "https://sites.google.com/view/myfoodrecipe/%ED%99%88");
               },
             ),
             const SizedBox(height: 10), // 간격 조정
@@ -82,26 +82,19 @@ class SettingPageState extends State<SettingPage> {
               title: Text('버전 정보'),
             ),
             const SizedBox(height: 10),
-            if (isLoggedIn) // 로그인 상태에 따라 UI 조건부 렌더링
+            if (isLoggedIn)
               ListTile(
                 leading: const Icon(Icons.logout),
                 onTap: () async {
                   await FirebaseAuth.instance.signOut();
                   LoginChecker loginChecker = LoginChecker();
                   if (await loginChecker.checkGoogleLoginStatus()) {
-                    await GoogleSignIn().signOut(); // 구글 로그아웃
+                    await GoogleSignIn().signOut();
                   } else if (await loginChecker.checkKakaoLoginStatus()) {
-                    await UserApi.instance.logout(); // 카카오 로그아웃
+                    await UserApi.instance.logout();
                   }
-                 // Firebase Auth 로그아웃 추가
-
-                  // 사용자 관련 상태 초기화 (예시)
-                  Provider.of<UserProvider>(context, listen: false).clearUser(); // 가정: UserProvider에 clearUser 메서드가 있다고 가정
-
-                  setState(() {
-                    isLoggedIn = false;
-                  });
-                },
+                  Provider.of<UserProvider>(context, listen: false).clearUser();
+                  },
 
                 title: const Text('로그아웃'),
               )

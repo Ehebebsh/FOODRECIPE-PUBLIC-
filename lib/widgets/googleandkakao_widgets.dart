@@ -48,7 +48,7 @@ class GoogleLoginButton extends StatelessWidget {
 
               if (currentUser != null) {
                 Provider.of<UserProvider>(context, listen: false).setUser(currentUser);
-                await UserFirestoreService().saveUserData(currentUser); // 여기서 _userFirestoreService를 UserFirestoreService()로 변경
+                await UserFirestoreService().saveUserData(currentUser);
                 if (kDebugMode) {
                   print('사용자 정보 저장 성공');
                 }

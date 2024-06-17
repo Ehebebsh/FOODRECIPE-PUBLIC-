@@ -7,7 +7,6 @@ import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
 import '../models/easyandhard_foodimage_model.dart';
 import '../utils/api_key.dart';
-import '../widgets/category_button_widget.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 import '../widgets/custom_search_delegate_widget.dart';
 import 'food_detail_screen.dart';
@@ -118,57 +117,7 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        forceMaterialTransparency: true,
-        backgroundColor: Colors.white,
-        leading: const Padding(
-          padding: EdgeInsets.all(3),
-          child: CircleAvatar(
-            backgroundImage: AssetImage('assets/logo.png'),
-            backgroundColor: Colors.transparent,
-          ),
-        ),
-        title: InkWell(
-          onTap: () {
-            showSearch(
-              context: context,
-              delegate: CustomSearchDelegate(context),
-            );
-          },
-          child: Container(
-            height: 40,
-            width: MediaQuery.of(context).size.width - 100, // 너비를 더 늘림 (예: 120에서 100으로 조정)
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text(
-                      '오늘의 레시피를 검색해보세요!',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.035,
-                        color: Colors.grey[600],
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 15),
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.grey[600],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+      appBar: AppBarWidget(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -548,3 +497,105 @@ class HomePageState extends State<HomePage> {
     );
   }
 }
+
+class CategoryButton extends StatelessWidget {
+  final String image;
+  final String buttonText;
+  final VoidCallback onPressed;
+  final List<String> jsonFileNames;
+
+  const CategoryButton({super.key,
+    required this.image,
+    required this.buttonText,
+    required this.onPressed,
+    required this.jsonFileNames,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        width: 100,
+        height: 100,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          image: DecorationImage(
+            image: AssetImage(image), // 애셋 이미지 사용
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            buttonText,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      forceMaterialTransparency: true,
+      backgroundColor: Colors.white,
+      leading: const Padding(
+        padding: EdgeInsets.all(3),
+        child: CircleAvatar(
+          backgroundImage: AssetImage('assets/logo.png'),
+          backgroundColor: Colors.transparent,
+        ),
+      ),
+      title: InkWell(
+        onTap: () {
+          showSearch(
+            context: context,
+            delegate: CustomSearchDelegate(context),
+          );
+        },
+        child: Container(
+          height: 40,
+          width: MediaQuery.of(context).size.width - 100,
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text(
+                    '오늘의 레시피를 검색해보세요!',
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.035,
+                      color: Colors.grey[600],
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 15),
+                child: Icon(
+                  Icons.search,
+                  color: Colors.grey[600],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
