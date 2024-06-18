@@ -39,6 +39,4 @@ class UserFirestoreService {
       throw error;
     }
   }
-
-
 }
