@@ -1,11 +1,13 @@
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/provider/bookmark_provider.dart';
+import 'package:foodrecipe/provider/user_provider.dart';
 import 'package:foodrecipe/screens/food_detail_screen.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
-import '../api/loginchecker.dart';
+
 import '../models/foodlist_model.dart';
 import 'login_screen.dart';
 
@@ -23,7 +25,7 @@ class FoodPage extends StatefulWidget {
 class _FoodPageState extends State<FoodPage> {
   Future<List<dynamic>>? _foodListFuture;
   late final FoodListModel _foodListModel;
-
+bool isLoading = true;
 
   @override
   void initState() {
@@ -36,6 +38,18 @@ class _FoodPageState extends State<FoodPage> {
     final lastChar = word.codeUnits.last;
     var hasJongSung = (lastChar - 44032) % 28 > 0;
     return hasJongSung ? '이' : '가';
+  }
+
+  Future<bool> checkLoginStatus(BuildContext context) async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    await Future.delayed(Duration.zero, () {
+      Provider.of<UserProvider>(context, listen: false).setUser(currentUser);
+      setState(() {
+        isLoading = false; // 사용자 정보를 설정한 후 로딩 상태 업데이트
+      });
+    });
+
+    return currentUser != null;
   }
 
 
@@ -110,11 +124,10 @@ class _FoodPageState extends State<FoodPage> {
                           GestureDetector(
                             onTap: () async {
                               // 사용자의 로그인 상태 확인
-                              bool isGoogleLoggedIn = await LoginChecker().checkGoogleLoginStatus();
-                              bool isKakaoLoggedIn = await LoginChecker().checkKakaoLoginStatus();
+                              bool isLoggedIn = await checkLoginStatus(context);
 
                               // 구글 또는 카카오 중 하나만 로그인되어 있으면 즐겨찾기 기능 사용 가능
-                              if (isGoogleLoggedIn || isKakaoLoggedIn) {
+                              if (isLoggedIn) {
                                 String foodName = food['name'];
                                 bool isAdding = !favorites.contains(foodName); // isAdding을 뒤집음
                                 favoritesProvider.toggleFavorite(foodName);

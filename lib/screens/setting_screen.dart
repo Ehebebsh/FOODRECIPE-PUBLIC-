@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
-import 'package:foodrecipe/api/loginchecker.dart';
+
 import 'package:foodrecipe/provider/user_provider.dart';
 import 'package:foodrecipe/screens/login_screen.dart';
 import 'package:foodrecipe/utils/colortable.dart';
@@ -37,6 +37,8 @@ class SettingPageState extends State<SettingPage> {
       Provider.of<UserProvider>(context, listen: false).setUser(currentUser);
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -157,5 +159,28 @@ class SettingPageState extends State<SettingPage> {
     );
 
     await FlutterEmailSender.send(email);
+  }
+}
+
+class LoginChecker {
+  Future<bool> checkKakaoLoginStatus() async {
+    try {
+      await UserApi.instance.accessTokenInfo();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> checkGoogleLoginStatus() async {
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    bool isSignedIn = await googleSignIn.isSignedIn();
+    return isSignedIn;
+  }
+
+  Future<bool> checkLoginStatus() async {
+    bool isGoogleLoggedIn = await checkGoogleLoginStatus();
+    bool isKakaoLoggedIn = await checkKakaoLoginStatus();
+    return isGoogleLoggedIn || isKakaoLoggedIn;
   }
 }
