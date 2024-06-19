@@ -100,4 +100,16 @@ class FoodCartProvider extends ChangeNotifier {
       _setLoading(false); // 데이터 저장 완료
     }
   }
+
+  // New method to parse and set ingredients
+  Future<void> parseAndSetIngredients(List<dynamic> ingredients) async {
+    final parsedIngredients = ingredients
+        .where((ingredient) =>
+    ingredient.toString().contains(', ') &&
+        ingredient.toString().split(', ').last.isNotEmpty)
+        .map<String>((ingredient) =>
+    ingredient.toString().split(', ').last)
+        .toSet();
+    await setSelectedIngredients(parsedIngredients);
+  }
 }
