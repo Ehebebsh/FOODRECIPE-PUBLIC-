@@ -9,7 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import '../api/kakao_login.dart';
 import '../models/userfirestoreservice.dart';
-import '../provider/user_provider.dart';
+import '../models/user_model.dart';
 
 class GoogleLoginButton extends StatelessWidget {
 

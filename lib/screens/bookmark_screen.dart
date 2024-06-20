@@ -1,14 +1,15 @@
 import 'dart:convert';
 import 'package:cherry_toast/resources/arrays.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:foodrecipe/provider/bookmark_provider.dart';
-import 'package:foodrecipe/provider/user_provider.dart';
+import 'package:foodrecipe/view%20models/bookmark_viewmodel.dart';
+import 'package:foodrecipe/models/user_model.dart';
 import 'package:provider/provider.dart';
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:foodrecipe/widgets/custom_bottom_navigation_action_widget.dart';
 import 'package:foodrecipe/screens/food_detail_screen.dart';
 import '../utils/colortable.dart';
+import '../utils/addparticle_widget.dart';
+import '../view models/user_viewmodel.dart';
 import '../widgets/custom_pageroute_widget.dart';
 import 'login_screen.dart';
 
@@ -23,29 +24,17 @@ class BookMarkPageState extends State<BookMarkPage> {
   bool isLoading = true; // 로딩 상태를 관리하는 상태 변수
   int _selectedIndex = 2;
   late Future<List<dynamic>> _futureData;
+  final KoreanParticleUtil koreanParticleUtil = KoreanParticleUtil();
 
   @override
   void initState() {
     super.initState();
-    checkLoginStatus();
+    Future.delayed(Duration.zero, () {
+      Provider.of<UserViewModel>(context, listen: false).checkLoginStatus(context);
+    });
     _futureData = loadFoodData();
   }
 
-  String addParticle(String word) {
-    final lastChar = word.codeUnits.last;
-    var hasJongSung = (lastChar - 44032) % 28 > 0;
-    return hasJongSung ? '이' : '가';
-  }
-
-  Future<void> checkLoginStatus() async {
-    User? currentUser = FirebaseAuth.instance.currentUser;
-    await Future.delayed(Duration.zero, () {
-      Provider.of<UserProvider>(context, listen: false).setUser(currentUser);
-      setState(() {
-        isLoading = false; // 사용자 정보를 설정한 후 로딩 상태 업데이트
-      });
-    });
-  }
 
   Future<List<dynamic>> loadFoodData() async {
     // 모든 JSON 데이터를 로드하여 합치는 비동기 함수입니다.
@@ -162,7 +151,7 @@ class BookMarkPageState extends State<BookMarkPage> {
                               favoritesProvider.toggleFavorite(foodData['name']);
                               CherryToast.delete(
                                 animationType: AnimationType.fromTop,
-                                title: Text('${foodData['name']}${addParticle(foodData['name'])} 즐겨찾기에서 취소되었습니다.'),
+                                title: Text('${foodData['name']}${koreanParticleUtil.addParticle(foodData['name'])} 즐겨찾기에서 취소되었습니다.'),
                               ).show(context);
                             },
                           ),

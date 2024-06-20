@@ -34,3 +34,4 @@ class FoodImageLoader {
     return [hardFoodImages, hardFoodJsonList];
   }
 }
+

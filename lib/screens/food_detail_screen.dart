@@ -1,7 +1,7 @@
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
-import 'package:foodrecipe/provider/foodcart_provider.dart';
+import 'package:foodrecipe/view%20models/foodcart_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class FoodDetailPage extends StatefulWidget {

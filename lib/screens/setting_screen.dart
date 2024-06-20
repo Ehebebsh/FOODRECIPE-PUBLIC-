@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 
-import 'package:foodrecipe/provider/user_provider.dart';
+import 'package:foodrecipe/models/user_model.dart';
 import 'package:foodrecipe/screens/login_screen.dart';
 import 'package:foodrecipe/utils/colortable.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
@@ -11,6 +11,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../view models/user_viewmodel.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 
 class SettingPage extends StatefulWidget {
@@ -27,17 +28,10 @@ class SettingPageState extends State<SettingPage> {
   @override
   void initState() {
     super.initState();
-    checkLoginStatus(); // initState에서 로그인 상태 확인
+    Provider.of<UserViewModel>(context, listen: false).checkLoginStatus(context); // initState에서 로그인 상태 확인
   }
 
   // 로그인 상태 확인 메서드
-  Future<void> checkLoginStatus() async {
-    var currentUser = FirebaseAuth.instance.currentUser;
-    await Future.delayed(Duration.zero, () {
-      Provider.of<UserProvider>(context, listen: false).setUser(currentUser);
-    });
-  }
-
 
 
   @override

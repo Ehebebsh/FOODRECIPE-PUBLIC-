@@ -1,18 +1,15 @@
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:foodrecipe/provider/bookmark_provider.dart';
-import 'package:foodrecipe/provider/user_provider.dart';
+import 'package:foodrecipe/view%20models/bookmark_viewmodel.dart';
 import 'package:foodrecipe/screens/food_detail_screen.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
-
 import '../models/foodlist_model.dart';
+import '../view models/user_viewmodel.dart';
+import '../utils/addparticle_widget.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
 import 'login_screen.dart';
-
-
 
 
 class AllFoodPage extends StatefulWidget {
@@ -30,6 +27,7 @@ class _FoodPageState extends State<AllFoodPage> {
   Future<List<dynamic>>? _foodListFuture;
   late final FoodListModel _foodListModel;
    bool isLoading = true;
+  final KoreanParticleUtil koreanParticleUtil = KoreanParticleUtil();
 
   @override
   void initState() {
@@ -37,25 +35,6 @@ class _FoodPageState extends State<AllFoodPage> {
     _foodListModel = FoodListModel(jsonFileNames: widget.jsonFileNames);
     _foodListFuture = _foodListModel.loadJsonData(); // 데이터 로드를 initState에서 한 번만 수행
   }
-
-  String addParticle(String word) {
-    final lastChar = word.codeUnits.last;
-    var hasJongSung = (lastChar - 44032) % 28 > 0;
-    return hasJongSung ? '이' : '가';
-  }
-
-  Future<bool> checkLoginStatus(BuildContext context) async {
-    User? currentUser = FirebaseAuth.instance.currentUser;
-    await Future.delayed(Duration.zero, () {
-      Provider.of<UserProvider>(context, listen: false).setUser(currentUser);
-      setState(() {
-        isLoading = false; // 사용자 정보를 설정한 후 로딩 상태 업데이트
-      });
-    });
-
-    return currentUser != null;
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +105,7 @@ class _FoodPageState extends State<AllFoodPage> {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              bool isLoggedIn = await checkLoginStatus(context);
+                              bool isLoggedIn = await Provider.of<UserViewModel>(context, listen: false).checkLoginStatus(context);
 
                               if (isLoggedIn) {
                                 String foodName = food['name'];
@@ -135,12 +114,12 @@ class _FoodPageState extends State<AllFoodPage> {
 
                                 if (isAdding) {
                                   CherryToast.add(
-                                    title: Text('$foodName${addParticle(foodName)} 즐겨찾기에 추가되었습니다.'),
+                                    title: Text('$foodName${koreanParticleUtil.addParticle(foodName)} 즐겨찾기에 추가되었습니다.'),
                                     animationType: AnimationType.fromTop,
                                   ).show(context);
                                 } else {
                                   CherryToast.delete(
-                                    title: Text('$foodName${addParticle(foodName)} 즐겨찾기에서 삭제되었습니다.'),
+                                    title: Text('$foodName${koreanParticleUtil.addParticle(foodName)} 즐겨찾기에서 삭제되었습니다.'),
                                     animationType: AnimationType.fromTop,
                                   ).show(context);
                                 }
