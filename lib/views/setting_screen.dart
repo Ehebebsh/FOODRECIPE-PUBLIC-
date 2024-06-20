@@ -1,10 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
-
 import 'package:foodrecipe/models/user_model.dart';
-import 'package:foodrecipe/screens/login_screen.dart';
 import 'package:foodrecipe/utils/colortable.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -13,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../view models/user_viewmodel.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
+import 'login_screen.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -28,7 +26,9 @@ class SettingPageState extends State<SettingPage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<UserViewModel>(context, listen: false).checkLoginStatus(context); // initState에서 로그인 상태 확인
+    Future.delayed(Duration.zero, () {
+      Provider.of<UserViewModel>(context, listen: false).checkLoginStatus(context);
+    }); // initState에서 로그인 상태 확인
   }
 
   // 로그인 상태 확인 메서드

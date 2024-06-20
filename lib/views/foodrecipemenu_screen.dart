@@ -2,52 +2,52 @@ import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:foodrecipe/view%20models/bookmark_viewmodel.dart';
-import 'package:foodrecipe/screens/food_detail_screen.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
+
 import '../models/foodlist_model.dart';
 import '../view models/user_viewmodel.dart';
 import '../utils/addparticle_widget.dart';
-import '../widgets/custom_bottom_navigation_action_widget.dart';
+import 'food_detail_screen.dart';
 import 'login_screen.dart';
 
-
-class AllFoodPage extends StatefulWidget {
+class FoodPage extends StatefulWidget {
   final String title;
-  final List<String> jsonFileNames; // 수정된 부분: JSON 파일 이름들의 리스트
+  final List<String> jsonFileNames;
 
-  const AllFoodPage({Key? key, required this.title, required this.jsonFileNames}) : super(key: key);
+  const FoodPage({Key? key, required this.title, required this.jsonFileNames})
+      : super(key: key);
 
   @override
-  State<AllFoodPage> createState() => _FoodPageState();
+  State<FoodPage> createState() => _FoodPageState();
 }
 
-class _FoodPageState extends State<AllFoodPage> {
-  int _selectedIndex = 1;
+class _FoodPageState extends State<FoodPage> {
   Future<List<dynamic>>? _foodListFuture;
   late final FoodListModel _foodListModel;
-   bool isLoading = true;
-  final KoreanParticleUtil koreanParticleUtil = KoreanParticleUtil();
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _foodListModel = FoodListModel(jsonFileNames: widget.jsonFileNames);
-    _foodListFuture = _foodListModel.loadJsonData(); // 데이터 로드를 initState에서 한 번만 수행
+    _foodListFuture = _foodListModel.loadJsonData();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
     var favoritesProvider = Provider.of<BookMarkProvider>(context);
     var favorites = favoritesProvider.favorites;
-
+    final KoreanParticleUtil koreanParticleUtil = KoreanParticleUtil();
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
         title: Text(widget.title),
       ),
       body: FutureBuilder(
-        future: _foodListFuture, // 수정된 부분: 여러 개의 JSON 파일을 로드하기 위한 future
+        future: _foodListFuture,
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -57,7 +57,6 @@ class _FoodPageState extends State<AllFoodPage> {
             List<dynamic> foodList = snapshot.data!;
 
             return ListView.builder(
-
               itemCount: foodList.length * 2 - 1,
               itemBuilder: (context, index) {
                 if (index.isOdd) {
@@ -66,7 +65,8 @@ class _FoodPageState extends State<AllFoodPage> {
 
                 var foodIndex = index ~/ 2;
                 var food = foodList[foodIndex];
-                List<String> tags = (food['tags'] as List<dynamic>).cast<String>();
+                List<String> tags =
+                    (food['tags'] as List<dynamic>).cast<String>();
                 bool isFavorite = favorites.contains(food['name']);
 
                 return Padding(
@@ -82,9 +82,10 @@ class _FoodPageState extends State<AllFoodPage> {
                               builder: (context) => FoodDetailPage(foodData: food),
                             ),
                           );
+
                         },
                         child: Image.asset(
-                          food['image'],
+                          food['image'], // 이미지 경로 수정
                           fit: BoxFit.cover,
                           width: double.infinity,
                           height: 200,
@@ -105,13 +106,16 @@ class _FoodPageState extends State<AllFoodPage> {
                           ),
                           GestureDetector(
                             onTap: () async {
+                              // 사용자의 로그인 상태 확인
                               bool isLoggedIn = await Provider.of<UserViewModel>(context, listen: false).checkLoginStatus(context);
 
+                              // 구글 또는 카카오 중 하나만 로그인되어 있으면 즐겨찾기 기능 사용 가능
                               if (isLoggedIn) {
                                 String foodName = food['name'];
                                 bool isAdding = !favorites.contains(foodName); // isAdding을 뒤집음
                                 favoritesProvider.toggleFavorite(foodName);
 
+                                // 즐겨찾기가 추가되거나 삭제될 때마다 적절한 Toast를 표시합니다.
                                 if (isAdding) {
                                   CherryToast.add(
                                     title: Text('$foodName${koreanParticleUtil.addParticle(foodName)} 즐겨찾기에 추가되었습니다.'),
@@ -136,7 +140,7 @@ class _FoodPageState extends State<AllFoodPage> {
                                           onPressed: () {
                                             Navigator.push(
                                               context,
-                                              CustomPageRoute(builder: (context) =>  const LoginScreen()),
+                                              CustomPageRoute(builder: (context) =>  LoginScreen()),
                                             );
                                           },
                                           child: const Text('로그인'),
@@ -174,14 +178,6 @@ class _FoodPageState extends State<AllFoodPage> {
               },
             );
           }
-        },
-      ),
-      bottomNavigationBar: BottomNavigator(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
         },
       ),
     );

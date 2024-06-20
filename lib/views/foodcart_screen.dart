@@ -6,11 +6,10 @@ import 'package:foodrecipe/models/user_model.dart';
 import 'package:foodrecipe/utils/colortable.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:foodrecipe/screens/foodcartadd_screen.dart';
-
 import '../utils/addparticle_widget.dart';
 import '../view models/user_viewmodel.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
+import 'foodcartadd_screen.dart';
 import 'login_screen.dart';
 
 

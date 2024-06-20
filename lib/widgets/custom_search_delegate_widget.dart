@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert' show json;
 
-import 'package:foodrecipe/screens/food_detail_screen.dart';
+import '../views/food_detail_screen.dart';
 
 class CustomSearchDelegate extends SearchDelegate<String> {
   final BuildContext context;
