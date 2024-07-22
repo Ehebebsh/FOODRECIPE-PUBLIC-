@@ -1,15 +1,15 @@
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:foodrecipe/provider/foodcart_provider.dart';
-import 'package:foodrecipe/provider/user_provider.dart';
+import 'package:foodrecipe/view%20models/foodcart_viewmodel.dart';
+import 'package:foodrecipe/models/user_model.dart';
 import 'package:foodrecipe/utils/colortable.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:foodrecipe/screens/foodcartadd_screen.dart';
-
+import '../utils/addparticle_widget.dart';
+import '../view models/user_viewmodel.dart';
 import '../widgets/custom_bottom_navigation_action_widget.dart';
+import 'foodcartadd_screen.dart';
 import 'login_screen.dart';
 
 
@@ -20,30 +20,20 @@ class FoodCartPage extends StatefulWidget {
   FoodCartPageState createState() => FoodCartPageState();
 }
 
-String addParticle(String word) {
-  final lastChar = word.codeUnits.last;
-  var hasJongSung = (lastChar - 44032) % 28 > 0;
-  return hasJongSung ? '이' : '가';
-}
-
 class FoodCartPageState extends State<FoodCartPage> {
   int _selectedIndex = 3;
   bool isLoggedIn = false; // Flag to track login status
+  final KoreanParticleUtil koreanParticleUtil = KoreanParticleUtil();
+
 
   @override
   void initState() {
     super.initState();
-    checkLoginStatus(); // Check login status when the widget initializes
+    Future.delayed(Duration.zero, () {
+      Provider.of<UserViewModel>(context, listen: false).checkLoginStatus(context);
+    }); // Check login status when the widget initializes
   }
 
-  Future<void> checkLoginStatus() async {
-    User? currentUser = FirebaseAuth.instance.currentUser;
-    Future.delayed(Duration.zero, () {
-      Provider.of<UserProvider>(context, listen: false).setUser(currentUser);
-      setState(() {
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +69,7 @@ class FoodCartPageState extends State<FoodCartPage> {
                     foodCartProvider.removeIngredient(ingredient);
                     CherryToast.cartdelete(
                       animationType: AnimationType.fromTop,
-                      title: Text('$ingredient${addParticle(ingredient)} 삭제되었습니다.'),
+                      title: Text('$ingredient${koreanParticleUtil.addParticle(ingredient)} 삭제되었습니다.'),
                     ).show(context);
                   },
                 ),
