@@ -67,99 +67,108 @@ class BookMarkPageState extends State<BookMarkPage> {
       ),
       body: favoritesProvider.isLoading
           ? const Center(
-          child: CircularProgressIndicator(
-            color: selectedcolor1,
-          ))
+              child: CircularProgressIndicator(
+              color: selectedcolor1,
+            ))
           : Consumer<UserProvider>(
-        builder: (context, userProvider, _) {
-          if (userProvider.isLoggedIn) {
-            return FutureBuilder<List<dynamic>>(
-              future: _futureData,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                      child: CircularProgressIndicator(
-                        color: selectedcolor1,
-                      ));
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else {
-                  Set<String> uniqueNames = {};
-                  List<dynamic> favoriteFoods = snapshot.data!
-                      .where((food) => favorites.contains(food['name']))
-                      .where((food) => uniqueNames.add(food['name']))
-                      .toList();
+              builder: (context, userProvider, _) {
+                if (userProvider.isLoggedIn) {
+                  return FutureBuilder<List<dynamic>>(
+                    future: _futureData,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                            child: CircularProgressIndicator(
+                          color: selectedcolor1,
+                        ));
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else {
+                        Set<String> uniqueNames = {};
+                        List<dynamic> favoriteFoods = snapshot.data!
+                            .where((food) => favorites.contains(food['name']))
+                            .where((food) => uniqueNames.add(food['name']))
+                            .toList();
 
-                  favoriteFoods.sort((a, b) {
-                    var timeA = favoritesProvider.getFavoriteTime(a['name']);
-                    var timeB = favoritesProvider.getFavoriteTime(b['name']);
-                    return timeA.compareTo(timeB);
-                  });
+                        favoriteFoods.sort((a, b) {
+                          var timeA =
+                              favoritesProvider.getFavoriteTime(a['name']);
+                          var timeB =
+                              favoritesProvider.getFavoriteTime(b['name']);
+                          return timeA.compareTo(timeB);
+                        });
 
-                  if (favoriteFoods.isEmpty) {
-                    return const Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '즐겨찾기한 음식이 없습니다.',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-
-                  return ListView.builder(
-                    itemCount: favoriteFoods.length,
-                    itemBuilder: (context, index) {
-                      var foodData = favoriteFoods[index];
-                      return Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: ListTile(
-                          title: Text(
-                            foodData['name'],
-                            overflow: TextOverflow.ellipsis, // 이름이 길어질 경우 '...'로 표시
-                          ),
-                          subtitle: Text(
-                            foodData['tags'].join(', '),
-                            overflow: TextOverflow.ellipsis, // 태그가 길어질 경우 '...'로 표시
-                          ),
-                          leading: Container(
-                            width: 80.0, // 이미지의 가로 크기를 조정합니다.
-                            height: 80.0, // 이미지의 세로 크기를 조정합니다.
-                            child: Image.asset(
-                              foodData['image'],
-                              fit: BoxFit.cover, // 이미지를 올바르게 조정합니다.
+                        if (favoriteFoods.isEmpty) {
+                          return const Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '즐겨찾기한 음식이 없습니다.',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ],
                             ),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              CustomPageRoute(
-                                builder: (context) => FoodDetailPage(foodData: foodData),
+                          );
+                        }
+
+                        return ListView.builder(
+                          itemCount: favoriteFoods.length,
+                          itemBuilder: (context, index) {
+                            var foodData = favoriteFoods[index];
+                            return Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 3.0),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: ListTile(
+                                title: Text(
+                                  foodData['name'],
+                                  overflow: TextOverflow
+                                      .ellipsis, // 이름이 길어질 경우 '...'로 표시
+                                ),
+                                subtitle: Text(
+                                  foodData['tags'].join(', '),
+                                  overflow: TextOverflow
+                                      .ellipsis, // 태그가 길어질 경우 '...'로 표시
+                                ),
+                                leading: Container(
+                                  width: 80.0, // 이미지의 가로 크기를 조정합니다.
+                                  height: 80.0, // 이미지의 세로 크기를 조정합니다.
+                                  child: Image.asset(
+                                    foodData['image'],
+                                    fit: BoxFit.cover, // 이미지를 올바르게 조정합니다.
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    CustomPageRoute(
+                                      builder: (context) =>
+                                          FoodDetailPage(foodData: foodData),
+                                    ),
+                                  );
+                                },
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.star,
+                                      color: Colors.yellow),
+                                  onPressed: () {
+                                    favoritesProvider
+                                        .toggleFavorite(foodData['name']);
+                                    CherryToast.delete(
+                                      animationType: AnimationType.fromTop,
+                                      title: Text(
+                                          '${foodData['name']}${koreanParticleUtil.addParticle(foodData['name'])} 즐겨찾기에서 취소되었습니다.'),
+                                    ).show(context);
+                                  },
+                                ),
                               ),
                             );
                           },
-                          trailing: IconButton(
-                            icon: const Icon(Icons.star, color: Colors.yellow),
-                            onPressed: () {
-                              favoritesProvider.toggleFavorite(foodData['name']);
-                              CherryToast.delete(
-                                animationType: AnimationType.fromTop,
-                                title: Text('${foodData['name']}${koreanParticleUtil.addParticle(foodData['name'])} 즐겨찾기에서 취소되었습니다.'),
-                              ).show(context);
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }
+                        );
+                      }
                     },
                   );
                 } else {
@@ -167,12 +176,13 @@ class BookMarkPageState extends State<BookMarkPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                      Text(
-                      '로그인하여 즐겨찾기를 이용해보세요!',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.045, // 화면의 너비에 따라 글씨 크기를 조절
-                      ),
-                    ),
+                        Text(
+                          '로그인하여 즐겨찾기를 이용해보세요!',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width *
+                                0.045, // 화면의 너비에 따라 글씨 크기를 조절
+                          ),
+                        ),
                         const SizedBox(height: 20),
                         ElevatedButton(
                           style: ButtonStyle(
