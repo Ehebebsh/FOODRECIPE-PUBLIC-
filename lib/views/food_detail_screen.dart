@@ -1,8 +1,9 @@
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
-import 'package:foodrecipe/view%20models/foodcart_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:foodrecipe/view%20models/foodcart_viewmodel.dart';
+import '../view models/user_viewmodel.dart'; // UserViewModel import
 
 class FoodDetailPage extends StatefulWidget {
   final Map<String, dynamic> foodData;
@@ -15,6 +16,26 @@ class FoodDetailPage extends StatefulWidget {
 
 class FoodDetailPageState extends State<FoodDetailPage> {
   bool _isButtonPressed = false;
+  bool _isLoggedIn = false; // 로그인 상태를 저장하는 변수
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkLoginStatus(); // 로그인 상태 확인
+    });
+  }
+
+  Future<void> _checkLoginStatus() async {
+    final userViewModel = Provider.of<UserViewModel>(context, listen: false);
+    final isLoggedIn = await userViewModel.checkLoginStatus(context);
+
+    if (mounted) {
+      setState(() {
+        _isLoggedIn = isLoggedIn;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,45 +141,46 @@ class FoodDetailPageState extends State<FoodDetailPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () async {
-                            setState(() {
-                              _isButtonPressed = true;
-                            });
+                        if (_isLoggedIn) // 로그인 상태에 따라 버튼 표시
+                          GestureDetector(
+                            onTap: () async {
+                              setState(() {
+                                _isButtonPressed = true;
+                              });
 
-                            final ingredients = widget.foodData['detail-ingredients'] ?? [];
-                            final foodCartProvider =
-                            Provider.of<FoodCartProvider>(context, listen: false);
-                            await foodCartProvider.parseAndSetIngredients(ingredients);
+                              final ingredients = widget.foodData['detail-ingredients'] ?? [];
+                              final foodCartProvider =
+                              Provider.of<FoodCartProvider>(context, listen: false);
+                              await foodCartProvider.parseAndSetIngredients(ingredients);
 
-                            CherryToast.success(
-                              title: const Text('재료가 장바구니에 추가되었습니다.'),
-                              animationType: AnimationType.fromTop,
-                            ).show(context);
+                              CherryToast.success(
+                                title: const Text('재료가 장바구니에 추가되었습니다.'),
+                                animationType: AnimationType.fromTop,
+                              ).show(context);
 
-                            setState(() {
-                              _isButtonPressed = false;
-                            });
-                          },
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0,
-                              vertical: 8.0,
-                            ),
-                            decoration: BoxDecoration(
-                              color: _isButtonPressed ?  Colors.white :Colors.green ,
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            child: const Text(
-                              '장바구니에 추가',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                              setState(() {
+                                _isButtonPressed = false;
+                              });
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                                vertical: 8.0,
+                              ),
+                              decoration: BoxDecoration(
+                                color: _isButtonPressed ? Colors.white : Colors.green,
+                                borderRadius: BorderRadius.circular(16.0),
+                              ),
+                              child: const Text(
+                                '장바구니 추가',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
-                        ),
                       ],
                     ),
                     const SizedBox(height: 8.0),
@@ -190,7 +212,6 @@ class FoodDetailPageState extends State<FoodDetailPage> {
                         'No ingredients available',
                         style: TextStyle(fontSize: 14.0),
                       ),
-
                   ],
                 ),
               ),
@@ -211,7 +232,9 @@ class FoodDetailPageState extends State<FoodDetailPage> {
                     const Text(
                       '요리 레시피:',
                       style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.bold),
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 8.0),
                     Column(
