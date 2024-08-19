@@ -1,7 +1,7 @@
 # foodrecipe
 
 > 다양한 레시피를 볼수 있는 요리 레시피앱
-> ![Uploading image.png…]()
+> ![image](https://github.com/user-attachments/assets/0ea40838-544e-4b9d-adae-758f55cfdb59)
 
 
 ## Getting Started
