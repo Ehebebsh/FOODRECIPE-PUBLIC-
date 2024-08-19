@@ -1,7 +1,7 @@
-# foodrecipe
+# <img src="https://github.com/user-attachments/assets/0ea40838-544e-4b9d-adae-758f55cfdb59" width="100 " height="100">
+foodrecipe
 
 > 다양한 레시피를 볼수 있는 요리 레시피앱
-<img src="https://github.com/user-attachments/assets/0ea40838-544e-4b9d-adae-758f55cfdb59" width="100 " height="100">
 
 ## Getting Started
 
