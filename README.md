@@ -1,6 +1,6 @@
 # foodrecipe
 
-A new Flutter project.
+> 다양한 레시피를 볼수 있는 요리 레시피앱
 
 ## Getting Started
 
