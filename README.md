@@ -57,3 +57,6 @@ Merge 충돌은 주로 두 명 이상의 개발자가 동일한 파일의 같은
 >3.검색기능 데이터 중복 문제 해결 
 >4.로그인 할 때 유저의 이름을 가져오는 부분에서 카카오 이름을 제대로 가져오지못하는 문제 해결 
 
+# 7. 다운로드 링크 
+
+>https://play.google.com/store/apps/details?id=com.junhajeonghoon.foodrecipe
