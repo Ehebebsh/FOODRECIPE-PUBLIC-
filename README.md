@@ -59,7 +59,25 @@
    - 홈화면 음식 사진 크기 불일치 문제 해결
 
 3. **검색 기능 데이터 중복 문제 해결**
-    - 
+    - <details>
+  <summary>💻 코드를 열려면 여기를 클릭하세요</summary>
+
+  ```dart
+  Widget _buildSuggestionsOrResults() {
+      Set<String> uniqueNames = {};
+
+      final List<Map<String, dynamic>> suggestionList = query.isEmpty
+          ? []
+          : _foodData.where((food) {
+              if (food['name'].toLowerCase().contains(query.toLowerCase())) {
+                return uniqueNames.add(food['name']);
+              } else {
+                return false;
+              }
+            }).toList();
+  }
+</details>
+```
 4. **카카오 로그인 시 사용자 이름 불러오기 문제 해결**
 
 ## 📥 **다운로드 링크**
