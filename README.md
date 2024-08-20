@@ -83,7 +83,29 @@
 
 </div>
 </details>
-4. **카카오 로그인 시 사용자 이름 불러오기 문제 해결**
+
+4.  **카카오 로그인 API를 사용해 사용자의 이름(닉네임)을 가져오려고 했으나, 예상대로 이름이 불러와지지 않는 문제가 발생**
+- 이 문제를 해결하기 위해, 카카오 SDK에서 제공하는 UserApi.instance.me() 메서드를 사용해 사용자의 프로필 정보를 직접 불러오고, 이를 통해 사용자 닉네임을 얻는 코드를 작성함
+
+    - UserApi.instance.me() 메서드를 통해 사용자 정보를 가져옴
+    - 반환된 User 객체에서 카카오 계정(kakaoAccount)의 프로필(profile) 정보를 확인하고, 닉네임(nickname)을 가져옴
+    - 오류가 발생할 경우 null을 반환하도록 예외 처리를 추가.
+<details>
+<summary>💻 코드</summary>
+<div markdown="1">
+
+ ```dart
+Future<String?> getUserName() async {
+    try {
+      // 사용자 닉네임 가져오기
+      User user = await UserApi.instance.me();
+      return user.kakaoAccount?.profile?.nickname;
+    } catch (error) {
+
+      return null;
+    }
+  }
+```
 
 ## 📥 **다운로드 링크**
 
