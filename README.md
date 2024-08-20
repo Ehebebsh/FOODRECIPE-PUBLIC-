@@ -109,6 +109,9 @@ Future<String?> getUserName() async {
 </div>
 </details>
 
+## **앱 실행 화면**
+<img src="https://github.com/user-attachments/assets/19d44a85-363f-46fe-a205-f01562994ed44"  width="200">
+
 ## 📥 **다운로드 링크**
 
 - [Google Play Store에서 다운로드](https://play.google.com/store/apps/details?id=com.junhajeonghoon.foodrecipe)
