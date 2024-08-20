@@ -8,7 +8,7 @@ class RewardAdManager {
 
   RewardAdManager({required this.rewardAdId});
 
-  // 한 번만 광고를 로드하도록 처리합니다.
+  // 한 번만 광고를 로드하도록 처리합니다.1212
   void loadAd() {
     if (!_isAdLoaded) {
       RewardedAd.load(

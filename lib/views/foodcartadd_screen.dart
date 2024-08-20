@@ -24,7 +24,7 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
 
   Future<void> loadJsonData() async {
     try {
-      // 여러 개의 JSON 파일 경로
+      // 여러 개의 JSON 파일 경로1212
       List<String> jsonFiles = [
         'assets/koreafood_data.json',
         'assets/westernfood_data.json',
