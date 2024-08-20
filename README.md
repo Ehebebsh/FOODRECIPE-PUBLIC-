@@ -59,8 +59,8 @@
    - 홈화면 음식 사진 크기 불일치 문제 해결
 
 3. **검색 기능 데이터 중복 문제 해결**
-    - <details>
-  <summary>💻 코드를 열려면 여기를 클릭하세요</summary>
+     
+  
 
   ```dart
   Widget _buildSuggestionsOrResults() {
@@ -76,7 +76,7 @@
               }
             }).toList();
   }
-</details>
+
 ```
 4. **카카오 로그인 시 사용자 이름 불러오기 문제 해결**
 
