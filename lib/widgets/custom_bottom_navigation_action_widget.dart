@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:foodrecipe/screens/all_food_resipe_menu_screen.dart';
-import 'package:foodrecipe/screens/foodcart_screen.dart';
-import 'package:foodrecipe/screens/setting_screen.dart';
 import 'package:foodrecipe/widgets/custom_pageroute_widget.dart';
-import '../screens/home_screen.dart';
-
-import 'package:foodrecipe/screens/bookmark_screen.dart';
-
 import '../utils/colortable.dart';
+import '../views/all_food_resipe_menu_screen.dart';
+import '../views/bookmark_screen.dart';
+import '../views/foodcart_screen.dart';
+import '../views/home_screen.dart';
+import '../views/setting_screen.dart';
 
 class BottomNavigator extends StatelessWidget {
   final int selectedIndex;

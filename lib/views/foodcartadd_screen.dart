@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foodrecipe/provider/foodcart_provider.dart';
+import 'package:foodrecipe/view%20models/foodcart_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class FoodCartAddPage extends StatefulWidget {
