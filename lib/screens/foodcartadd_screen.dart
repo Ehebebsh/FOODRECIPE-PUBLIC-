@@ -24,7 +24,7 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
 
   Future<void> loadJsonData() async {
     try {
-      // 여러 개의 JSON 파일 경로
+      // 여러 개의 JSON 파일 경로1212
       List<String> jsonFiles = [
         'assets/koreafood_data.json',
         'assets/westernfood_data.json',
@@ -51,11 +51,9 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
       }
 
       setState(() {
+        // Set을 List로 변환하여 UI 업데이트
         detailIngredients = detailIngredients.toSet().toList();
-        filteredIngredients.addAll(detailIngredients
-            .where((ingredient) => !Provider.of<FoodCartProvider>(context, listen: false)
-            .selectedIngredients
-            .contains(ingredient))); // 이미 추가된 재료를 제외
+        filteredIngredients.addAll(detailIngredients); // 초기에 전체 데이터로 설정
       });
     } catch (error) {
       debugPrint('Error loading JSON data: $error');
@@ -67,10 +65,7 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
     if (query.isNotEmpty) {
       List<String> tempList = [];
       for (var ingredient in detailIngredients) {
-        if (ingredient.toLowerCase().contains(query.toLowerCase()) &&
-            !Provider.of<FoodCartProvider>(context, listen: false)
-                .selectedIngredients
-                .contains(ingredient)) { // 이미 추가된 재료를 제외
+        if (ingredient.toLowerCase().contains(query.toLowerCase())) {
           tempList.add(ingredient);
         }
       }
@@ -81,10 +76,7 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
     } else {
       setState(() {
         filteredIngredients.clear();
-        filteredIngredients.addAll(detailIngredients.where((ingredient) =>
-        !Provider.of<FoodCartProvider>(context, listen: false)
-            .selectedIngredients
-            .contains(ingredient))); // 이미 추가된 재료를 제외
+        filteredIngredients.addAll(detailIngredients);
       });
     }
   }
