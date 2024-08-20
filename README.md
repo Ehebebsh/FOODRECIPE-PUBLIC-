@@ -111,6 +111,12 @@ Future<String?> getUserName() async {
 
 ## **앱 실행 화면**
 <img src="https://github.com/user-attachments/assets/19d44a85-363f-46fe-a205-f01562994ed44"  width="200">
+<img src="https://github.com/user-attachments/assets/19d38e09-6a0a-4c5e-bca5-52e7259ab804"  width="200">
+<img src="https://github.com/user-attachments/assets/983a5e65-c452-44e4-bd07-bb64c4e65860"  width="200">
+<img src="https://github.com/user-attachments/assets/1b5d9a10-4604-419a-9d21-d4f0f968598e"  width="200">
+<img src="https://github.com/user-attachments/assets/d78925b3-c1f2-45c5-b020-e34ddb0d0c63"  width="200">
+<img src="https://github.com/user-attachments/assets/7db5a3d1-7421-4493-8e5f-9abdcd78809a"  width="200">
+
 
 ## 📥 **다운로드 링크**
 
