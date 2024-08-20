@@ -106,6 +106,8 @@ Future<String?> getUserName() async {
     }
   }
 ```
+</div>
+</details>
 
 ## 📥 **다운로드 링크**
 
