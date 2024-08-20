@@ -51,21 +51,25 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
       }
 
       setState(() {
-        // Set을 List로 변환하여 UI 업데이트
         detailIngredients = detailIngredients.toSet().toList();
-        filteredIngredients.addAll(detailIngredients); // 초기에 전체 데이터로 설정
+        filteredIngredients.addAll(detailIngredients
+            .where((ingredient) => !Provider.of<FoodCartProvider>(context, listen: false)
+            .selectedIngredients
+            .contains(ingredient))); // 이미 추가된 재료를 제외
       });
     } catch (error) {
       debugPrint('Error loading JSON data: $error');
     }
   }
-
   // 추가: 검색 기능 메서드
   void filterIngredients(String query) {
     if (query.isNotEmpty) {
       List<String> tempList = [];
       for (var ingredient in detailIngredients) {
-        if (ingredient.toLowerCase().contains(query.toLowerCase())) {
+        if (ingredient.toLowerCase().contains(query.toLowerCase()) &&
+            !Provider.of<FoodCartProvider>(context, listen: false)
+                .selectedIngredients
+                .contains(ingredient)) { // 이미 추가된 재료를 제외
           tempList.add(ingredient);
         }
       }
@@ -76,7 +80,10 @@ class FoodCartAddPageState extends State<FoodCartAddPage> {
     } else {
       setState(() {
         filteredIngredients.clear();
-        filteredIngredients.addAll(detailIngredients);
+        filteredIngredients.addAll(detailIngredients.where((ingredient) =>
+        !Provider.of<FoodCartProvider>(context, listen: false)
+            .selectedIngredients
+            .contains(ingredient))); // 이미 추가된 재료를 제외
       });
     }
   }
