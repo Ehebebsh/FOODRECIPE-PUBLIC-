@@ -4,10 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FoodCartProvider extends ChangeNotifier {
   final Set<String> _selectedIngredients = {};
-  bool _isLoading = false; // isLoading 속성 추가
+  bool _isLoading = false;
 
   Set<String> get selectedIngredients => _selectedIngredients;
-  bool get isLoading => _isLoading; // isLoading 게터 추가
+  bool get isLoading => _isLoading;
 
   FoodCartProvider() {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
@@ -19,13 +19,13 @@ class FoodCartProvider extends ChangeNotifier {
     });
   }
 
-  void _setLoading(bool loading) { // _setLoading 메서드 추가
+  void _setLoading(bool loading) {
     _isLoading = loading;
     notifyListeners();
   }
 
   Future<void> toggleIngredient(String ingredient) async {
-    _setLoading(true); // 데이터 처리 전 isLoading을 true로 설정
+    _setLoading(true);
     if (_selectedIngredients.contains(ingredient)) {
       _selectedIngredients.remove(ingredient);
     } else {
@@ -33,7 +33,7 @@ class FoodCartProvider extends ChangeNotifier {
     }
     notifyListeners();
     await saveSelectedIngredientsToFirestore();
-    _setLoading(false); // 처리 완료 후 isLoading을 false로 설정
+    _setLoading(false);
   }
 
   Future<void> clearSelectedIngredients() async {
