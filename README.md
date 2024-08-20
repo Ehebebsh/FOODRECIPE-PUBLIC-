@@ -56,13 +56,15 @@
    - `SliverAppBar`를 사용하여 애니메이션 효과 문제 해결
 
 2. **화면 랜더링 문제 해결**  
-   - 홈화면 음식 사진 크기 불일치 문제 해결
+   - Mediaquery를 이용하여 각 휴대폰 기기들의 이미지크기를 조정함
 
 3. **검색 기능 데이터 중복 문제 해결**
-     
-  
+   - 이 문제를 해결하기 위해 Set<String> 자료구조를 사용하여 중복된 항목을 필터링 Set은 중복을 허용하지 않기 때문에, 검색 결과에서 중복된 음식 이름을 제거함
+<details>
+<summary>💻 코드</summary>
+<div markdown="1">
 
-  ```dart
+ ```dart
   Widget _buildSuggestionsOrResults() {
       Set<String> uniqueNames = {};
 
@@ -78,6 +80,9 @@
   }
 
 ```
+
+</div>
+</details>
 4. **카카오 로그인 시 사용자 이름 불러오기 문제 해결**
 
 ## 📥 **다운로드 링크**
