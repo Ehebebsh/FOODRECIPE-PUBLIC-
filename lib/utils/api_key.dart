@@ -1,1 +1,4 @@
-const String rewardAdId = 'ca-app-pub-8506964275473924/9399558195';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+final String rewardAdId = dotenv.env['rewardAdId'] ?? '';
+final String nativeAppKey = dotenv.env['nativeAppKey'] ?? '';
