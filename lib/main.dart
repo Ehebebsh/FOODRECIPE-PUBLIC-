@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:foodrecipe/models/ad_count_provider.dart';
+import 'package:foodrecipe/utils/api_key.dart' as cons;
 import 'package:foodrecipe/view%20models/foodcart_viewmodel.dart';
 import 'package:foodrecipe/view%20models/bookmark_viewmodel.dart';
 import 'package:foodrecipe/models/user_model.dart';
@@ -14,9 +16,10 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await dotenv.load(fileName: 'assets/config/.env');
   MobileAds.instance.initialize();
   runApp(const MyApp());
-  KakaoSdk.init(nativeAppKey: "f1be4eee65c1b453e96568a01c0014e6");
+  KakaoSdk.init(nativeAppKey: cons.nativeAppKey);
 }
 
 class MyApp extends StatelessWidget {
