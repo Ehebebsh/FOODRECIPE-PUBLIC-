@@ -110,12 +110,13 @@ Future<String?> getUserName() async {
 </details>
 
 ## **앱 실행 화면**
-<img src="https://github.com/user-attachments/assets/19d44a85-363f-46fe-a205-f01562994ed44"  width="200">
-<img src="https://github.com/user-attachments/assets/19d38e09-6a0a-4c5e-bca5-52e7259ab804"  width="200">
-<img src="https://github.com/user-attachments/assets/983a5e65-c452-44e4-bd07-bb64c4e65860"  width="200">
-<img src="https://github.com/user-attachments/assets/1b5d9a10-4604-419a-9d21-d4f0f968598e"  width="200">
-<img src="https://github.com/user-attachments/assets/d78925b3-c1f2-45c5-b020-e34ddb0d0c63"  width="200">
-<img src="https://github.com/user-attachments/assets/7db5a3d1-7421-4493-8e5f-9abdcd78809a"  width="200">
+<img src="https://github.com/user-attachments/assets/21b7df1d-edcc-47aa-9f08-03c028d79ad9"  width="200">
+<img src="https://github.com/user-attachments/assets/e4f45291-0b2a-451d-9800-d73c7150dc66"  width="200">
+<img src="https://github.com/user-attachments/assets/c5bbec9b-c903-403a-9576-dc5e34305b78"  width="200">
+<img src="https://github.com/user-attachments/assets/96983564-d93f-462b-bf9d-3f99afc5fefa"  width="200">
+<img src="https://github.com/user-attachments/assets/6d956622-ecaa-4a34-a4dd-fe9402b3d69f"  width="200">
+<img src="https://github.com/user-attachments/assets/bb179bd9-e24a-4fce-b171-14c99f034999"  width="200">
+
 
 
 ## 📥 **다운로드 링크**
